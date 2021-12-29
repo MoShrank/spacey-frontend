@@ -1,0 +1,81 @@
+@use "../../styles/colors.scss";
+
+.text_input_container {
+    position: relative;
+
+    label,
+    .input,
+    .input::placeholder {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 37px;
+    }
+
+    .label_overlay_container {
+        $top-offset: -18px;
+
+        display: none;
+        position: absolute;
+        left: 29px;
+        top: $top-offset;
+
+        label {
+            position: relative;
+            height: fit-content;
+            padding: 0 6px 0 6px;
+            color: colors.$lightblue;
+        }
+
+        .line {
+            position: absolute;
+            left: 0;
+            top: abs($top-offset);
+            width: 100%;
+            height: 1px;
+            background-color: white;
+        }
+    }
+
+    .input {
+        position: relative;
+        width: 100%;
+        height: 42px;
+        background: #f4f9ff;
+
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 20px;
+        text-indent: 10px;
+        font-size: 15px;
+        padding: 4px;
+        color: black;
+
+        border: 1px solid colors.$lightgray;
+
+        &:focus {
+            outline: none !important;
+            border: 1px solid #417db5;
+
+            &::placeholder {
+                color: transparent;
+            }
+        }
+
+        &:focus + .label_overlay_container,
+        &:not(:placeholder-shown) + .label_overlay_container {
+            display: block;
+        }
+    }
+}
+
+.error {
+    .input {
+        border-color: colors.$rederror !important;
+    }
+
+    .label_overlay_container {
+        label {
+            color: colors.$rederror !important;
+        }
+    }
+}
