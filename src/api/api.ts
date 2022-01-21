@@ -5,19 +5,19 @@ class API {
         "Content-Type": "application/json",
         Accept: "application/json",
     });
-    private static _baseUrl: string = process.env.BASE_URL
-        ? process.env.BASE_URL
+    private static _baseUrl: string = process.env.REACT_APP_BASE_URL
+        ? process.env.REACT_APP_BASE_URL
         : "http://localhost:8080/";
 
     static async GET(url: string): Promise<Object> {
-        return fetch(this._baseUrl + url, {
+        return fetch(`${this._baseUrl}/${url}`, {
             method: "GET",
             headers: this._headers,
         });
     }
 
     static async POST(url: string, body: Object): Promise<Response> {
-        return fetch(this._baseUrl + url, {
+        return fetch(`${this._baseUrl}/${url}`, {
             method: "POST",
             headers: this._headers,
             body: JSON.stringify(body),
