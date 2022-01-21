@@ -35,7 +35,7 @@ const Login = () => {
     };
 
     return (
-        <div className="screen">
+        <div className="login_container">
             <h1 className="header">Login</h1>
             <form onSubmit={handleSubmit}>
                 <TextInput
@@ -57,7 +57,7 @@ const Login = () => {
                     Log in
                 </Button>
             </form>
-            <button className="signup-button" onClick={handleSignup}>
+            <button className="simple_button" onClick={handleSignup}>
                 Sign Up
             </button>
         </div>

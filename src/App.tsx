@@ -1,5 +1,5 @@
 import Login from "pages/Login/Login";
-import React from "react";
+import SignUp from "pages/SignUp/SignUp";
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
 
@@ -7,11 +7,13 @@ function App() {
     return (
         <div className="App">
             <header className="App-header"></header>
-
-            <Routes>
-                <Route path="/" element={null} />
-                <Route path="login" element={<Login />} />
-            </Routes>
+            <div className="screen">
+                <Routes>
+                    <Route path="/" element={null} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<SignUp />} />
+                </Routes>
+            </div>
         </div>
     );
 }

@@ -6,7 +6,7 @@ interface UserI {
     password: string;
 }
 
-export const createUser = async (user: UserI): Promise<boolean> => {
+export const signup = async (user: UserI): Promise<boolean> => {
     const response = await API.POST("user", user);
 
     return response.status === 201;

@@ -1,14 +1,17 @@
-@use "../../styles/colors.scss";
-
-.login_container {
+.signup_container {
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     form {
-        width: 100%;
         > *:not(:last-child) {
             margin-bottom: 35px;
+        }
+    }
+
+    .password_container {
+        :first-child {
+            margin-bottom: 25px;
         }
     }
 }
