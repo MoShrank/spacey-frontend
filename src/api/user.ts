@@ -1,28 +1,35 @@
 import API from "./api";
+import { setLoginCookie } from "../util/user";
 
 interface UserI {
     name: string | null;
     email: string;
     password: string;
+    token?: string;
 }
 
-export const signup = async (user: UserI): Promise<boolean> => {
-    const response = await API.POST("user", user);
+export const signup = async (user: UserI): Promise<UserI | null> => {
+    try {
+        const data = (await API.POST("user/", user)) as UserI;
+        setLoginCookie(data.token!);
 
-    return response.status === 201;
+        delete data.token;
+
+        return data;
+    } catch (err) {
+        return null;
+    }
 };
 
-export const login = async (user: UserI): Promise<boolean> => {
+export const login = async (user: UserI): Promise<UserI | null> => {
     try {
-        const response = await API.POST("user/login", user);
-        if (response.status === 200) {
-            const data = await response.json();
-            const token = data.token;
-            document.cookie = `Authorization=Bearer ${token};max-age=604800;HttpOnly;SameSite=Strict;`;
-            return true;
-        }
-        return false;
+        const data = (await API.POST("user/login/", user)) as UserI;
+
+        setLoginCookie(data.token!);
+        delete data.token;
+
+        return data;
     } catch (error) {
-        return false;
+        return null;
     }
 };
