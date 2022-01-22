@@ -4,7 +4,7 @@ import "./style.scss";
 import TextInput from "components/TextInput/TextInput";
 import Button from "components/Button/Button";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
 const Login = () => {
@@ -13,13 +13,17 @@ const Login = () => {
     const [error, setError] = useState("");
     const [disabled, setDisabled] = useState(false);
 
-    const [_, setUser] = useGlobalState("user");
+    const [, setUser] = useGlobalState("user");
+    const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleSignup = () => {
         navigate("/signup");
     };
+
+    const from = (location.state as any).from.pathname || "/";
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -34,8 +38,9 @@ const Login = () => {
         const user = await login({ email, password, name: null });
         setDisabled(false);
         if (user) {
+            setIsLoggedIn(true);
             setUser(user);
-            navigate("/");
+            navigate(from);
         } else setError("invalid email or password");
     };
 

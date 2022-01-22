@@ -17,7 +17,8 @@ const SignUp = () => {
 
     const [disabled, setDisabled] = useState(false);
 
-    const [_, setUser] = useGlobalState("user");
+    const [, setUser] = useGlobalState("user");
+    const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
 
     const navigate = useNavigate();
 
@@ -44,6 +45,7 @@ const SignUp = () => {
         const user = await signup({ email, password, name: name });
         setDisabled(false);
         if (user) {
+            setIsLoggedIn(true);
             setUser(user);
             navigate("/");
         } else setError("invalid email or password");
