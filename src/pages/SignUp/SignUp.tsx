@@ -5,6 +5,7 @@ import TextInput from "components/TextInput/TextInput";
 import Button from "components/Button/Button";
 
 import { useNavigate } from "react-router-dom";
+import { useGlobalState } from "store/store";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
@@ -15,6 +16,8 @@ const SignUp = () => {
     const [error, setError] = useState("");
 
     const [disabled, setDisabled] = useState(false);
+
+    const [_, setUser] = useGlobalState("user");
 
     const navigate = useNavigate();
 
@@ -37,10 +40,13 @@ const SignUp = () => {
 
         setDisabled(true);
         setError("");
-        const ok = await signup({ email, password, name: null });
+
+        const user = await signup({ email, password, name: name });
         setDisabled(false);
-        if (!ok) setError("invalid email or password");
-        else navigate("/");
+        if (user) {
+            setUser(user);
+            navigate("/");
+        } else setError("invalid email or password");
     };
 
     return (
