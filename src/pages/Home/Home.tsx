@@ -1,11 +1,14 @@
-import React from "react";
+import { useGlobalState } from "store/store";
 
 const Home = () => {
-  return (
-    <div>
-      <h1>Home</h1>
-    </div>
-  );
+    const [user, _] = useGlobalState("user");
+
+    return (
+        <div>
+            <h1>Home</h1>
+            <p>Hello {user.name}</p>
+        </div>
+    );
 };
 
 export default Home;
