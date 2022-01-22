@@ -33,3 +33,9 @@ export const login = async (user: UserI): Promise<UserI | null> => {
         return null;
     }
 };
+
+export const logout = async (): Promise<void> => {
+    try {
+        await API.GET("user/logout/");
+    } catch (error) {}
+};

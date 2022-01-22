@@ -7,13 +7,16 @@ It's purpose is to cache api requests.
 
 class Store {
     private state: { [key: string]: any };
+    private initialState: { [key: string]: any };
 
     constructor() {
         this.state = {};
+        this.initialState = {};
     }
 
     init(initialState: { [key: string]: any }) {
         this.state = initialState;
+        this.initialState = initialState;
     }
 
     getState(key: string) {
@@ -22,6 +25,10 @@ class Store {
 
     setState(key: string, value: any) {
         this.state[key] = value;
+    }
+
+    clearState() {
+        this.state = this.initialState;
     }
 }
 
