@@ -22,6 +22,9 @@ store.init(initialState);
 function App() {
     return (
         <div className="App">
+            <div id="global_error_popup" className="global_error">
+                Error
+            </div>
             <header className="App-header"></header>
             <div className="screen">
                 <Routes>

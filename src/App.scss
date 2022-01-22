@@ -38,3 +38,16 @@ html {
     text-align: center;
     color: colors.$rederror;
 }
+
+.global_error {
+    display: none;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    color: colors.$rederror;
+}
