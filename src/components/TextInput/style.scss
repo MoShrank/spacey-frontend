@@ -13,6 +13,7 @@
     }
 
     .label_overlay_container {
+        pointer-events: none;
         $top-offset: -18px;
 
         display: none;
