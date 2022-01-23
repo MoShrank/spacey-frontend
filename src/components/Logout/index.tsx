@@ -1,15 +1,12 @@
 import "./style.scss";
 import { ReactComponent as Icon } from "../../assets/icons/logout.svg";
-import { logout } from "api/user";
-import { store, useGlobalState } from "store/store";
+import { useNavigate } from "react-router-dom";
 
 const Logout = () => {
-    const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
+    const navigate = useNavigate();
 
     const handleClick = () => {
-        logout();
-        store.clearState();
-        setIsLoggedIn(false);
+        navigate("logout");
     };
 
     return (

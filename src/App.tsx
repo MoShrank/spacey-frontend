@@ -3,7 +3,7 @@ import RequireAuth from "components/RequireAuth/RequireAuth";
 import Home from "pages/Home/Home";
 import Login from "pages/Login/Login";
 import SignUp from "pages/SignUp/SignUp";
-import Logout from "components/Logout";
+import Logout from "pages/Logout";
 import { Route, Routes } from "react-router-dom";
 import { store, useGlobalState } from "store/store";
 import { getLoggedInState } from "util/user";
@@ -37,6 +37,14 @@ function App() {
                         element={
                             <RequireAuth>
                                 <Home />
+                            </RequireAuth>
+                        }
+                    />
+                    <Route
+                        path="/"
+                        element={
+                            <RequireAuth>
+                                <Logout />
                             </RequireAuth>
                         }
                     />
