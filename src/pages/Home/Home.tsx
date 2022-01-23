@@ -1,8 +1,7 @@
 import { useGlobalState } from "store/store";
 
 const Home = () => {
-    const [user, _] = useGlobalState("user");
-
+    const [user] = useGlobalState("user");
     return (
         <div>
             <h1>Home</h1>

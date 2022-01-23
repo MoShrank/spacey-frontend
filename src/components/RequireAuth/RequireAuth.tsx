@@ -2,7 +2,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
-    const [isLoggedIn, _] = useGlobalState("isLoggedIn");
+    const [isLoggedIn] = useGlobalState("isLoggedIn");
     let location = useLocation();
 
     if (!isLoggedIn) {

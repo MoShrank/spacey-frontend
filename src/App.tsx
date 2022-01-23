@@ -21,14 +21,14 @@ const initialState = {
 store.init(initialState);
 
 function App() {
-    const [isLoggedIn] = useGlobalState("isLoggedIn");
+    /* using useGlobalState + conditional rendering depedent on that state
+    somehow does not work and triggers and infinite rerendering */
 
     return (
         <div className="App">
             <div id="global_error_popup" className="global_error">
                 Error
             </div>
-            {isLoggedIn && <Logout />}
             <header className="App-header"></header>
             <div className="content">
                 <Routes>
@@ -41,7 +41,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/"
+                        path="/logout"
                         element={
                             <RequireAuth>
                                 <Logout />
