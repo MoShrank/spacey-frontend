@@ -10,7 +10,7 @@ interface UserI {
 
 export const signup = async (user: UserI): Promise<UserI | null> => {
     try {
-        const data = (await API.POST("user/", user)) as UserI;
+        const data = (await API.POST("user", user)) as UserI;
         setLoginCookie(data.token!);
 
         delete data.token;
@@ -23,7 +23,7 @@ export const signup = async (user: UserI): Promise<UserI | null> => {
 
 export const login = async (user: UserI): Promise<UserI | null> => {
     try {
-        const data = (await API.POST("user/login/", user)) as UserI;
+        const data = (await API.POST("user/login", user)) as UserI;
 
         setLoginCookie(data.token!);
         delete data.token;
@@ -36,6 +36,6 @@ export const login = async (user: UserI): Promise<UserI | null> => {
 
 export const logout = async (): Promise<void> => {
     try {
-        await API.GET("user/logout/");
+        await API.GET("user/logout");
     } catch (error) {}
 };
