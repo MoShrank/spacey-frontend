@@ -1,8 +1,7 @@
-export const setLoginCookie = (token: string) => {
-    document.cookie = `Authorization=Bearer ${token};max-age=604800;HttpOnly;SameSite=Strict;`;
-};
+import Cookies from "universal-cookie";
 
-//TODO
 export const getLoggedInState = (): boolean => {
-    return false;
+    const cookies = new Cookies();
+
+    return cookies.get("LoggedIn");
 };
