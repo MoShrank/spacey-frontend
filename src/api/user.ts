@@ -31,3 +31,13 @@ export const logout = async (): Promise<void> => {
         await API.GET("user/logout");
     } catch (error) {}
 };
+
+export const getUserData = async (): Promise<UserI | null> => {
+    try {
+        const data = (await API.GET("user")) as UserI;
+
+        return data;
+    } catch (error) {
+        return null;
+    }
+};

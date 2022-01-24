@@ -36,7 +36,7 @@ class Store {
 
     setState(key: string, value: any) {
         this.state[key] = value;
-        //this.listeners[key].forEach((callback: any) => callback());
+        this.listeners[key].forEach((callback: any) => callback(value));
     }
 
     newKey(key: string, value: string) {
@@ -72,8 +72,7 @@ const useGlobalState = (key: string, val?: any) => {
 
     const setState = (val: any) => {
         const oldState = store.getState(key);
-        // shallow compare
-        if (oldState !== val) store.setState(key, val);
+        if (val !== oldState) store.setState(key, val);
     };
 
     return [state, setState];
