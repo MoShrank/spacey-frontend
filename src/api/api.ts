@@ -2,6 +2,9 @@ import GlobalError from "events/globalError";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
 
+const timeoutErrorText =
+    "timeout. Either the server or your internet connection is down.";
+
 class API {
     private static _headers: Headers = new Headers({
         "Content-Type": "application/json",
@@ -18,29 +21,30 @@ class API {
     ): Promise<{ [key: string]: any }> {
         const controller = new AbortController();
 
-        setTimeout(() => controller.abort(), 5000);
+        setTimeout(() => {
+            controller.abort();
+            //GlobalError.emit(timeoutErrorText);
+        }, 5000);
 
-        try {
-            const res = await fetch(`${this._baseUrl}/${url}`, {
-                method: method,
-                headers: this._headers,
-                body: JSON.stringify(body),
-                credentials: "include",
-                signal: controller.signal,
-            });
+        const res = await fetch(`${this._baseUrl}/${url}`, {
+            method: method,
+            headers: this._headers,
+            body: JSON.stringify(body),
+            credentials: "include",
+            signal: controller.signal,
+        });
 
-            if (!res.ok) {
-                throw new Error(res.statusText);
-            }
+        const resBody = await res.json();
 
-            const resBody = await res.json();
-            return resBody.data;
-        } catch (err) {
-            GlobalError.emit(
-                "timeout. Either the server or your internet connection is down."
-            );
-            throw err;
+        if (res.status >= 500) {
+            GlobalError.emit(timeoutErrorText);
         }
+
+        if (!res.ok) {
+            throw new Error(resBody.message || "error");
+        }
+
+        return resBody.data;
     }
 
     static async GET(url: string): Promise<{ [key: string]: any }> {

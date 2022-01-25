@@ -37,13 +37,19 @@ const Login = () => {
 
         setDisabled(true);
         setError("");
-        const user = await login({ email, password, name: null });
+
+        try {
+            const user = await login({ email, password, name: null });
+            if (user) {
+                setIsLoggedIn(true);
+                setUser(user);
+                navigate(from);
+            }
+        } catch (_) {
+            setError("email or password invalid");
+        }
+
         setDisabled(false);
-        if (user) {
-            setIsLoggedIn(true);
-            setUser(user);
-            navigate(from);
-        } else setError("invalid email or password");
     };
 
     return (

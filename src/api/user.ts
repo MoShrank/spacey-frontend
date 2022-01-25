@@ -11,8 +11,8 @@ export const signup = async (user: UserI): Promise<UserI | null> => {
         const data = (await API.POST("user", user)) as UserI;
 
         return data;
-    } catch (err) {
-        return null;
+    } catch (error) {
+        throw error;
     }
 };
 
@@ -22,7 +22,7 @@ export const login = async (user: UserI): Promise<UserI | null> => {
 
         return data;
     } catch (error) {
-        return null;
+        throw error;
     }
 };
 
@@ -38,6 +38,6 @@ export const getUserData = async (): Promise<UserI | null> => {
 
         return data;
     } catch (error) {
-        return null;
+        throw error;
     }
 };
