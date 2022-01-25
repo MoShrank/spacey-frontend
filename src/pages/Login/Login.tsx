@@ -7,6 +7,8 @@ import Button from "components/Button/Button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
+import Logo from "assets/img/logo.png";
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -35,17 +37,24 @@ const Login = () => {
 
         setDisabled(true);
         setError("");
-        const user = await login({ email, password, name: null });
+
+        try {
+            const user = await login({ email, password, name: null });
+            if (user) {
+                setIsLoggedIn(true);
+                setUser(user);
+                navigate(from);
+            }
+        } catch (_) {
+            setError("email or password invalid");
+        }
+
         setDisabled(false);
-        if (user) {
-            setIsLoggedIn(true);
-            setUser(user);
-            navigate(from);
-        } else setError("invalid email or password");
     };
 
     return (
         <div className="login_container">
+            <img src={Logo} alt="spacey logo" />
             <h1 className="header">Login</h1>
             <form onSubmit={handleSubmit}>
                 <TextInput
@@ -62,13 +71,13 @@ const Login = () => {
                     error={error}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <p className="error">{error}</p>
+                {error && <p className="error">{error}</p>}
                 <Button disabled={disabled} type="submit">
                     Log in
                 </Button>
             </form>
             <button className="simple_button" onClick={handleSignup}>
-                Sign Up
+                Sign up
             </button>
         </div>
     );

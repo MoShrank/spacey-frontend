@@ -26,20 +26,22 @@ html {
 }
 
 .header {
-    color: colors.$lightblue;
+    color: colors.$blue;
     align-self: flex-start;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    font-size: 3em;
 }
 
 .simple_button {
     cursor: pointer;
     border: none;
     background: white;
-    color: colors.$lightblue;
+    color: colors.$blue;
     font-size: 18px;
 }
 
 .error {
+    font-size: 1.1em;
     margin: 0;
     text-align: center;
     color: colors.$rederror;

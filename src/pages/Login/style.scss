@@ -1,6 +1,7 @@
 @use "../../styles/colors.scss";
 
 .login_container {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,5 +11,20 @@
         > *:not(:last-child) {
             margin-bottom: 35px;
         }
+    }
+
+    img {
+        width: 168px;
+        height: 176px;
+        align-self: center;
+    }
+    p {
+        position: absolute;
+        margin-top: -30px;
+        margin-bottom: 0px !important;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
