@@ -21,6 +21,14 @@ html {
     justify-content: center;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
 .content {
     width: 298px;
 }
@@ -45,6 +53,11 @@ html {
     margin: 0;
     text-align: center;
     color: colors.$rederror;
+}
+
+.text {
+    font-size: 1.1em;
+    color: colors.$blue;
 }
 
 .global_error {
