@@ -1,13 +1,11 @@
 import { DeckI } from "types/deck"
+import API from "./api"
 
 export const getDecks = async(userID: string): Promise<Array<DeckI>> => {
-    return [
-        {
-            id: "test",
-            name: "Test",
-            description: "Test",
-            color: "black",
-            lastLearned: Date.now()
-        }
-    ]
+    try {
+        return await API.GET(`decks`) as Array<DeckI>;
+    } catch(error) {
+        throw error;
+    }
+    
 } 
