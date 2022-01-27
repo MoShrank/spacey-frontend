@@ -4,10 +4,12 @@ import Home from "pages/Home/Home";
 import Login from "pages/Login/Login";
 import SignUp from "pages/SignUp/SignUp";
 import Logout from "pages/Logout";
-import { Route, Routes } from "react-router-dom";
-import { store, useGlobalState } from "store/store";
+import NewDeck from "pages/NewDeck";
+import { Outlet, Route, Routes } from "react-router-dom";
+import { store } from "store/store";
 import { getLoggedInState } from "util/user";
 import "./App.scss";
+import Navbar from "components/Navbar";
 
 const initialState = {
     isLoggedIn: getLoggedInState(),
@@ -19,6 +21,15 @@ const initialState = {
 };
 
 store.init(initialState);
+
+function NavbarLayout() {
+    return (
+        <>
+            <Navbar />
+            <Outlet />
+        </>
+    );
+}
 
 function App() {
     /* using useGlobalState + conditional rendering depedent on that state
@@ -32,14 +43,24 @@ function App() {
             <header className="App-header"></header>
             <div className="content">
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <RequireAuth>
-                                <Home />
-                            </RequireAuth>
-                        }
-                    />
+                    <Route path="/" element={<NavbarLayout />}>
+                        <Route
+                            path="/"
+                            element={
+                                <RequireAuth>
+                                    <Home />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path="/new/deck"
+                            element={
+                                <RequireAuth>
+                                    <NewDeck />
+                                </RequireAuth>
+                            }
+                        />
+                    </Route>
                     <Route
                         path="/logout"
                         element={

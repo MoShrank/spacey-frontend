@@ -1,7 +1,7 @@
 import "./style.scss";
 
 interface FloatingButtonI {
-    action: () => void;
+    action?: () => void;
 }
 
 const FloatingButton = ({ action }: FloatingButtonI) => {

@@ -1,7 +1,6 @@
 import "./style.scss";
 import { getUserData } from "api/user";
 import FloatingButton from "components/FloatingButton";
-import Logout from "components/Logout";
 import { useEffect } from "react";
 import { useGlobalState } from "store/store";
 import { getDecks } from "api/deck";
@@ -25,16 +24,17 @@ const Home = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            getDecks("").then((decks) => setDecks(decks));
+            getDecks().then((decks) => setDecks(decks));
         }
     }, [isLoggedIn]);
 
     return (
         <div className="deck_overview_container">
-            <Logout />
             <div className="header_container">
                 <h1 className="header">Your Decks</h1>
-                <FloatingButton action={() => console.log("hello")} />
+                <Link to="/new/deck">
+                    <FloatingButton />
+                </Link>
             </div>
             {decks.map((deck: DeckI) => (
                 <Link to={`decks/${deck.id}`}>
