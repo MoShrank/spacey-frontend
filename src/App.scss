@@ -13,7 +13,9 @@ html {
 }
 
 body {
-    background: colors.$lightblue;
+    @include breakpoints.m {
+        background: colors.$lightblue;
+    }
 }
 
 .App {

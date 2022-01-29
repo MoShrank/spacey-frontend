@@ -1,13 +1,14 @@
 @use "../../styles/colors.scss";
 
 .login_container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 
     form {
-        width: 100%;
         > *:not(:last-child) {
             margin-bottom: 35px;
         }

@@ -29,9 +29,8 @@ function NavbarLayout() {
     return (
         <>
             <Navbar />
-            <div className="content">
-                <Outlet />
-            </div>
+
+            <Outlet />
         </>
     );
 }
@@ -46,50 +45,52 @@ function App() {
                 Error
             </div>
             <header className="App-header"></header>
-            <Routes>
-                <Route path="/" element={<NavbarLayout />}>
+            <div className="content">
+                <Routes>
+                    <Route path="/" element={<NavbarLayout />}>
+                        <Route
+                            path="/"
+                            element={
+                                <RequireAuth>
+                                    <Home />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path="/new/deck"
+                            element={
+                                <RequireAuth>
+                                    <NewDeck />
+                                </RequireAuth>
+                            }
+                        />
+                    </Route>
                     <Route
-                        path="/"
+                        path="/logout"
                         element={
                             <RequireAuth>
-                                <Home />
+                                <Logout />
                             </RequireAuth>
                         }
                     />
                     <Route
-                        path="/new/deck"
+                        path="login"
                         element={
-                            <RequireAuth>
-                                <NewDeck />
-                            </RequireAuth>
+                            <RedirectAuth>
+                                <Login />
+                            </RedirectAuth>
                         }
                     />
-                </Route>
-                <Route
-                    path="/logout"
-                    element={
-                        <RequireAuth>
-                            <Logout />
-                        </RequireAuth>
-                    }
-                />
-                <Route
-                    path="login"
-                    element={
-                        <RedirectAuth>
-                            <Login />
-                        </RedirectAuth>
-                    }
-                />
-                <Route
-                    path="signup"
-                    element={
-                        <RedirectAuth>
-                            <SignUp />
-                        </RedirectAuth>
-                    }
-                />
-            </Routes>
+                    <Route
+                        path="signup"
+                        element={
+                            <RedirectAuth>
+                                <SignUp />
+                            </RedirectAuth>
+                        }
+                    />
+                </Routes>
+            </div>
         </div>
     );
 }
