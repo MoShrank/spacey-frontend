@@ -6,8 +6,10 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    width: max-content;
 }
 
 .logout_text {
-    color: colors.$lightblue;
+    margin-right: 4px;
+    color: colors.$blue;
 }

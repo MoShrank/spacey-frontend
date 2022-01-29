@@ -1,0 +1,15 @@
+@use "../../styles/colors.scss";
+
+.secondary_button {
+    width: 158px;
+    height: 42px;
+
+    background: colors.$lightblue;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+
+    color: colors.$blue;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}

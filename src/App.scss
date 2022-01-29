@@ -1,4 +1,5 @@
 @use "./styles/colors.scss";
+@use "./styles/breakpoints.scss";
 
 html {
     box-sizing: border-box;
@@ -21,28 +22,48 @@ html {
     justify-content: center;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
 .content {
-    width: 298px;
+    width: 100%;
+
+    @include breakpoints.m {
+        width: 598px;
+    }
 }
 
 .header {
-    color: colors.$lightblue;
+    color: colors.$blue;
     align-self: flex-start;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    font-size: 3em;
 }
 
 .simple_button {
+    width: 100%;
     cursor: pointer;
     border: none;
     background: white;
-    color: colors.$lightblue;
+    color: colors.$blue;
     font-size: 18px;
 }
 
 .error {
+    font-size: 1.1em;
     margin: 0;
     text-align: center;
     color: colors.$rederror;
+}
+
+.text {
+    font-size: 1.1em;
+    color: colors.$blue;
 }
 
 .global_error {

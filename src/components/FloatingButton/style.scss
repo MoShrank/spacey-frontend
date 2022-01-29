@@ -1,0 +1,36 @@
+@use "../../styles/colors.scss";
+
+.floating_button_container {
+    position: relative;
+    cursor: pointer;
+    height: 47px;
+    width: 47px;
+    background: colors.$lightblue;
+    border-radius: 32px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    .horizontal-plus {
+        position: absolute;
+        border-radius: 8px;
+        background-color: colors.$blue;
+        width: 50%;
+        height: 4%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+    .vertical-plus {
+        position: absolute;
+        border-radius: 8px;
+        background-color: colors.$blue;
+        width: 4%;
+        height: 50%;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+}
