@@ -1,6 +1,9 @@
 .deck_overview_container {
     display: flex;
     flex-direction: column;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
 
     > :first-child {
         align-self: flex-end;
@@ -12,5 +15,16 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .floating_container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .decks_container > a {
+        display: block;
+        margin-bottom: 30px;
     }
 }

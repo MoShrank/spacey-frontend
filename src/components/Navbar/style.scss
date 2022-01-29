@@ -1,6 +1,14 @@
+@use "../../styles/vars.scss";
+
 .navbar_container {
-    width: 90%;
-    margin: 12px auto 12px auto;
+    z-index: 999;
+    max-height: vars.$navbar-height;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    width: 100%;
+    padding: 12px;
     display: flex;
     flex-direction: row;
     align-items: center;

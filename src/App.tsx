@@ -18,6 +18,9 @@ const initialState = {
         name: "",
         email: "",
     },
+    config: {
+        colors: [],
+    },
 };
 
 store.init(initialState);
@@ -26,7 +29,9 @@ function NavbarLayout() {
     return (
         <>
             <Navbar />
-            <Outlet />
+            <div className="content">
+                <Outlet />
+            </div>
         </>
     );
 }
@@ -41,52 +46,50 @@ function App() {
                 Error
             </div>
             <header className="App-header"></header>
-            <div className="content">
-                <Routes>
-                    <Route path="/" element={<NavbarLayout />}>
-                        <Route
-                            path="/"
-                            element={
-                                <RequireAuth>
-                                    <Home />
-                                </RequireAuth>
-                            }
-                        />
-                        <Route
-                            path="/new/deck"
-                            element={
-                                <RequireAuth>
-                                    <NewDeck />
-                                </RequireAuth>
-                            }
-                        />
-                    </Route>
+            <Routes>
+                <Route path="/" element={<NavbarLayout />}>
                     <Route
-                        path="/logout"
+                        path="/"
                         element={
                             <RequireAuth>
-                                <Logout />
+                                <Home />
                             </RequireAuth>
                         }
                     />
                     <Route
-                        path="login"
+                        path="/new/deck"
                         element={
-                            <RedirectAuth>
-                                <Login />
-                            </RedirectAuth>
+                            <RequireAuth>
+                                <NewDeck />
+                            </RequireAuth>
                         }
                     />
-                    <Route
-                        path="signup"
-                        element={
-                            <RedirectAuth>
-                                <SignUp />
-                            </RedirectAuth>
-                        }
-                    />
-                </Routes>
-            </div>
+                </Route>
+                <Route
+                    path="/logout"
+                    element={
+                        <RequireAuth>
+                            <Logout />
+                        </RequireAuth>
+                    }
+                />
+                <Route
+                    path="login"
+                    element={
+                        <RedirectAuth>
+                            <Login />
+                        </RedirectAuth>
+                    }
+                />
+                <Route
+                    path="signup"
+                    element={
+                        <RedirectAuth>
+                            <SignUp />
+                        </RedirectAuth>
+                    }
+                />
+            </Routes>
         </div>
     );
 }

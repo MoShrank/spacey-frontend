@@ -9,7 +9,13 @@ export const getDecks = async (): Promise<Array<DeckI>> => {
     }
 };
 
-export const createDeck = async (deck: DeckI): Promise<DeckI> => {
+interface CreateDeckI {
+    name: string;
+    description: string;
+    color: string;
+}
+
+export const createDeck = async (deck: CreateDeckI): Promise<DeckI> => {
     try {
         return (await API.POST(`deck`, deck)) as DeckI;
     } catch (error) {

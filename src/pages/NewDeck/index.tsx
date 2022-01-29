@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useGlobalState } from "store/store";
 import { getConfig } from "api/config";
 import useOnClickOutside from "hooks/useClickOutside";
-
+import { createDeck } from "api/deck";
+import { useNavigate } from "react-router-dom";
 import "./style.scss";
 import { Link } from "react-router-dom";
 import TextInput from "components/TextInput/TextInput";
@@ -12,9 +13,11 @@ import ColorPopup from "components/ColorPopup";
 import TextArea from "components/TextArea";
 
 const NewDeck = () => {
-    const [config, setConfig] = useGlobalState("config", {});
+    const [config, setConfig] = useGlobalState("config");
     const [colorsOpen, setColorsOpen] = useState(false);
+    const [error, setError] = useState("");
 
+    const navigate = useNavigate();
     const ref = useRef<HTMLDivElement>(null);
 
     useOnClickOutside(ref, () => setColorsOpen(false));
@@ -22,19 +25,35 @@ const NewDeck = () => {
     const [deck, setDeck] = useState({
         name: "",
         description: "",
-        color: "",
+        color: config.colors[0],
     });
 
-    useEffect(() => {
-        getConfig().then((config) => {
-            setConfig(config);
-            setDeck({ ...deck, color: config.colors[0] });
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const { name } = deck;
+
+        if (!name) {
+            setError("please fill in all required fillds");
+            return;
+        }
+
+        createDeck(deck).then(() => {
+            navigate("/");
         });
+    };
+
+    useEffect(() => {
+        if (!config.colors.length) {
+            getConfig().then((config) => {
+                setConfig(config);
+                setDeck({ ...deck, color: config.colors[0] });
+            });
+        }
     }, []);
 
     return (
         <div className="create_deck_container">
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div
                     style={{ background: deck.color }}
                     className="color_header"
@@ -64,13 +83,13 @@ const NewDeck = () => {
                         type="text"
                         placeholder="name"
                         value={deck.name}
-                        error={""}
+                        error={error}
                         onChange={(e) =>
                             setDeck({ ...deck, name: e.target.value })
                         }
                     />
                     <TextArea
-                        placeholder="description"
+                        placeholder="description (optional)"
                         value={deck.description}
                         error={""}
                         maxLength={200}
@@ -78,8 +97,8 @@ const NewDeck = () => {
                             setDeck({ ...deck, description: e.target.value })
                         }
                     />
-
-                    <Button>Create Deck</Button>
+                    {error && <p className="error">{error}</p>}
+                    <Button className="bottom">Create Deck</Button>
                     <Link to="/">
                         <button className="simple_button">Cancel</button>
                     </Link>

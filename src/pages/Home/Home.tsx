@@ -32,15 +32,17 @@ const Home = () => {
         <div className="deck_overview_container">
             <div className="header_container">
                 <h1 className="header">Your Decks</h1>
-                <Link to="/new/deck">
-                    <FloatingButton />
-                </Link>
             </div>
-            {decks.map((deck: DeckI) => (
-                <Link to={`decks/${deck.id}`}>
-                    <Deck key={deck.id} deck={deck} />
-                </Link>
-            ))}
+            <div className="decks_container">
+                {decks.map((deck: DeckI) => (
+                    <Link key={deck.id} to={`decks/${deck.id}`}>
+                        <Deck deck={deck} />
+                    </Link>
+                ))}
+            </div>
+            <Link className="floating_container" to="/new/deck">
+                <FloatingButton />
+            </Link>
         </div>
     );
 };

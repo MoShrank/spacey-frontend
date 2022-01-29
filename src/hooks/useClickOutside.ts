@@ -12,7 +12,6 @@ function useOnClickOutside(
         () => {
             const listener = (event: MouseEvent | TouchEvent) => {
                 // Do nothing if clicking ref's element or descendent elements
-                console.log(event.target);
                 if (
                     !ref.current ||
                     ref.current.contains(event.target as HTMLElement)
