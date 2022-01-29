@@ -2,6 +2,7 @@ import EventEmitter from "events";
 
 class GlobalError {
     private static error: EventEmitter;
+    private static renderCallback: (val: boolean) => void;
 
     public static init() {
         GlobalError.error = new EventEmitter();
@@ -9,22 +10,40 @@ class GlobalError {
     }
 
     private static onError(error: string) {
-        const node = document.getElementById("global_error_popup");
-        if (node) {
-            node.style.display = "block";
-            node.innerHTML = error;
-            setTimeout(() => {
-                node.style.display = "none";
-                node.innerHTML = "";
-            }, 3000);
+        if (typeof GlobalError.renderCallback !== "function") {
+            return;
         }
+
+        GlobalError.renderCallback(true);
+
+        const timeoutTime = 5000;
+
+        const progressNode = document.getElementById("bar");
+
+        let width = 100;
+        const interval = setInterval(() => {
+            if (progressNode) {
+                width = width - 0.2;
+                progressNode.style.width = width + "%";
+            }
+        }, 10);
+
+        setTimeout(() => {
+            clearInterval(interval);
+            GlobalError.renderCallback(false);
+        }, timeoutTime);
     }
 
     public static emit(error: string) {
         GlobalError.error.emit("error", error);
     }
+
+    public static setRenderCallback(callback: (val: boolean) => void) {
+        GlobalError.renderCallback = callback;
+    }
 }
 
 GlobalError.init();
+GlobalError.emit("");
 
 export default GlobalError;

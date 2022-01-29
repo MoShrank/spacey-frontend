@@ -2,8 +2,7 @@ import GlobalError from "events/globalError";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
 
-const timeoutErrorText =
-    "timeout. Either the server or your internet connection is down.";
+const timeoutErrorText = "connection timeout.";
 
 class API {
     private static _headers: Headers = new Headers({
@@ -23,7 +22,7 @@ class API {
 
         setTimeout(() => {
             controller.abort();
-            //GlobalError.emit(timeoutErrorText);
+            GlobalError.emit(timeoutErrorText);
         }, 5000);
 
         const res = await fetch(`${this._baseUrl}/${url}`, {

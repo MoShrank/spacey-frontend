@@ -8,8 +8,12 @@ import NewDeck from "pages/NewDeck";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { store } from "store/store";
 import { getLoggedInState } from "util/user";
+import { useGlobalState } from "store/store";
 import "./App.scss";
 import Navbar from "components/Navbar";
+import GlobalErrorPopup from "components/GlobalErrorPopup";
+import GlobalError from "events/globalError";
+import { useEffect } from "react";
 
 const initialState = {
     isLoggedIn: getLoggedInState(),
@@ -21,6 +25,7 @@ const initialState = {
     config: {
         colors: [],
     },
+    globalError: false,
 };
 
 store.init(initialState);
@@ -29,7 +34,6 @@ function NavbarLayout() {
     return (
         <>
             <Navbar />
-
             <Outlet />
         </>
     );
@@ -39,11 +43,14 @@ function App() {
     /* using useGlobalState + conditional rendering depedent on that state
     somehow does not work and triggers and infinite rerendering */
 
+    const [globalError, setGlobalError] = useGlobalState("globalError");
+    useEffect(() => {
+        GlobalError.setRenderCallback(setGlobalError);
+    }, []);
+
     return (
         <div className="App">
-            <div id="global_error_popup" className="global_error">
-                Error
-            </div>
+            {globalError && <GlobalErrorPopup />}
             <header className="App-header"></header>
             <div className="content">
                 <Routes>
