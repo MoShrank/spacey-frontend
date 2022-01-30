@@ -5,6 +5,7 @@
 html {
     box-sizing: border-box;
     font-family: "Berlin Sans FB", sans-serif;
+    height: -webkit-fill-available;
 }
 *,
 *:before,
@@ -16,17 +17,47 @@ body {
     @include breakpoints.m {
         background: colors.$lightblue;
     }
+
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
+#root {
+    flex: 1;
+    display: flex;
 }
 
 .App {
+    flex: 1;
+    padding-top: vars.$navbar-height;
     max-width: 812px;
-    min-height: 100vh;
     margin-left: auto;
     margin-right: auto;
+
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+}
+
+.content {
+    flex: 1;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 100%;
+
+    background: white;
+
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoints.m {
+        width: 598px;
+        height: 680px;
+    }
 }
 
 a {
@@ -37,27 +68,11 @@ a:visited {
     color: inherit;
 }
 
-.content {
-    display: flex;
-    flex-direction: column;
-
-    width: 100%;
-    height: calc(100vh - vars.$navbar-height);
-
-    background: white;
-    margin-top: vars.$navbar-height;
-
-    @include breakpoints.m {
-        width: 598px;
-        height: 680px;
-    }
-}
-
 .header {
     color: colors.$blue;
     align-self: flex-start;
     text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    font-size: 3em;
+    font-size: 3rem;
     margin: 0;
 }
 
@@ -71,13 +86,13 @@ a:visited {
 }
 
 .error {
-    font-size: 1.1em;
+    font-size: 1.1rem;
     margin: 0;
     text-align: center;
     color: colors.$rederror;
 }
 
 .text {
-    font-size: 1.1em;
+    font-size: 1.1rem;
     color: colors.$blue;
 }

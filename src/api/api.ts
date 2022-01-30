@@ -22,16 +22,22 @@ class API {
 
         setTimeout(() => {
             controller.abort();
-            GlobalError.emit(timeoutErrorText);
         }, 5000);
 
-        const res = await fetch(`${this._baseUrl}/${url}`, {
-            method: method,
-            headers: this._headers,
-            body: JSON.stringify(body),
-            credentials: "include",
-            signal: controller.signal,
-        });
+        let res;
+
+        try {
+            res = await fetch(`${this._baseUrl}/${url}`, {
+                method: method,
+                headers: this._headers,
+                body: JSON.stringify(body),
+                credentials: "include",
+                signal: controller.signal,
+            });
+        } catch (DOMException) {
+            GlobalError.emit(timeoutErrorText);
+            throw DOMException;
+        }
 
         const resBody = await res.json();
 
