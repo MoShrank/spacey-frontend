@@ -6,12 +6,12 @@ import "./style.scss";
 
 const Navbar = () => {
     return (
-        <div className="navbar_container">
+        <header className="navbar_container">
             <Link to="/">
                 <img src={HomeIcon} alt="home icon" />
             </Link>
             <Logout />
-        </div>
+        </header>
     );
 };
 

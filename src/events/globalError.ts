@@ -44,6 +44,5 @@ class GlobalError {
 }
 
 GlobalError.init();
-GlobalError.emit("");
 
 export default GlobalError;

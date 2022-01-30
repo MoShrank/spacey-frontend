@@ -13,9 +13,9 @@ const Input = ({
         <div className={`text_input_container ${error && "error"}`}>
             <span className="line" />
             {children}
-            <div className="label_overlay_container">
+            <div id={placeholder} className="label_overlay_container">
                 <span className="line" />
-                <label>{placeholder}</label>
+                <label htmlFor={placeholder}>{placeholder}</label>
             </div>
         </div>
     );

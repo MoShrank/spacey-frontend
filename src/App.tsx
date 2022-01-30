@@ -33,7 +33,6 @@ store.init(initialState);
 function NavbarLayout() {
     return (
         <>
-            <Navbar />
             <Outlet />
         </>
     );
@@ -44,14 +43,16 @@ function App() {
     somehow does not work and triggers and infinite rerendering */
 
     const [globalError, setGlobalError] = useGlobalState("globalError");
+    const [isLoggedIn] = useGlobalState("isLoggedIn");
+
     useEffect(() => {
         GlobalError.setRenderCallback(setGlobalError);
     }, []);
 
     return (
         <div className="App">
+            {isLoggedIn && <Navbar />}
             {globalError && <GlobalErrorPopup />}
-            <header className="App-header"></header>
             <div className="content">
                 <Routes>
                     <Route path="/" element={<NavbarLayout />}>
