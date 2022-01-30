@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { login } from "api/user";
 import "./style.scss";
-import TextInput from "components/TextInput/TextInput";
-import Button from "components/Button/Button";
+import TextInput from "components/TextInput";
+import Button from "components/Button";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useGlobalState } from "store/store";

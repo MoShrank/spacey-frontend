@@ -1,8 +1,8 @@
-import RedirectAuth from "components/RedirectAuth/RedirectAuth";
-import RequireAuth from "components/RequireAuth/RequireAuth";
-import Home from "pages/Home/Home";
-import Login from "pages/Login/Login";
-import SignUp from "pages/SignUp/SignUp";
+import RedirectAuth from "components/RedirectAuth";
+import RequireAuth from "components/RequireAuth";
+import Home from "pages/Home";
+import Login from "pages/Login";
+import SignUp from "pages/SignUp";
 import Logout from "pages/Logout";
 import NewDeck from "pages/NewDeck";
 import { Outlet, Route, Routes } from "react-router-dom";
