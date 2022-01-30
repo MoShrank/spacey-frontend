@@ -3,19 +3,19 @@ $screen-m: 768px;
 $screen-l: 1024px;
 
 @mixin s {
-    @media (min-width: #{$screen-s}) {
-        @content;
-    }
+	@media (min-width: #{$screen-s}) {
+		@content;
+	}
 }
 
 @mixin m {
-    @media (min-width: #{$screen-m}) {
-        @content;
-    }
+	@media (min-width: #{$screen-m}) {
+		@content;
+	}
 }
 
 @mixin l {
-    @media (min-width: #{$screen-l}) {
-        @content;
-    }
+	@media (min-width: #{$screen-l}) {
+		@content;
+	}
 }

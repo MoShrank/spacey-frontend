@@ -1,11 +1,11 @@
 @font-face {
-    font-family: "Dubai";
-    src: local("MyFont"), url(./fonts/Dubai-Regular.woff) format("woff");
+	font-family: "Dubai";
+	src: local("MyFont"), url(./fonts/Dubai-Regular.woff) format("woff");
 }
 
 body {
-    margin: 0;
-    font-family: Dubai;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: Dubai;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }

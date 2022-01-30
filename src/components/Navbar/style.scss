@@ -1,22 +1,22 @@
 @use "../../styles/vars.scss";
 
 .navbar_container {
-    z-index: 999;
-    max-height: vars.$navbar-height;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: white;
-    width: 100%;
-    padding: 12px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+	z-index: 999;
+	max-height: vars.$navbar-height;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: white;
+	width: 100%;
+	padding: 12px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
 
-    img {
-        display: block;
-        margin-top: auto;
-        margin-bottom: auto;
-    }
+	img {
+		display: block;
+		margin-top: auto;
+		margin-bottom: auto;
+	}
 }

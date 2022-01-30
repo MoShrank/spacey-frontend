@@ -1,96 +1,96 @@
 @use "../../styles/colors.scss";
 
 .text_input_container {
-    position: relative;
+	position: relative;
 
-    label,
-    .input,
-    textarea,
-    .input::placeholder {
-        font-family: inherit;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px !important;
-    }
+	label,
+	.input,
+	textarea,
+	.input::placeholder {
+		font-family: inherit;
+		font-style: normal;
+		font-weight: normal;
+		font-size: 16px !important;
+	}
 
-    textarea {
-        text-indent: 0 !important;
-        height: 162px !important;
-        padding: 4px 13px 4px 13px !important;
-    }
+	textarea {
+		text-indent: 0 !important;
+		height: 162px !important;
+		padding: 4px 13px 4px 13px !important;
+	}
 
-    .label_overlay_container {
-        pointer-events: none;
-        $top-offset: -15px;
+	.label_overlay_container {
+		pointer-events: none;
+		$top-offset: -15px;
 
-        display: none;
-        position: absolute;
-        left: 29px;
-        top: $top-offset;
+		display: none;
+		position: absolute;
+		left: 29px;
+		top: $top-offset;
 
-        label {
-            position: relative;
-            height: fit-content;
-            padding: 0 6px 0 6px;
-            color: colors.$blue;
-            z-index: 99;
-        }
+		label {
+			position: relative;
+			height: fit-content;
+			padding: 0 6px 0 6px;
+			color: colors.$blue;
+			z-index: 99;
+		}
 
-        .line {
-            position: absolute;
-            left: 0;
-            top: abs($top-offset);
-            width: 100%;
-            height: 1px;
-            background-color: white;
-        }
-    }
+		.line {
+			position: absolute;
+			left: 0;
+			top: abs($top-offset);
+			width: 100%;
+			height: 1px;
+			background-color: white;
+		}
+	}
 
-    .input,
-    textarea {
-        position: relative;
-        width: 100%;
-        height: 42px;
+	.input,
+	textarea {
+		position: relative;
+		width: 100%;
+		height: 42px;
 
-        -webkit-appearance: none !important;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        -moz-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		-webkit-appearance: none !important;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		-webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		-moz-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
-        border-radius: 20px;
-        text-indent: 10px;
-        font-size: 15px;
-        padding: 4px;
-        color: black;
+		border-radius: 20px;
+		text-indent: 10px;
+		font-size: 15px;
+		padding: 4px;
+		color: black;
 
-        border: 1px solid colors.$lightgray;
-        background: colors.$lightblue;
+		border: 1px solid colors.$lightgray;
+		background: colors.$lightblue;
 
-        &:focus {
-            outline: none !important;
-            border: 1px solid #417db5;
+		&:focus {
+			outline: none !important;
+			border: 1px solid #417db5;
 
-            &::placeholder {
-                color: transparent;
-            }
-        }
+			&::placeholder {
+				color: transparent;
+			}
+		}
 
-        &:focus + .label_overlay_container,
-        &:not(:placeholder-shown) + .label_overlay_container {
-            display: block;
-        }
-    }
+		&:focus + .label_overlay_container,
+		&:not(:placeholder-shown) + .label_overlay_container {
+			display: block;
+		}
+	}
 }
 
 .error {
-    .input,
-    textarea {
-        border-color: colors.$rederror !important;
-    }
+	.input,
+	textarea {
+		border-color: colors.$rederror !important;
+	}
 
-    .label_overlay_container {
-        label {
-            color: colors.$rederror !important;
-        }
-    }
+	.label_overlay_container {
+		label {
+			color: colors.$rederror !important;
+		}
+	}
 }

@@ -3,96 +3,96 @@
 @use "./styles/vars.scss";
 
 html {
-    box-sizing: border-box;
-    font-family: "Berlin Sans FB", sans-serif;
-    height: -webkit-fill-available;
+	box-sizing: border-box;
+	font-family: "Berlin Sans FB", sans-serif;
+	height: -webkit-fill-available;
 }
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
+	box-sizing: inherit;
 }
 
 body {
-    @include breakpoints.m {
-        background: colors.$lightblue;
-    }
+	@include breakpoints.m {
+		background: colors.$lightblue;
+	}
 
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	min-height: 100vh;
+	min-height: -webkit-fill-available;
 }
 
 #root {
-    flex: 1;
-    display: flex;
+	flex: 1;
+	display: flex;
 }
 
 .App {
-    flex: 1;
-    padding-top: vars.$navbar-height;
-    max-width: 812px;
-    margin-left: auto;
-    margin-right: auto;
+	flex: 1;
+	padding-top: vars.$navbar-height;
+	max-width: 812px;
+	margin-left: auto;
+	margin-right: auto;
 
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .content {
-    flex: 1;
+	flex: 1;
 
-    margin-left: auto;
-    margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 
-    width: 100%;
+	width: 100%;
 
-    background: white;
+	background: white;
 
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 
-    @include breakpoints.m {
-        width: 598px;
-        height: 680px;
-    }
+	@include breakpoints.m {
+		width: 598px;
+		height: 680px;
+	}
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 a:visited {
-    color: inherit;
+	color: inherit;
 }
 
 .header {
-    color: colors.$blue;
-    align-self: flex-start;
-    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-    font-size: 3rem;
-    margin: 0;
+	color: colors.$blue;
+	align-self: flex-start;
+	text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+	font-size: 3rem;
+	margin: 0;
 }
 
 .simple_button {
-    width: 100%;
-    cursor: pointer;
-    border: none;
-    background: white;
-    color: colors.$blue;
-    font-size: 18px;
+	width: 100%;
+	cursor: pointer;
+	border: none;
+	background: white;
+	color: colors.$blue;
+	font-size: 18px;
 }
 
 .error {
-    font-size: 1.1rem;
-    margin: 0;
-    text-align: center;
-    color: colors.$rederror;
+	font-size: 1.1rem;
+	margin: 0;
+	text-align: center;
+	color: colors.$rederror;
 }
 
 .text {
-    font-size: 1.1rem;
-    color: colors.$blue;
+	font-size: 1.1rem;
+	color: colors.$blue;
 }

@@ -1,41 +1,41 @@
 .signup_container {
-    flex: 1;
+	flex: 1;
 
-    width: 90%;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-    justify-content: center;
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+	justify-content: center;
 
-    position: relative;
+	position: relative;
 
-    form {
-        > *:not(:last-child) {
-            margin-bottom: 45px;
-        }
-    }
+	form {
+		> *:not(:last-child) {
+			margin-bottom: 45px;
+		}
+	}
 
-    .password_container {
-        :first-child {
-            margin-bottom: 25px;
-        }
-    }
+	.password_container {
+		:first-child {
+			margin-bottom: 25px;
+		}
+	}
 
-    img {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 75px;
-        height: 70px;
-    }
+	img {
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 75px;
+		height: 70px;
+	}
 
-    p {
-        position: absolute;
-        margin-top: -40px;
-        margin-bottom: 0px !important;
-        left: 0;
-        right: 0;
-        margin-left: auto;
-        margin-right: auto;
-    }
+	p {
+		position: absolute;
+		margin-top: -40px;
+		margin-bottom: 0px !important;
+		left: 0;
+		right: 0;
+		margin-left: auto;
+		margin-right: auto;
+	}
 }
