@@ -3,6 +3,7 @@ import Navbar from "components/Navbar";
 import RedirectAuth from "components/RedirectAuth";
 import RequireAuth from "components/RequireAuth";
 import GlobalError from "events/globalError";
+import Error404 from "pages/404";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import Logout from "pages/Logout";
@@ -114,6 +115,7 @@ function App() {
 							</RedirectAuth>
 						}
 					/>
+					<Route path="*" element={<Error404 />} />
 				</Routes>
 			</div>
 		</div>
