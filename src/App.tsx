@@ -61,11 +61,14 @@ function App() {
     somehow does not work and triggers and infinite rerendering */
 
 	const [globalError, setGlobalError] = useGlobalState("globalError");
-	const [isLoggedIn] = useGlobalState("isLoggedIn");
-
+	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
 	useEffect(() => {
 		GlobalError.setRenderCallback(setGlobalError);
 	}, []);
+
+	useEffect(() => {
+		setIsLoggedIn(getLoggedInState());
+	}, [isLoggedIn]);
 
 	return (
 		<div className="App">

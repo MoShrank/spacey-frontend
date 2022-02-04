@@ -1,15 +1,22 @@
 import { logout } from "api/user";
-import { Navigate } from "react-router-dom";
-import { store, useGlobalState } from "store/store";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useGlobalState } from "store/store";
+import { store } from "store/store";
 
 const Logout = () => {
+	const navigate = useNavigate();
 	const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
 
-	logout();
-	store.clearState();
-	setIsLoggedIn(false);
+	useEffect(() => {
+		logout().then(() => {
+			setIsLoggedIn(false);
+			store.clearState();
+			navigate("/login");
+		});
+	}, []);
 
-	return <Navigate to="/login" />;
+	return null;
 };
 
 export default Logout;

@@ -1,84 +1,69 @@
-import { login } from "api/user";
+import { loginAction } from "actions/user";
 import Logo from "assets/img/logo.png";
 import Button from "components/Button";
+import Header from "components/Header";
 import TextInput from "components/TextInput";
+import useAction from "hooks/useAction";
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
 import "./style.scss";
 
 const Login = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [error, setError] = useState("");
-	const [disabled, setDisabled] = useState(false);
-
-	const [, setUser] = useGlobalState("user");
-	const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
-
-	const navigate = useNavigate();
 	const location = useLocation();
-
-	const handleSignup = () => {
-		navigate("/signup");
-	};
-
 	const from =
 		(location.state as { from: { pathname: string } })?.from?.pathname || "/";
+
+	const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
+	const [loading, error, action] = useAction("user", loginAction);
+
+	const [credentials, setCredentials] = useState({
+		email: "",
+		password: "",
+	});
+
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		if (!email || !password) {
-			setError("please fill in all fields!");
-			return;
-		}
-
-		setDisabled(true);
-		setError("");
-
-		try {
-			const user = await login({ email, password, name: null });
-			if (user) {
-				setIsLoggedIn(true);
-				setUser(user);
-				navigate(from);
-			}
-		} catch (_) {
-			setError("email or password invalid");
-		}
-
-		setDisabled(false);
+		action(credentials.email, credentials.password).then(() => {
+			setIsLoggedIn(true);
+			navigate(from);
+		});
 	};
 
 	return (
 		<div className="login_container">
 			<img src={Logo} alt="spacey logo" />
-			<h1 className="header">Login</h1>
+			<Header kind="h1">Login</Header>
 			<form onSubmit={handleSubmit}>
 				<TextInput
 					type="text"
 					placeholder="e-mail"
-					value={email}
+					value={credentials.email}
 					error={error}
-					onChange={e => setEmail(e.target.value)}
+					onChange={e => setCredentials({ ...credentials, email: e.target.value })}
 				/>
 				<TextInput
 					type="password"
 					placeholder="password"
-					value={password}
+					value={credentials.password}
 					error={error}
-					onChange={e => setPassword(e.target.value)}
+					onChange={e =>
+						setCredentials({ ...credentials, password: e.target.value })
+					}
 				/>
 				{error && <p className="error">{error}</p>}
-				<Button disabled={disabled} type="submit">
+				<Button loading={loading} disabled={loading} type="submit">
 					Log in
 				</Button>
 			</form>
-			<button className="simple_button" onClick={handleSignup}>
-				Sign up
-			</button>
+			<Link to="/signup">
+				<button className="simple_button">Sign up</button>
+			</Link>
 		</div>
 	);
 };

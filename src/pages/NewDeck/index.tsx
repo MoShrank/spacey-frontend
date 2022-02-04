@@ -1,23 +1,25 @@
+import { createDeckAction } from "actions/deck";
 import { getConfig } from "api/config";
-import { createDeck } from "api/deck";
 import Button from "components/Button";
 import ColorPopup from "components/ColorPopup";
 import SecondaryButton from "components/SecondaryButton";
 import TextArea from "components/TextArea";
 import TextInput from "components/TextInput";
+import useAction from "hooks/useAction";
 import useOnClickOutside from "hooks/useClickOutside";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
 import "./style.scss";
 
 const NewDeck = () => {
+	const [loading, error, action] = useAction("decks", createDeckAction);
+
 	const [config, setConfig] =
 		useGlobalState<{ colors: Array<string> }>("config");
 	const [colorsOpen, setColorsOpen] = useState(false);
-	const [error, setError] = useState("");
 
 	const navigate = useNavigate();
 	const ref = useRef<HTMLDivElement>(null);
@@ -32,16 +34,7 @@ const NewDeck = () => {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const { name } = deck;
-
-		if (!name) {
-			setError("please fill in all required fields");
-			return;
-		}
-
-		createDeck(deck).then(() => {
-			navigate("/");
-		});
+		action(deck).then(() => navigate("/"));
 	};
 
 	useEffect(() => {
@@ -88,7 +81,9 @@ const NewDeck = () => {
 						onChange={e => setDeck({ ...deck, description: e.target.value })}
 					/>
 					{error && <p className="error">{error}</p>}
-					<Button className="bottom">Create Deck</Button>
+					<Button className="bottom" loading={loading} disabled={loading}>
+						Create Deck
+					</Button>
 					<Link to="/">
 						<button className="simple_button">Cancel</button>
 					</Link>
