@@ -2,6 +2,7 @@ import { getDecks } from "api/deck";
 import { getUserData } from "api/user";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
+import ListContainer from "components/ListContainer";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalState } from "store/store";
@@ -13,7 +14,7 @@ const Home = () => {
 	const [, setUser] = useGlobalState("user");
 	const [isLoggedIn] = useGlobalState("isLoggedIn");
 
-	const [decks, setDecks] = useGlobalState("decks", []);
+	const [decks, setDecks] = useGlobalState<Array<DeckI>>("decks", []);
 
 	useEffect(() => {
 		if (isLoggedIn) {
@@ -34,13 +35,13 @@ const Home = () => {
 			<div className="header_container">
 				<h1 className="header">Your Decks</h1>
 			</div>
-			<div className="decks_container">
+			<ListContainer>
 				{decks.map((deck: DeckI) => (
 					<Link key={deck.id} to={`decks/${deck.id}`}>
 						<Deck deck={deck} />
 					</Link>
 				))}
-			</div>
+			</ListContainer>
 			<Link className="floating_container" to="/new/deck">
 				<FloatingButton />
 			</Link>

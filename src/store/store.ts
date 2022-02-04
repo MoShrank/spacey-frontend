@@ -56,7 +56,7 @@ class Store {
 	}
 }
 
-const useGlobalState = <T>(key: string, val?: T) => {
+const useGlobalState = <T>(key: string, val?: T): [T, (val: T) => void] => {
 	const state = store.getState(key, val);
 
 	const [, listener] = useState<T>();
@@ -71,7 +71,7 @@ const useGlobalState = <T>(key: string, val?: T) => {
 		if (val !== oldState) store.setState(key, val);
 	};
 
-	return [state, setState];
+	return [state as T, setState as (val: T) => void];
 };
 
 const store = new Store();

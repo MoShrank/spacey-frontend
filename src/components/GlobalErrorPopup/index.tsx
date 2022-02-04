@@ -1,4 +1,4 @@
-import InfoTriangle from "assets/icons/infoTriangle.png";
+import InfoTriangle from "assets/icons/infoTriangle.svg";
 
 import "./style.scss";
 

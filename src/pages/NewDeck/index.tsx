@@ -14,7 +14,8 @@ import { useGlobalState } from "store/store";
 import "./style.scss";
 
 const NewDeck = () => {
-	const [config, setConfig] = useGlobalState("config");
+	const [config, setConfig] =
+		useGlobalState<{ colors: Array<string> }>("config");
 	const [colorsOpen, setColorsOpen] = useState(false);
 	const [error, setError] = useState("");
 
@@ -34,7 +35,7 @@ const NewDeck = () => {
 		const { name } = deck;
 
 		if (!name) {
-			setError("please fill in all required fillds");
+			setError("please fill in all required fields");
 			return;
 		}
 

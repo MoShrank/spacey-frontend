@@ -12,17 +12,33 @@ import { useEffect } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { store } from "store/store";
 import { useGlobalState } from "store/store";
+import { DeckI } from "types/deck";
 import { getLoggedInState } from "util/user";
 
 import "./App.scss";
 
-const initialState = {
+type State = {
+	isLoggedIn: boolean;
+	user: {
+		id: string;
+		name: string;
+		email: string;
+	};
+	decks: Array<DeckI>;
+	config: {
+		colors: Array<string>;
+	};
+	globalError: boolean;
+};
+
+const initialState: State = {
 	isLoggedIn: getLoggedInState(),
 	user: {
 		id: "",
 		name: "",
 		email: "",
 	},
+	decks: [],
 	config: {
 		colors: [],
 	},

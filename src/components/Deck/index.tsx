@@ -1,4 +1,4 @@
-import FlashcardsIcon from "assets/icons/flashcards.png";
+import FlashcardsIcon from "assets/icons/flashcards.svg";
 import { DeckI } from "types/deck";
 
 import "./style.scss";
