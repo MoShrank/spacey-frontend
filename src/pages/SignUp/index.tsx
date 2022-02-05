@@ -64,7 +64,7 @@ const SignUp = () => {
 
 		setDisabled(true);
 		try {
-			const user = await signup({ email, password, name });
+			const user = await signup({ email: email.trim(), password, name });
 			if (user) {
 				setIsLoggedIn(true);
 				setUser(user);

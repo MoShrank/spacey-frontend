@@ -29,7 +29,7 @@ const Login = () => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		action(credentials.email, credentials.password).then(() => {
+		action(credentials.email.trim(), credentials.password).then(() => {
 			setIsLoggedIn(true);
 			navigate(from);
 		});
