@@ -2,7 +2,7 @@ import { DeckI } from "types/deck";
 
 import API from "./api";
 
-export const getDecks = async (): Promise<Array<DeckI>> => {
+export const fetchDecks = async (): Promise<Array<DeckI>> => {
 	return (await API.GET("decks")) as Array<DeckI>;
 };
 

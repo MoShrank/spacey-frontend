@@ -1,4 +1,4 @@
-import { createDeck } from "api/deck";
+import { createDeck, fetchDecks } from "api/deck";
 import { DeckI } from "types/deck";
 
 export const createDeckAction = async (deck: DeckI) => {
@@ -12,5 +12,17 @@ export const createDeckAction = async (deck: DeckI) => {
 		};
 	} catch (e) {
 		throw Error("please fill in all required fields");
+	}
+};
+
+export const getDecks = async () => {
+	try {
+		const decks = await fetchDecks();
+
+		return () => {
+			return decks;
+		};
+	} catch (e) {
+		throw e as Error;
 	}
 };

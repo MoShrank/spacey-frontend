@@ -1,12 +1,11 @@
-import { getDecks } from "api/deck";
+import { getDecks } from "actions/deck";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
 import ListContainer from "components/ListContainer";
 import Text from "components/Text";
-import { useEffect } from "react";
+import useAPIFetch from "hooks/useAPIFetch";
 import { Link } from "react-router-dom";
-import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 
 import "./style.scss";
@@ -18,16 +17,12 @@ const Hint = () => (
 );
 
 const Home = () => {
-	const [decks, setDecks] = useGlobalState<Array<DeckI>>("decks", []);
-
-	useEffect(() => {
-		getDecks().then(decks => setDecks(decks));
-	}, []);
+	const [, , decks] = useAPIFetch("decks", getDecks);
 
 	return (
 		<div className="deck_overview_container">
 			<Header kind="h1">Your Decks</Header>
-			{decks.length ? (
+			{decks && decks.length ? (
 				<ListContainer>
 					{decks.map((deck: DeckI) => (
 						<Link key={deck.id} to={`decks/${deck.id}`}>
