@@ -19,6 +19,12 @@
 		padding: 4px 13px 4px 13px !important;
 	}
 
+	.max_length_hint {
+		position: absolute;
+		bottom: 18px;
+		right: 18px;
+	}
+
 	.label_overlay_container {
 		pointer-events: none;
 		$top-offset: -15px;
