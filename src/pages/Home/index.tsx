@@ -1,47 +1,38 @@
-import { getDecks } from "api/deck";
-import { getUserData } from "api/user";
+import { getDecks } from "actions/deck";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
+import Header from "components/Header";
 import ListContainer from "components/ListContainer";
-import { useEffect } from "react";
+import Text from "components/Text";
+import useAPIFetch from "hooks/useAPIFetch";
 import { Link } from "react-router-dom";
-import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 
 import "./style.scss";
 
+const Hint = () => (
+	<Text className="hint" color="lightgrey">
+		Create your first deck here on the plus button below
+	</Text>
+);
+
 const Home = () => {
-	const [, setUser] = useGlobalState("user");
-	const [isLoggedIn] = useGlobalState("isLoggedIn");
-
-	const [decks, setDecks] = useGlobalState<Array<DeckI>>("decks", []);
-
-	useEffect(() => {
-		if (isLoggedIn) {
-			getUserData().then(user => {
-				setUser(user);
-			});
-		}
-	}, []);
-
-	useEffect(() => {
-		if (isLoggedIn) {
-			getDecks().then(decks => setDecks(decks));
-		}
-	}, [isLoggedIn]);
+	const [, , decks] = useAPIFetch("decks", getDecks);
 
 	return (
 		<div className="deck_overview_container">
-			<div className="header_container">
-				<h1 className="header">Your Decks</h1>
-			</div>
-			<ListContainer>
-				{decks.map((deck: DeckI) => (
-					<Link key={deck.id} to={`decks/${deck.id}`}>
-						<Deck deck={deck} />
-					</Link>
-				))}
-			</ListContainer>
+			<Header kind="h1">Your Decks</Header>
+			{decks && decks.length ? (
+				<ListContainer>
+					{decks.map((deck: DeckI) => (
+						<Link key={deck.id} to={`decks/${deck.id}`}>
+							<Deck deck={deck} />
+						</Link>
+					))}
+				</ListContainer>
+			) : (
+				<Hint />
+			)}
 			<Link className="floating_container" to="/new/deck">
 				<FloatingButton />
 			</Link>

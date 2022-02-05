@@ -1,9 +1,11 @@
 import { signup } from "api/user";
 import Planet from "assets/img/planet.png";
 import Button from "components/Button";
+import Header from "components/Header";
 import TextInput from "components/TextInput";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
 import "./style.scss";
@@ -24,10 +26,6 @@ const SignUp = () => {
 	const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
 
 	const navigate = useNavigate();
-
-	const handleCancel = () => {
-		navigate("/login");
-	};
 
 	const validate = () => {
 		let valid = true;
@@ -66,7 +64,7 @@ const SignUp = () => {
 
 		setDisabled(true);
 		try {
-			const user = await signup({ email, password, name });
+			const user = await signup({ email: email.trim(), password, name });
 			if (user) {
 				setIsLoggedIn(true);
 				setUser(user);
@@ -81,7 +79,7 @@ const SignUp = () => {
 	return (
 		<div className="signup_container">
 			<img src={Planet} alt="planet logo" />
-			<h1 className="header">Sign Up</h1>
+			<Header kind="h1">Sign Up</Header>
 			<form onSubmit={handleSubmit}>
 				<TextInput
 					type="text"
@@ -120,9 +118,9 @@ const SignUp = () => {
 					Sign up
 				</Button>
 			</form>
-			<button className="simple_button" onClick={handleCancel}>
-				Cancel
-			</button>
+			<Link to="/login">
+				<button className="simple_button">Cancel</button>
+			</Link>
 		</div>
 	);
 };

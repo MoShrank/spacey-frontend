@@ -1,23 +1,24 @@
-import { getConfig } from "api/config";
-import { createDeck } from "api/deck";
+import { getConfig } from "actions/config";
+import { createDeckAction } from "actions/deck";
 import Button from "components/Button";
 import ColorPopup from "components/ColorPopup";
 import SecondaryButton from "components/SecondaryButton";
 import TextArea from "components/TextArea";
 import TextInput from "components/TextInput";
+import useAPIFetch from "hooks/useAPIFetch";
+import useAction from "hooks/useAction";
 import useOnClickOutside from "hooks/useClickOutside";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useGlobalState } from "store/store";
+import { useNavigate } from "react-router-dom";
 
 import "./style.scss";
 
 const NewDeck = () => {
-	const [config, setConfig] =
-		useGlobalState<{ colors: Array<string> }>("config");
+	const [loading, error, action] = useAction("decks", createDeckAction);
+	const [, , config] = useAPIFetch("config", getConfig);
+
 	const [colorsOpen, setColorsOpen] = useState(false);
-	const [error, setError] = useState("");
 
 	const navigate = useNavigate();
 	const ref = useRef<HTMLDivElement>(null);
@@ -32,26 +33,14 @@ const NewDeck = () => {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const { name } = deck;
-
-		if (!name) {
-			setError("please fill in all required fields");
-			return;
-		}
-
-		createDeck(deck).then(() => {
-			navigate("/");
-		});
+		action(deck).then(() => navigate("/"));
 	};
 
 	useEffect(() => {
-		if (!config.colors.length) {
-			getConfig().then(config => {
-				setConfig(config);
-				setDeck({ ...deck, color: config.colors[0] });
-			});
+		if (config) {
+			setDeck({ ...deck, color: config.colors[0] });
 		}
-	}, []);
+	}, [config]);
 
 	return (
 		<div className="create_deck_container">
@@ -72,28 +61,28 @@ const NewDeck = () => {
 						)}
 					</span>
 				</div>
-				<div className="input_container">
-					<TextInput
-						type="text"
-						placeholder="name"
-						value={deck.name}
-						error={error}
-						onChange={e => setDeck({ ...deck, name: e.target.value })}
-					/>
-					<TextArea
-						placeholder="description (optional)"
-						value={deck.description}
-						error={""}
-						maxLength={200}
-						onChange={e => setDeck({ ...deck, description: e.target.value })}
-					/>
-					{error && <p className="error">{error}</p>}
-					<Button className="bottom">Create Deck</Button>
-					<Link to="/">
-						<button className="simple_button">Cancel</button>
-					</Link>
-					{colorsOpen && <div className="input_container_overlay"></div>}
-				</div>
+				<TextInput
+					type="text"
+					placeholder="name"
+					value={deck.name}
+					error={error}
+					onChange={e => setDeck({ ...deck, name: e.target.value })}
+				/>
+				<TextArea
+					placeholder="description (optional)"
+					value={deck.description}
+					error={""}
+					maxLength={200}
+					onChange={e => setDeck({ ...deck, description: e.target.value })}
+				/>
+				{error && <p className="error">{error}</p>}
+				<Button className="bottom" loading={loading} disabled={loading}>
+					Create Deck
+				</Button>
+				<Link to="/">
+					<button className="simple_button">Cancel</button>
+				</Link>
+				{colorsOpen && <div className="input_container_overlay"></div>}
 			</form>
 		</div>
 	);

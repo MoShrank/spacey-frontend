@@ -1,4 +1,5 @@
 import Input from "components/Input";
+import Text from "components/Text";
 import { ComponentProps } from "react";
 
 interface texInputI extends ComponentProps<"textarea"> {
@@ -6,10 +7,18 @@ interface texInputI extends ComponentProps<"textarea"> {
 }
 
 const TextArea = (props: texInputI) => {
-	const { error, placeholder, ...inputProps } = props;
+	const { error, value, placeholder, maxLength, ...inputProps } = props;
 	return (
 		<Input error={error} placeholder={placeholder}>
-			<textarea placeholder={placeholder} {...inputProps} />
+			<textarea
+				placeholder={placeholder}
+				value={value}
+				maxLength={maxLength}
+				{...inputProps}
+			/>
+			<Text className="max_length_hint" color="lightgrey">{`${
+				(value as string).length
+			}/${maxLength}`}</Text>
 		</Input>
 	);
 };

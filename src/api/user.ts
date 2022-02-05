@@ -1,10 +1,6 @@
-import API from "./api";
+import { UserI } from "types/user";
 
-interface UserI {
-	name: string | null;
-	email: string;
-	password: string;
-}
+import API from "./api";
 
 export const signup = async (user: UserI): Promise<UserI | null> => {
 	const data = (await API.POST("user", user)) as UserI;

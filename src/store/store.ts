@@ -35,6 +35,11 @@ class Store {
 		);
 	}
 
+	async emit<T>(key: string, action: (state: T) => T) {
+		const newState = await action(this.getState(key) as T);
+		this.setState(key, newState);
+	}
+
 	newKey<T>(key: string, value: T) {
 		this.state[key] = value;
 		this.listeners[key] = new Set<React.Dispatch<React.SetStateAction<T>>>();
@@ -49,10 +54,7 @@ class Store {
 	}
 
 	clearState() {
-		this.state = this.initialState;
-		Object.keys(this.initialState).forEach(key => {
-			this.listeners[key] = new Set();
-		});
+		//store.init(this.initialState);
 	}
 }
 
@@ -60,7 +62,6 @@ const useGlobalState = <T>(key: string, val?: T): [T, (val: T) => void] => {
 	const state = store.getState(key, val);
 
 	const [, listener] = useState<T>();
-
 	useEffect(() => {
 		store.subcribe(key, listener);
 		return () => store.unsubcribe(key, listener);

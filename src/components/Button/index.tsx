@@ -1,13 +1,17 @@
+import Loader from "components/Loader";
 import { ComponentProps } from "react";
 
 import "./style.scss";
 
-const Button = (props: ComponentProps<"button">) => {
-	const { children, className, ...buttonProps } = props;
+interface ButtonProps extends ComponentProps<"button"> {
+	loading?: boolean;
+}
 
+const Button = (props: ButtonProps) => {
+	const { children, loading, className, ...buttonProps } = props;
 	return (
 		<button className={`button ${className}`} {...buttonProps}>
-			{children}
+			{loading ? <Loader /> : children}
 		</button>
 	);
 };
