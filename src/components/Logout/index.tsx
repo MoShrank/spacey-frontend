@@ -1,6 +1,6 @@
+import { ReactComponent as Icon } from "assets/icons/logout.svg";
 import { useNavigate } from "react-router-dom";
 
-import { ReactComponent as Icon } from "../../assets/icons/logout.svg";
 import "./style.scss";
 
 const Logout = () => {

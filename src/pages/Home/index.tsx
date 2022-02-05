@@ -33,7 +33,7 @@ const Home = () => {
 			) : (
 				<Hint />
 			)}
-			<Link className="floating_container" to="/new/deck">
+			<Link className="floating_container" to="/deck/new">
 				<FloatingButton />
 			</Link>
 		</div>

@@ -1,4 +1,4 @@
-import FlashcardsIcon from "assets/icons/flashcards.svg";
+import CardCount from "components/CardCount/CardCount";
 import { DeckI } from "types/deck";
 
 import "./style.scss";
@@ -9,10 +9,7 @@ const Deck = (props: { deck: DeckI }) => {
 			<div style={{ background: props.deck.color }} className="deck_header"></div>
 			<div className="deck_body">
 				<div className="text">{props.deck.name}</div>
-				<div className="flashcards">
-					<img src={FlashcardsIcon} alt="flascards icon" />
-					<p>12 Flashcards</p>
-				</div>
+				<CardCount count={props.deck.cards.length} />
 			</div>
 		</div>
 	);

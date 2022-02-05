@@ -79,7 +79,7 @@ const SignUp = () => {
 	return (
 		<div className="signup_container">
 			<img src={Planet} alt="planet logo" />
-			<Header kind="h1">Sign Up</Header>
+			<Header kind="h1">Sign up</Header>
 			<form onSubmit={handleSubmit}>
 				<TextInput
 					type="text"
