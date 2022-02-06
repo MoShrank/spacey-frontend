@@ -1,13 +1,13 @@
 import React from "react";
 
-import "./style.scss";
+import style from "./style.module.scss";
 
 interface ListContainerProps {
 	children: React.ReactNode;
 }
 
 const ListContainer = (props: ListContainerProps) => {
-	return <div>{props.children}</div>;
+	return <div className={style.container}>{props.children}</div>;
 };
 
 export default ListContainer;

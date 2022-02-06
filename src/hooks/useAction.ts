@@ -9,8 +9,11 @@ const useAction = <T>(
 	globalStateKey: string,
 	// eslint-disable-next-line
 	action: (...args: any[]) => Promise<(state: T) => T>,
+	loadingDef?: boolean,
 ): [boolean, string, (...args: unknown[]) => Promise<unknown>] => {
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(
+		loadingDef === undefined ? false : loadingDef,
+	);
 	const [error, setError] = useState("");
 
 	const call = async (...args: unknown[]) => {
@@ -19,7 +22,7 @@ const useAction = <T>(
 
 		try {
 			const update = await action(...args);
-			store.emit<T>(globalStateKey, update);
+			await store.emit<T>(globalStateKey, update);
 			setLoading(false);
 		} catch (e) {
 			setError((e as Error).message);

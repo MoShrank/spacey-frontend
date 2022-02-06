@@ -14,6 +14,7 @@ import { useRef, useState } from "react";
 import { forwardRef } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 import "./style.scss";
 
@@ -24,7 +25,11 @@ interface DescriptionPopupProps {
 const DescriptionPopup = forwardRef<HTMLDivElement, DescriptionPopupProps>(
 	(props, ref) => {
 		return (
-			<div ref={ref} className="description_popup">
+			<div
+				ref={ref}
+				style={{ wordBreak: "break-all" }}
+				className="description_popup"
+			>
 				<Text color="darkblue">{props.description}</Text>
 			</div>
 		);
@@ -43,8 +48,12 @@ const DeckDetail = () => {
 
 	const deck = decks.find(deck => deck.id === deckID);
 
-	if (loading || !deck) {
-		return <Loader />;
+	if (!deck) {
+		if (loading) {
+			return <Loader />;
+		} else {
+			return <Navigate to="/404" />;
+		}
 	}
 
 	return (
@@ -53,7 +62,7 @@ const DeckDetail = () => {
 				<Text color="darkblue">{deck?.name}</Text>
 				{infoOpen && <DescriptionPopup ref={ref} description={deck.description} />}
 				<InfoIcon onClick={() => setInfoOpen(!infoOpen)} />
-				<Link to={"deck/edit"}>
+				<Link to="deck/edit">
 					<EditIcon />
 				</Link>
 			</div>
@@ -64,7 +73,7 @@ const DeckDetail = () => {
 					<CardListItem key={card.id} color={deck.color} {...card} />
 				))}
 			</ListContainer>
-			<Link className="floating_container" to={"card/new"}>
+			<Link className="floating_container" to="card/new">
 				<FloatingButton />
 			</Link>
 			{infoOpen && <span className="overlay" />}

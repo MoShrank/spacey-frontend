@@ -17,10 +17,10 @@ const CardListItem = ({ question, answer, id, color }: CardPropsI) => {
 				<Text className="input_text" color="black">
 					{question}
 				</Text>
-				<span className="line" />
 				<Text className="input_text" color="grey">
 					{answer}
 				</Text>
+				<span className="line" />
 			</div>
 		</Link>
 	);

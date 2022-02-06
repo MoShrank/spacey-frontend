@@ -4,6 +4,7 @@ interface TextProps {
 	children: React.ReactNode;
 	color: "darkblue" | "lightgrey" | "grey" | "black" | "white";
 	className?: string;
+	style?: React.CSSProperties;
 }
 
 const colors = {
@@ -18,7 +19,7 @@ const Text = (props: TextProps) => {
 	const color = colors[props.color];
 
 	return (
-		<p className={props.className} style={{ color: color }}>
+		<p className={props.className} style={{ color: color, ...props.style }}>
 			{props.children}
 		</p>
 	);

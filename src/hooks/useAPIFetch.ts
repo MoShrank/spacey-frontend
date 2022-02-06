@@ -8,11 +8,11 @@ const useAPIFetch = <T>(
 	// eslint-disable-next-line
 	action: (...args: any[]) => Promise<(state: T) => T>,
 ): [boolean, string, T] => {
-	const [loading, error, call] = useAction(stateKey, action);
+	const [loading, error, call] = useAction(stateKey, action, true);
 	const [data] = useGlobalState<T>(stateKey);
 
 	useEffect(() => {
-		if ((!data || !(data as unknown as Array<T>).length) && !loading) {
+		if (!data || !(data as unknown as Array<T>).length) {
 			call();
 		}
 	}, []);
