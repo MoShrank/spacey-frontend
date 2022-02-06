@@ -3,13 +3,13 @@ import { createDeckAction } from "actions/deck";
 import Button from "components/Button";
 import ColorPopup from "components/ColorPopup";
 import SecondaryButton from "components/SecondaryButton";
+import SimpleButton from "components/SimpleButton";
 import TextArea from "components/TextArea";
 import TextInput from "components/TextInput";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import useOnClickOutside from "hooks/useClickOutside";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import "./style.scss";
@@ -79,9 +79,7 @@ const NewDeck = () => {
 				<Button className="bottom" loading={loading} disabled={loading}>
 					Create Deck
 				</Button>
-				<Link to="/">
-					<button className="simple_button">Cancel</button>
-				</Link>
+				<SimpleButton to="/">Cancel</SimpleButton>
 				{colorsOpen && <div className="input_container_overlay"></div>}
 			</form>
 		</div>

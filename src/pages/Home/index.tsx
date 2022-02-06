@@ -18,7 +18,6 @@ const Hint = () => (
 
 const Home = () => {
 	const [, , decks] = useAPIFetch("decks", getDecks);
-
 	return (
 		<div className="deck_overview_container">
 			<Header kind="h1">Your Decks</Header>

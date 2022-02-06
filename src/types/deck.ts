@@ -2,6 +2,7 @@ export interface CardI {
 	id: string;
 	question: string;
 	answer: string;
+	deckID: string;
 }
 
 export interface DeckI {

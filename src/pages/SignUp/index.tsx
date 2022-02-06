@@ -2,10 +2,10 @@ import { signup } from "api/user";
 import Planet from "assets/img/planet.png";
 import Button from "components/Button";
 import Header from "components/Header";
+import SimpleButton from "components/SimpleButton";
 import TextInput from "components/TextInput";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
 import "./style.scss";
@@ -118,9 +118,7 @@ const SignUp = () => {
 					Sign up
 				</Button>
 			</form>
-			<Link to="/login">
-				<button className="simple_button">Cancel</button>
-			</Link>
+			<SimpleButton to="/login">Cancel</SimpleButton>
 		</div>
 	);
 };

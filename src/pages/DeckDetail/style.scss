@@ -1,7 +1,7 @@
 @use "../../styles/colors.scss";
 
 .deck_detail_container {
-	> * {
+	> *:not(:last-child) {
 		margin-bottom: 20px;
 	}
 

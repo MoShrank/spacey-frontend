@@ -2,10 +2,11 @@ import { loginAction } from "actions/user";
 import Logo from "assets/img/logo.png";
 import Button from "components/Button";
 import Header from "components/Header";
+import SimpleButton from "components/SimpleButton";
 import TextInput from "components/TextInput";
 import useAction from "hooks/useAction";
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
@@ -61,9 +62,7 @@ const Login = () => {
 					Log in
 				</Button>
 			</form>
-			<Link to="/signup">
-				<button className="simple_button">Sign up</button>
-			</Link>
+			<SimpleButton to="/signup">Sign up</SimpleButton>
 		</div>
 	);
 };

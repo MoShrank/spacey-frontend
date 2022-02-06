@@ -8,6 +8,7 @@ import DeckDetail from "pages/DeckDetail/DeckDetail";
 import Home from "pages/Home";
 import Login from "pages/Login";
 import Logout from "pages/Logout";
+import NewCard from "pages/NewCard";
 import NewDeck from "pages/NewDeck";
 import SignUp from "pages/SignUp";
 import { useEffect } from "react";
@@ -99,6 +100,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<DeckDetail />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="/decks/:deckID/card/new"
+							element={
+								<RequireAuth>
+									<NewCard />
 								</RequireAuth>
 							}
 						/>

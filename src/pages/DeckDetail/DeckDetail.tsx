@@ -42,25 +42,6 @@ const DeckDetail = () => {
 	useOnClickOutside(ref, () => setInfoOpen(false));
 
 	const deck = decks.find(deck => deck.id === deckID);
-	if (deck) {
-		deck.cards = [
-			{
-				id: "1",
-				question: "What is the capital of France?",
-				answer: "Paris",
-			},
-			{
-				id: "2",
-				question: "What is the capital of France?",
-				answer: "Paris",
-			},
-			{
-				id: "4",
-				question: "What is the capital of France?",
-				answer: "Paris",
-			},
-		];
-	}
 
 	if (loading || !deck) {
 		return <Loader />;
