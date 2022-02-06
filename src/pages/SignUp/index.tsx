@@ -7,6 +7,7 @@ import TextInput from "components/TextInput";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
+import { ValidationError } from "util/error";
 
 import "./style.scss";
 
@@ -16,9 +17,9 @@ const SignUp = () => {
 	const [password, setPassword] = useState("");
 	const [repPassword, setRepPassword] = useState("");
 
-	const [nameError, setNameError] = useState("");
-	const [emailError, setEmailError] = useState("");
-	const [passwordError, setPasswordError] = useState("");
+	const [nameError, setNameError] = useState<string | undefined>("");
+	const [emailError, setEmailError] = useState<string | undefined>("");
+	const [passwordError, setPasswordError] = useState<string | undefined>("");
 
 	const [disabled, setDisabled] = useState(false);
 
@@ -71,7 +72,11 @@ const SignUp = () => {
 				navigate("/");
 			}
 		} catch (error) {
-			setEmailError((error as Error).message);
+			if (error instanceof ValidationError) {
+				setEmailError(error.getFieldError("Email"));
+				setPasswordError(error.getFieldError("Password"));
+				setNameError(error.getFieldError("Name"));
+			}
 		}
 		setDisabled(false);
 	};
@@ -114,7 +119,7 @@ const SignUp = () => {
 					/>
 				</div>
 				{passwordError && <p className="error">{passwordError}</p>}
-				<Button disabled={disabled} type="submit">
+				<Button loading={disabled} disabled={disabled} type="submit">
 					Sign up
 				</Button>
 			</form>

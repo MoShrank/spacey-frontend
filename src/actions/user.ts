@@ -17,6 +17,6 @@ export const loginAction = async (email: string, password: string) => {
 			};
 		};
 	} catch (_) {
-		throw Error("email or password credentials!");
+		throw Error("invalid email or password.");
 	}
 };

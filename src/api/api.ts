@@ -1,4 +1,5 @@
 import GlobalError from "events/globalError";
+import { ValidationError } from "util/error";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
 
@@ -34,11 +35,15 @@ class API {
 				credentials: "include",
 				signal: controller.signal,
 			});
-		} catch (DOMException) {
-			GlobalError.emit(timeoutErrorText);
-			throw DOMException;
+		} catch (e) {
+			if (
+				e instanceof DOMException ||
+				(e as Error).message === "Failed to fetch"
+			) {
+				GlobalError.emit(timeoutErrorText);
+			}
+			return;
 		}
-
 		const resBody = await res.json();
 
 		if (res.status >= 500) {
@@ -46,6 +51,10 @@ class API {
 		}
 
 		if (!res.ok) {
+			if (Array.isArray(resBody.message)) {
+				throw new ValidationError(resBody.message);
+			}
+
 			throw new Error(resBody.message || "error");
 		}
 
