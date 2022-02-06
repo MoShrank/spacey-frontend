@@ -1,4 +1,4 @@
-import HomeIcon from "assets/icons/home.svg";
+import HomeIcon from "assets/icons/simple_logo.svg";
 import Logout from "components/Logout";
 import { Link } from "react-router-dom";
 

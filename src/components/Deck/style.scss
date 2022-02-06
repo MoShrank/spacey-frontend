@@ -1,25 +1,15 @@
 @use "../../styles/colors.scss";
+@use "../../styles/animations.scss";
 
 .deck_container {
 	cursor: pointer;
 	display: flex;
 	flex-direction: column;
-	transform: scale(1);
-	transition: transform 0.2s ease-out;
-	-webkit-transform: scale(1);
-	-webkit-transition: transform 0.2s ease-out;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
 	border: 1px solid colors.$blue;
 	margin-bottom: 25px;
 
-	&:hover {
-		transform: scale(1.03);
-		transition: transform 0.3s ease-out;
-		-webkit-transform: scale(1.03);
-		-webkit-transition: transform 0.3s ease-out;
-		box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.25);
-	}
+	@include animations.scale_hover;
 
 	.deck_header {
 		width: 100%;
