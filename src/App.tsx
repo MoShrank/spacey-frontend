@@ -6,6 +6,7 @@ import GlobalError from "events/globalError";
 import Error404 from "pages/404";
 import DeckDetail from "pages/DeckDetail/DeckDetail";
 import Home from "pages/Home";
+import Imprint from "pages/Imprint";
 import Login from "pages/Login";
 import Logout from "pages/Logout";
 import NewCard from "pages/NewCard";
@@ -136,6 +137,7 @@ function App() {
 							</RedirectAuth>
 						}
 					/>
+					<Route path="imprint" element={<Imprint />} />
 					<Route path="*" element={<Error404 />} />
 				</Routes>
 			</div>
