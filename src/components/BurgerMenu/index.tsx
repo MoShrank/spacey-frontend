@@ -26,13 +26,16 @@ const menuItems = [
 const BurgerMenu = ({ onClose }: BurgerMenuProps) => {
 	return (
 		<div className={style.container}>
-			<ExitIcon onClick={onClose} />
-			{menuItems.map(({ label, Icon, to }) => (
-				<Link onClick={onClose} key={label} to={to} className={style.item}>
-					<Text color="darkblue">{label}</Text>
-					<Icon />
-				</Link>
-			))}
+			<div className={style.overlay} onClick={onClose} />
+			<div className={style.menu}>
+				<ExitIcon onClick={onClose} />
+				{menuItems.map(({ label, Icon, to }) => (
+					<Link onClick={onClose} key={label} to={to} className={style.item}>
+						<Text color="darkblue">{label}</Text>
+						<Icon />
+					</Link>
+				))}
+			</div>
 		</div>
 	);
 };
