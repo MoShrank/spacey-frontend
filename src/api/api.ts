@@ -72,7 +72,7 @@ class API {
 	static async PUT(url: string, body: unknown): Promise<unknown> {
 		return API.Request(url, "PUT", body);
 	}
-	static async Delete(url: string): Promise<unknown> {
+	static async DELETE(url: string): Promise<unknown> {
 		return API.Request(url, "DELETE");
 	}
 }

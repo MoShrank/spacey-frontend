@@ -1,6 +1,7 @@
 import { createCardAction, getDecks } from "actions/deck";
 import Button from "components/Button";
 import CardContainer from "components/CardContainer";
+import Form from "components/Form";
 import Header from "components/Header";
 import Loader from "components/Loader";
 import SimpleButton from "components/SimpleButton";
@@ -29,20 +30,6 @@ const NewCard = () => {
 		deckID: deckID,
 	});
 
-	const setQuestion = (e: React.FormEvent<HTMLDivElement>) => {
-		setCard({
-			...card,
-			question: e.currentTarget.textContent ? e.currentTarget.textContent : "",
-		});
-	};
-
-	const setAnswer = (e: React.FormEvent<HTMLDivElement>) => {
-		setCard({
-			...card,
-			answer: e.currentTarget.textContent ? e.currentTarget.textContent : "",
-		});
-	};
-
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		action(card).then(() => navigate(`/decks/${deckID}`));
@@ -54,28 +41,36 @@ const NewCard = () => {
 	}
 
 	return (
-		<>
+		<Form onSubmit={handleSubmit}>
 			<Header kind="h2">{deck.name}</Header>
-			<form className={style.form} onSubmit={handleSubmit}>
-				<CardContainer>
-					<div
-						role="textinput"
-						contentEditable={true}
-						onInput={setQuestion}
-						className={`${style.input} ${style.question}`}
-					></div>
-					<div
-						role="textinput"
-						contentEditable={true}
-						onInput={setAnswer}
-						className={`${style.input} ${style.answer}`}
-					></div>
-				</CardContainer>
-				{error && <p className="error">{error}</p>}
-				<Button loading={createCardLoading}>Create card</Button>
-				<SimpleButton to={`/decks/${deckID}`}>Cancel</SimpleButton>
-			</form>
-		</>
+			<CardContainer>
+				<div
+					role="textinput"
+					contentEditable={true}
+					onInput={e =>
+						setCard({
+							...card,
+							question: e.currentTarget.textContent || "",
+						})
+					}
+					className={`${style.input} ${style.question}`}
+				></div>
+				<div
+					role="textinput"
+					contentEditable={true}
+					onInput={e =>
+						setCard({
+							...card,
+							answer: e.currentTarget.textContent || "",
+						})
+					}
+					className={`${style.input} ${style.answer}`}
+				></div>
+			</CardContainer>
+			{error && <p className="error">{error}</p>}
+			<Button loading={createCardLoading}>Create card</Button>
+			<SimpleButton to={`/decks/${deckID}`}>Cancel</SimpleButton>
+		</Form>
 	);
 };
 

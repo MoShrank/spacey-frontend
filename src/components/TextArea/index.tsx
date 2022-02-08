@@ -2,6 +2,8 @@ import Input from "components/Input";
 import Text from "components/Text";
 import { ComponentProps } from "react";
 
+import style from "./style.module.scss";
+
 interface texInputI extends ComponentProps<"textarea"> {
 	error?: string;
 }
@@ -16,7 +18,7 @@ const TextArea = (props: texInputI) => {
 				maxLength={maxLength}
 				{...inputProps}
 			/>
-			<Text className="max_length_hint" color="lightgrey">{`${
+			<Text className={style.max_length_hint} color="lightgrey">{`${
 				(value as string).length
 			}/${maxLength}`}</Text>
 		</Input>

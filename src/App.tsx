@@ -5,6 +5,7 @@ import RequireAuth from "components/RequireAuth";
 import GlobalError from "events/globalError";
 import Error404 from "pages/404";
 import DeckDetail from "pages/DeckDetail/DeckDetail";
+import EditDeck from "pages/EditDeck";
 import Home from "pages/Home";
 import Imprint from "pages/Imprint";
 import Login from "pages/Login";
@@ -101,6 +102,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<DeckDetail />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="/decks/:deckID/edit"
+							element={
+								<RequireAuth>
+									<EditDeck />
 								</RequireAuth>
 							}
 						/>

@@ -17,7 +17,7 @@ const menuItems = [
 		to: "/logout",
 	},
 	{
-		label: "imprint",
+		label: "Imprint",
 		Icon: InfoIcon,
 		to: "/imprint",
 	},

@@ -62,7 +62,7 @@ const DeckDetail = () => {
 				<Text color="darkblue">{deck?.name}</Text>
 				{infoOpen && <DescriptionPopup ref={ref} description={deck.description} />}
 				<InfoIcon onClick={() => setInfoOpen(!infoOpen)} />
-				<Link to="deck/edit">
+				<Link to="edit">
 					<EditIcon />
 				</Link>
 			</div>

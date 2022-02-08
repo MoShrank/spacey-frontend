@@ -9,7 +9,7 @@ const TextInput = (props: texInputI) => {
 	const { error, placeholder, ...inputProps } = props;
 	return (
 		<Input error={error} placeholder={placeholder}>
-			<input className="input" placeholder={placeholder} {...inputProps} />
+			<input placeholder={placeholder} {...inputProps} />
 		</Input>
 	);
 };

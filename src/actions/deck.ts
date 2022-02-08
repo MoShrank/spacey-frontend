@@ -1,4 +1,10 @@
-import { createCard, createDeck, fetchDecks } from "api/deck";
+import {
+	createCard,
+	createDeck,
+	deleteDeck as deleteDeckCall,
+	fetchDecks,
+	updateDeck,
+} from "api/deck";
 import { CardI, DeckI } from "types/deck";
 
 export const createDeckAction = async (deck: DeckI) => {
@@ -12,6 +18,34 @@ export const createDeckAction = async (deck: DeckI) => {
 		};
 	} catch (e) {
 		throw Error("please fill in all required fields");
+	}
+};
+
+export const updateDeckAction = async (deck: DeckI) => {
+	const { name } = deck;
+	if (!name) throw Error("please fill in all required fields");
+
+	try {
+		const newDeck = await updateDeck(deck);
+		return (curState: Array<DeckI>) => {
+			const filteredDecks = curState.filter(
+				(deck: DeckI) => deck.id !== newDeck.id,
+			);
+			return [...filteredDecks, newDeck];
+		};
+	} catch (e) {
+		throw Error("please fill in all required fields");
+	}
+};
+
+export const deleteDeck = async (id: string) => {
+	try {
+		await deleteDeckCall(id);
+		return (curState: Array<DeckI>) => {
+			return curState.filter((deck: DeckI) => deck.id !== id);
+		};
+	} catch (e) {
+		throw Error("Could not delete deck.");
 	}
 };
 
