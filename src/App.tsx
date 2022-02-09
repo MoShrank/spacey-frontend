@@ -23,6 +23,7 @@ import { getLoggedInState } from "util/user";
 import "./App.scss";
 
 type State = {
+	hand: "left" | "right";
 	isLoggedIn: boolean;
 	user: {
 		id: string;
@@ -37,6 +38,7 @@ type State = {
 };
 
 const initialState: State = {
+	hand: "left",
 	isLoggedIn: getLoggedInState(),
 	user: {
 		id: "",
@@ -61,9 +63,6 @@ function NavbarLayout() {
 }
 
 function App() {
-	/* using useGlobalState + conditional rendering depedent on that state
-    somehow does not work and triggers and infinite rerendering */
-
 	const [globalError, setGlobalError] = useGlobalState("globalError");
 	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
 	useEffect(() => {

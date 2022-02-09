@@ -44,7 +44,7 @@ const NewCard = () => {
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Header kind="h2">{deck.name}</Header>
-			<CardContainer>
+			<CardContainer color={deck.color}>
 				<div
 					role="textinput"
 					contentEditable={true}

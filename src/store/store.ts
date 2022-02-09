@@ -54,7 +54,7 @@ class Store {
 	}
 
 	clearState() {
-		//store.init(this.initialState);
+		this.state = this.initialState;
 	}
 }
 
