@@ -76,6 +76,8 @@ const SignUp = () => {
 				setEmailError(error.getFieldError("Email"));
 				setPasswordError(error.getFieldError("Password"));
 				setNameError(error.getFieldError("Name"));
+			} else {
+				setEmailError("email already exists");
 			}
 		}
 		setDisabled(false);
