@@ -2,6 +2,7 @@ import { createCardAction, getDecks } from "actions/deck";
 import Button from "components/Button";
 import CardContainer from "components/CardContainer";
 import Form from "components/Form";
+import FormBottom from "components/FormBottom";
 import Header from "components/Header";
 import Loader from "components/Loader";
 import SimpleButton from "components/SimpleButton";
@@ -67,9 +68,11 @@ const NewCard = () => {
 					className={`${style.input} ${style.answer}`}
 				></div>
 			</CardContainer>
-			{error && <p className="error">{error}</p>}
-			<Button loading={createCardLoading}>Create card</Button>
-			<SimpleButton to={`/decks/${deckID}`}>Cancel</SimpleButton>
+			<FormBottom>
+				{error && <p className="error">{error}</p>}
+				<Button loading={createCardLoading}>Create card</Button>
+				<SimpleButton to={`/decks/${deckID}`}>Cancel</SimpleButton>
+			</FormBottom>
 		</Form>
 	);
 };

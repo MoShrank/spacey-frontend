@@ -2,6 +2,7 @@ import { getConfig } from "actions/config";
 import Button from "components/Button";
 import ColorPopup from "components/ColorPopup";
 import Form from "components/Form";
+import FormBottom from "components/FormBottom";
 import SecondaryButton from "components/SecondaryButton";
 import SimpleButton from "components/SimpleButton";
 import TextArea from "components/TextArea";
@@ -90,14 +91,14 @@ const EditableDeck = ({
 				maxLength={200}
 				onChange={e => setDeck({ ...deck, description: e.target.value })}
 			/>
-			<div className="bottom">
+			<FormBottom>
 				{error && <p className="error">{error}</p>}
 				{children}
-				<Button className="bottom" loading={loading} disabled={loading}>
+				<Button loading={loading} disabled={loading}>
 					{buttonName}
 				</Button>
 				<SimpleButton to="/">Cancel</SimpleButton>
-			</div>
+			</FormBottom>
 		</Form>
 	);
 };

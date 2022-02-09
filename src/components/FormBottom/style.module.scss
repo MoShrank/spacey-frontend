@@ -1,0 +1,7 @@
+.bottom {
+	margin-top: auto;
+
+	> *:not(:last-child) {
+		margin-bottom: 15px;
+	}
+}
