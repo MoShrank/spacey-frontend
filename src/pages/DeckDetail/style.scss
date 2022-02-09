@@ -15,6 +15,11 @@
 
 		> :first-child {
 			margin-right: 8px;
+			z-index: 5;
+		}
+
+		#info_icon {
+			z-index: 5;
 		}
 
 		> :last-child {

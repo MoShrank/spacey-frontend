@@ -2,11 +2,15 @@ import style from "./style.module.scss";
 
 interface CardInputProps {
 	children?: React.ReactNode;
+	color: string;
 }
 
-const CardContainer = ({ children }: CardInputProps) => {
+const CardContainer = ({ children, color }: CardInputProps) => {
 	return (
-		<div className={style.card_input_container}>
+		<div
+			style={{ backgroundColor: color }}
+			className={style.card_input_container}
+		>
 			{children}
 			<span className={style.line} />
 		</div>

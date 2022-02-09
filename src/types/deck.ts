@@ -11,5 +11,5 @@ export interface DeckI {
 	description: string;
 	color: string;
 	cards: CardI[];
-	lastLearned: number;
+	lastLearned: Date;
 }

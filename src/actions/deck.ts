@@ -74,6 +74,13 @@ export const getDecks = async () => {
 	try {
 		const decks = await fetchDecks();
 
+		/*
+		TODO: this should be implemented as soon as the backend is ready
+		.sort(
+			(a: DeckI, b: DeckI) => a.lastLearned.getTime() - b.lastLearned.getTime(),
+		);
+		*/
+
 		return () => {
 			return decks;
 		};
