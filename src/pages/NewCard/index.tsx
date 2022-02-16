@@ -9,7 +9,7 @@ import SimpleButton from "components/SimpleButton";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 import style from "./style.module.scss";
 
@@ -19,8 +19,6 @@ const NewCard = () => {
 		createCardAction,
 	);
 	const [loading, , decks] = useAPIFetch("decks", getDecks);
-
-	const navigate = useNavigate();
 
 	const { deckID } = useParams();
 	const deck = decks.find(({ id }) => id === deckID);
@@ -33,7 +31,22 @@ const NewCard = () => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		action(card).then(() => navigate(`/decks/${deckID}`));
+		action(card).then(() => {
+			setCard({
+				question: "",
+				answer: "",
+				deckID: deckID,
+			});
+
+			const questionNode = document.getElementById("question");
+			const answerNode = document.getElementById("answer");
+			if (questionNode) {
+				questionNode.innerHTML = "";
+			}
+			if (answerNode) {
+				answerNode.innerHTML = "";
+			}
+		});
 	};
 
 	if (!deck?.name) {
@@ -46,6 +59,7 @@ const NewCard = () => {
 			<Header kind="h2">{deck.name}</Header>
 			<CardContainer color={deck.color}>
 				<div
+					id="question"
 					role="textinput"
 					contentEditable={true}
 					onInput={e =>
@@ -57,6 +71,7 @@ const NewCard = () => {
 					className={`${style.input} ${style.question}`}
 				></div>
 				<div
+					id="answer"
 					role="textinput"
 					contentEditable={true}
 					onInput={e =>
