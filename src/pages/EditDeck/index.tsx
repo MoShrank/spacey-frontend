@@ -32,6 +32,7 @@ const EditDeck = () => {
 			submitAction={updateDeckAction}
 			buttonName="Save Changes"
 			deckPrefill={deck}
+			redirectOnSubmit={`/decks/${deckID}`}
 		>
 			<div onClick={handleDelete} className={style.delete_deck_container}>
 				<TrashIcon />

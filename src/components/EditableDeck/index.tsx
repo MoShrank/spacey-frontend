@@ -21,6 +21,7 @@ interface EditableDeckProps {
 	buttonName: "Create Deck" | "Save Changes";
 	deckPrefill?: DeckI;
 	children?: React.ReactNode;
+	redirectOnSubmit?: string;
 }
 
 const EditableDeck = ({
@@ -28,6 +29,7 @@ const EditableDeck = ({
 	buttonName,
 	deckPrefill,
 	children,
+	redirectOnSubmit,
 }: EditableDeckProps) => {
 	const [loading, error, action] = useAction("decks", submitAction);
 	const [, , config] = useAPIFetch("config", getConfig);
@@ -36,6 +38,8 @@ const EditableDeck = ({
 
 	const navigate = useNavigate();
 	const ref = useRef<HTMLDivElement>(null);
+
+	redirectOnSubmit = redirectOnSubmit ?? "/";
 
 	useOnClickOutside(ref, () => setColorsOpen(false));
 
@@ -49,7 +53,8 @@ const EditableDeck = ({
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		action(deck).then(() => navigate("/"));
+
+		action(deck).then(() => navigate(redirectOnSubmit as string));
 	};
 
 	useEffect(() => {
@@ -97,7 +102,7 @@ const EditableDeck = ({
 				<Button loading={loading} disabled={loading}>
 					{buttonName}
 				</Button>
-				<SimpleButton to="/">Cancel</SimpleButton>
+				<SimpleButton to={redirectOnSubmit}>Cancel</SimpleButton>
 			</FormBottom>
 		</Form>
 	);
