@@ -38,7 +38,7 @@ type State = {
 };
 
 const initialState: State = {
-	hand: "left",
+	hand: "right",
 	isLoggedIn: getLoggedInState(),
 	user: {
 		id: "",

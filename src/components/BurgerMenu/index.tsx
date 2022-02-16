@@ -28,7 +28,7 @@ const BurgerMenu = ({ onClose }: BurgerMenuProps) => {
 	const [hand] = useGlobalState("hand");
 
 	return (
-		<div className={`${style.container} ${hand === "left" && style.left}`}>
+		<div className={`${style.container} ${hand === "left" ? style.left : ""}`}>
 			<div className={style.overlay} onClick={onClose} />
 			<div className={style.menu}>
 				<ExitIcon onClick={onClose} />
