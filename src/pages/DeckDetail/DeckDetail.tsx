@@ -18,6 +18,9 @@ import { Navigate } from "react-router-dom";
 
 import "./style.scss";
 
+const emptyDeckPlaceholder =
+	"No description yet. Click the edit button to add a description.";
+
 interface DescriptionPopupProps {
 	description: string;
 }
@@ -30,7 +33,9 @@ const DescriptionPopup = forwardRef<HTMLDivElement, DescriptionPopupProps>(
 				style={{ wordBreak: "break-all" }}
 				className="description_popup"
 			>
-				<Text color="darkblue">{props.description}</Text>
+				<Text color={props.description ? "darkblue" : "lightgrey"}>
+					{props.description || emptyDeckPlaceholder}
+				</Text>
 			</div>
 		);
 	},
