@@ -5,12 +5,17 @@ import "./style.scss";
 
 interface ButtonProps extends ComponentProps<"button"> {
 	loading?: boolean;
+	disabled?: boolean;
 }
 
 const Button = (props: ButtonProps) => {
-	const { children, loading, className, ...buttonProps } = props;
+	const { children, loading, disabled, className, ...buttonProps } = props;
 	return (
-		<button className={`button ${className}`} {...buttonProps}>
+		<button
+			disabled={disabled || loading}
+			className={`button ${disabled && !loading ? "disabled" : ""} ${className}`}
+			{...buttonProps}
+		>
 			{loading ? <Loader /> : children}
 		</button>
 	);

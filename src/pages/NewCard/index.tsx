@@ -1,17 +1,10 @@
 import { createCardAction, getDecks } from "actions/deck";
-import Button from "components/Button";
-import CardContainer from "components/CardContainer";
-import Form from "components/Form";
-import FormBottom from "components/FormBottom";
-import Header from "components/Header";
+import EditableCard from "components/EditableCard";
 import Loader from "components/Loader";
-import SimpleButton from "components/SimpleButton";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
-
-import style from "./style.module.scss";
 
 const NewCard = () => {
 	const [createCardLoading, error, action] = useAction(
@@ -37,15 +30,6 @@ const NewCard = () => {
 				answer: "",
 				deckID: deckID,
 			});
-
-			const questionNode = document.getElementById("question");
-			const answerNode = document.getElementById("answer");
-			if (questionNode) {
-				questionNode.innerHTML = "";
-			}
-			if (answerNode) {
-				answerNode.innerHTML = "";
-			}
 		});
 	};
 
@@ -54,41 +38,35 @@ const NewCard = () => {
 		else return <Navigate to="404" />;
 	}
 
+	const handleQuestionInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		e.preventDefault();
+		console.log(e.target.value);
+
+		setCard({
+			...card,
+			question: e.target.value,
+		});
+	};
+
+	const handleAnswerInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		e.preventDefault();
+		setCard({
+			...card,
+			answer: e.target.value,
+		});
+	};
+
 	return (
-		<Form onSubmit={handleSubmit}>
-			<Header kind="h2">{deck.name}</Header>
-			<CardContainer color={deck.color}>
-				<div
-					id="question"
-					role="textinput"
-					contentEditable={true}
-					onInput={e =>
-						setCard({
-							...card,
-							question: e.currentTarget.textContent || "",
-						})
-					}
-					className={`${style.input} ${style.question}`}
-				></div>
-				<div
-					id="answer"
-					role="textinput"
-					contentEditable={true}
-					onInput={e =>
-						setCard({
-							...card,
-							answer: e.currentTarget.textContent || "",
-						})
-					}
-					className={`${style.input} ${style.answer}`}
-				></div>
-			</CardContainer>
-			<FormBottom>
-				{error && <p className="error">{error}</p>}
-				<Button loading={createCardLoading}>Create card</Button>
-				<SimpleButton to={`/decks/${deckID}`}>Cancel</SimpleButton>
-			</FormBottom>
-		</Form>
+		<EditableCard
+			deck={deck}
+			onSubmit={handleSubmit}
+			card={card}
+			error={error}
+			loading={createCardLoading}
+			onQuestionInput={handleQuestionInput}
+			onAnswerInput={handleAnswerInput}
+			buttonText="Create Card"
+		/>
 	);
 };
 
