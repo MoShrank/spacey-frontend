@@ -1,7 +1,12 @@
 import "./style.scss";
 
-const Loader = () => {
-	return <div className="loader"></div>;
+interface LoaderProps {
+	size?: "small" | "large";
+}
+
+const Loader = ({ size }: LoaderProps) => {
+	if (!size) size = "small";
+	return <div className={`loader ${size}`}></div>;
 };
 
 export default Loader;

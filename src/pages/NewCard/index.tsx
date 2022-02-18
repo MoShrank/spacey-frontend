@@ -34,7 +34,7 @@ const NewCard = () => {
 	};
 
 	if (!deck?.name) {
-		if (loading) return <Loader />;
+		if (loading) return <Loader size="large" />;
 		else return <Navigate to="404" />;
 	}
 

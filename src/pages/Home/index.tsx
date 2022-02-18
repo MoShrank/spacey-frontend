@@ -3,6 +3,7 @@ import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
 import ListContainer from "components/ListContainer";
+import Loader from "components/Loader";
 import Text from "components/Text";
 import useAPIFetch from "hooks/useAPIFetch";
 import { Link } from "react-router-dom";
@@ -17,7 +18,10 @@ const Hint = () => (
 );
 
 const Home = () => {
-	const [, , decks] = useAPIFetch("decks", getDecks);
+	const [loading, , decks] = useAPIFetch("decks", getDecks);
+
+	if (loading) return <Loader size="large"></Loader>;
+
 	return (
 		<div className="deck_overview_container">
 			<Header kind="h1">Your Decks</Header>

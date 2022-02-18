@@ -54,7 +54,7 @@ const CardDetail = () => {
 
 	const navigate = useNavigate();
 
-	if (loading) return <Loader />;
+	if (loading) return <Loader size="large" />;
 	if (!deck) return <Navigate to="/404" />;
 
 	const handlePrev = () => {

@@ -55,7 +55,7 @@ const DeckDetail = () => {
 
 	if (!deck) {
 		if (loading) {
-			return <Loader />;
+			return <Loader size="large" />;
 		} else {
 			return <Navigate to="/404" />;
 		}
