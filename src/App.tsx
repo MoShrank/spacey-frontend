@@ -4,6 +4,7 @@ import RedirectAuth from "components/RedirectAuth";
 import RequireAuth from "components/RequireAuth";
 import GlobalError from "events/globalError";
 import Error404 from "pages/404";
+import CardDetail from "pages/CardDetail";
 import DeckDetail from "pages/DeckDetail/DeckDetail";
 import EditDeck from "pages/EditDeck";
 import Home from "pages/Home";
@@ -117,6 +118,14 @@ function App() {
 							element={
 								<RequireAuth>
 									<NewCard />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="/decks/:deckID/cards/:cardID"
+							element={
+								<RequireAuth>
+									<CardDetail />
 								</RequireAuth>
 							}
 						/>

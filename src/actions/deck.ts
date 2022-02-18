@@ -3,6 +3,7 @@ import {
 	createDeck,
 	deleteDeck as deleteDeckCall,
 	fetchDecks,
+	updateCard,
 	updateDeck,
 } from "api/deck";
 import { CardI, DeckI } from "types/deck";
@@ -49,6 +50,25 @@ export const deleteDeck = async (id: string) => {
 	}
 };
 
+export const getDecks = async () => {
+	try {
+		const decks = await fetchDecks();
+
+		/*
+		TODO: this should be implemented as soon as the backend is ready
+		.sort(
+			(a: DeckI, b: DeckI) => a.lastLearned.getTime() - b.lastLearned.getTime(),
+		);
+		*/
+
+		return () => {
+			return decks;
+		};
+	} catch (e) {
+		throw e as Error;
+	}
+};
+
 export const createCardAction = async (card: CardI) => {
 	const { question, answer } = card;
 	if (!question || !answer) throw Error("please fill in all required fields");
@@ -66,25 +86,30 @@ export const createCardAction = async (card: CardI) => {
 			return [...curState];
 		};
 	} catch (e) {
-		throw Error("please fill in all required fields");
+		throw Error((e as Error).message);
 	}
 };
 
-export const getDecks = async () => {
+export const updateCardAction = async (card: CardI) => {
+	const { question, answer } = card;
+	if (!question || !answer) throw Error("please fill in all required fields");
+
 	try {
-		const decks = await fetchDecks();
+		const newCard = await updateCard(card);
+		return (curState: Array<DeckI>) => {
+			const deck = curState.find(deck => deck.id === card.deckID);
+			if (!deck) throw Error("deck not found");
 
-		/*
-		TODO: this should be implemented as soon as the backend is ready
-		.sort(
-			(a: DeckI, b: DeckI) => a.lastLearned.getTime() - b.lastLearned.getTime(),
-		);
-		*/
+			const newCards = deck.cards.map((card: CardI) =>
+				card.id === newCard.id ? newCard : card,
+			);
+			// might not work because state is still the same as it
+			// only does a shallow compare
+			deck.cards = [...newCards];
 
-		return () => {
-			return decks;
+			return [...curState];
 		};
 	} catch (e) {
-		throw e as Error;
+		throw Error((e as Error).message);
 	}
 };

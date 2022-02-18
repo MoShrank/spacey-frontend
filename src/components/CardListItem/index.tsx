@@ -12,7 +12,7 @@ interface CardPropsI {
 
 const CardListItem = ({ question, answer, id, color }: CardPropsI) => {
 	return (
-		<Link to={`card/${id}`}>
+		<Link to={`cards/${id}`}>
 			<div style={{ background: color }} className="card_container">
 				<Text className="input_text" color="black">
 					{question}

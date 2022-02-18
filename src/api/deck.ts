@@ -38,3 +38,7 @@ interface CreateCardI {
 export const createCard = async (card: CreateCardI): Promise<CardI> => {
 	return (await API.POST(`decks/${card.deckID}/cards`, card)) as CardI;
 };
+
+export const updateCard = async (card: CardI): Promise<CardI> => {
+	return (await API.PUT(`decks/${card.deckID}/cards/${card.id}`, card)) as CardI;
+};
