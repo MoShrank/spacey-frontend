@@ -48,6 +48,10 @@
 		border-radius: 20px;
 		z-index: 5;
 		padding: 17px;
+
+		p {
+			word-break: keep-all;
+		}
 	}
 
 	.overlay {
