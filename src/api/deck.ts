@@ -42,3 +42,10 @@ export const createCard = async (card: CreateCardI): Promise<CardI> => {
 export const updateCard = async (card: CardI): Promise<CardI> => {
 	return (await API.PUT(`decks/${card.deckID}/cards/${card.id}`, card)) as CardI;
 };
+
+export const deleteCard = async (
+	deckID: string,
+	cardID: string,
+): Promise<void> => {
+	await API.DELETE(`decks/${deckID}/cards/${cardID}`);
+};

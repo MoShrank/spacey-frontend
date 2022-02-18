@@ -1,6 +1,7 @@
 import {
 	createCard,
 	createDeck,
+	deleteCard,
 	deleteDeck as deleteDeckCall,
 	fetchDecks,
 	updateCard,
@@ -103,8 +104,23 @@ export const updateCardAction = async (card: CardI) => {
 			const newCards = deck.cards.map((card: CardI) =>
 				card.id === newCard.id ? newCard : card,
 			);
-			// might not work because state is still the same as it
-			// only does a shallow compare
+			deck.cards = [...newCards];
+
+			return [...curState];
+		};
+	} catch (e) {
+		throw Error((e as Error).message);
+	}
+};
+
+export const deleteCardAction = async (deckID: string, cardID: string) => {
+	try {
+		await deleteCard(deckID, cardID);
+		return (curState: Array<DeckI>) => {
+			const deck = curState.find(deck => deck.id === deckID);
+			if (!deck) throw Error("deck not found");
+
+			const newCards = deck.cards.filter((card: CardI) => card.id !== cardID);
 			deck.cards = [...newCards];
 
 			return [...curState];

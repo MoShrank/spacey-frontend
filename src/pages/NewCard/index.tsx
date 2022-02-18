@@ -40,7 +40,6 @@ const NewCard = () => {
 
 	const handleQuestionInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault();
-		console.log(e.target.value);
 
 		setCard({
 			...card,

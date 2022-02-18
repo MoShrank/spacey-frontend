@@ -1,7 +1,8 @@
-import { getDecks } from "actions/deck";
+import { deleteCardAction, getDecks } from "actions/deck";
 import { updateCardAction } from "actions/deck";
 import { ReactComponent as NextIcon } from "assets/icons/next.svg";
 import { ReactComponent as PrevIcon } from "assets/icons/prev.svg";
+import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
 import Loader from "components/Loader";
 import Text from "components/Text";
@@ -10,6 +11,7 @@ import useAction from "hooks/useAction";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { CardI, DeckI } from "types/deck";
+import { next, prev } from "util/array";
 
 import style from "./style.module.scss";
 
@@ -27,7 +29,7 @@ const CardDetail = () => {
 		"decks",
 		updateCardAction,
 	);
-
+	const [, , deleteCardCall] = useAction("decks", deleteCardAction);
 	const deck = decks.find((d: DeckI) => d.id === deckID);
 	const cardIdx =
 		deck?.cards.findIndex((card: CardI) => card.id === cardID) ?? 0;
@@ -37,25 +39,18 @@ const CardDetail = () => {
 		answer: deck?.cards[cardIdx].answer ?? "",
 	});
 
-	const [curCardIdx, setCardIdx] = useState(cardIdx);
-
 	const [buttonDisabled, setButtonDisabled] = useState(true);
 
 	useEffect(() => {
 		setCard({
-			question: deck?.cards[curCardIdx].question ?? "",
-			answer: deck?.cards[curCardIdx].answer ?? "",
+			question: deck?.cards[cardIdx].question ?? "",
+			answer: deck?.cards[cardIdx].answer ?? "",
 		});
-	}, [curCardIdx, deck, decks]);
+	}, [cardIdx, deck, decks]);
 
 	useEffect(() => {
-		setButtonDisabled(cardEq(card, deck?.cards[curCardIdx]));
+		setButtonDisabled(cardEq(card, deck?.cards[cardIdx]));
 	}, [card]);
-
-	useEffect(() => {
-		const cardID = deck?.cards[curCardIdx].id;
-		navigate(`/decks/${deckID}/cards/${cardID}`);
-	}, [curCardIdx]);
 
 	const navigate = useNavigate();
 
@@ -63,13 +58,15 @@ const CardDetail = () => {
 	if (!deck) return <Navigate to="/404" />;
 
 	const handlePrev = () => {
-		if (curCardIdx === 0) setCardIdx(deck.cards.length - 1);
-		else setCardIdx(curCardIdx - 1);
+		const prevIdx = prev(deck.cards, cardIdx);
+		const prevCardID = deck.cards[prevIdx].id;
+		navigate(`/decks/${deckID}/cards/${prevCardID}`);
 	};
 
 	const handleNext = () => {
-		if (curCardIdx === deck.cards.length - 1) setCardIdx(0);
-		else setCardIdx(curCardIdx + 1);
+		const nextIdx = next(deck.cards, cardIdx);
+		const nextCardID = deck.cards[nextIdx].id;
+		navigate(`/decks/${deckID}/cards/${nextCardID}`);
 	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -93,6 +90,18 @@ const CardDetail = () => {
 		});
 	};
 
+	const handleDelete = () => {
+		const nextIdx = next(deck.cards, cardIdx);
+		const nextCardID = deck.cards[nextIdx].id;
+		const navigateTo =
+			deck.cards.length > 1
+				? `/decks/${deckID}/cards/${nextCardID}`
+				: `/decks/${deckID}`;
+
+		deleteCardCall(deckID, cardID);
+		navigate(navigateTo);
+	};
+
 	return (
 		<EditableCard
 			deck={deck}
@@ -108,10 +117,11 @@ const CardDetail = () => {
 			<div className={style.swipe_container}>
 				<PrevIcon onClick={handlePrev} />
 				<Text color="lightgrey">
-					card {curCardIdx + 1} of {deck.cards.length}
+					card {cardIdx + 1} of {deck.cards.length}
 				</Text>
 				<NextIcon onClick={handleNext} />
 			</div>
+			<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
 		</EditableCard>
 	);
 };
