@@ -29,7 +29,7 @@
 
 	.item {
 		display: flex;
-		flex-direction: row-reverse;
+		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
 
@@ -40,18 +40,5 @@
 	svg {
 		cursor: pointer;
 		box-shadow: none;
-	}
-}
-
-.left {
-	flex-direction: row-reverse !important;
-
-	.menu {
-		align-items: flex-start !important;
-		box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25) !important;
-	}
-
-	.item {
-		flex-direction: row-reverse !important;
 	}
 }
