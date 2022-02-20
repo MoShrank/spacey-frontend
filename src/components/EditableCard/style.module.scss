@@ -1,3 +1,5 @@
+@use "../../styles/colors.scss";
+
 .textarea {
 	font-family: Berlin Sans FB;
 	font-size: 1.4rem;
@@ -20,4 +22,8 @@
 	&:focus::placeholder {
 		color: transparent;
 	}
+}
+
+.answer {
+	color: colors.$darkgray;
 }

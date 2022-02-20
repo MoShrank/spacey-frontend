@@ -17,8 +17,13 @@ class API {
 	private static async Request(
 		url: string,
 		method: Method,
-		body?: unknown,
+		params?: {
+			queryParameters?: Record<string, string> | string[][];
+			body?: unknown;
+		},
 	): Promise<unknown> {
+		const { body, queryParameters } = params || {};
+
 		const controller = new AbortController();
 
 		setTimeout(() => {
@@ -27,8 +32,11 @@ class API {
 
 		let res;
 
+		const urlObj = new URL(`${this._baseUrl}/${url}`);
+		urlObj.search = new URLSearchParams(queryParameters).toString();
+
 		try {
-			res = await fetch(`${this._baseUrl}/${url}`, {
+			res = await fetch(urlObj.toString(), {
 				method: method,
 				headers: this._headers,
 				body: JSON.stringify(body),
@@ -61,16 +69,19 @@ class API {
 		return resBody.data;
 	}
 
-	static async GET(url: string): Promise<unknown> {
-		return API.Request(url, "GET");
+	static async GET(
+		url: string,
+		queryParameters?: Record<string, string> | string[][],
+	): Promise<unknown> {
+		return API.Request(url, "GET", { queryParameters });
 	}
 
 	static async POST(url: string, body: unknown): Promise<unknown> {
-		return API.Request(url, "POST", body);
+		return API.Request(url, "POST", { body });
 	}
 
 	static async PUT(url: string, body: unknown): Promise<unknown> {
-		return API.Request(url, "PUT", body);
+		return API.Request(url, "PUT", { body });
 	}
 	static async DELETE(url: string): Promise<unknown> {
 		return API.Request(url, "DELETE");

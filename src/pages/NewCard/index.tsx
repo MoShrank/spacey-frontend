@@ -1,6 +1,9 @@
 import { createCardAction, getDecks } from "actions/deck";
+import Button from "components/Button";
 import EditableCard from "components/EditableCard";
+import BottomContainer from "components/FormBottom";
 import Loader from "components/Loader";
+import SimpleButton from "components/SimpleButton";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { useState } from "react";
@@ -60,12 +63,15 @@ const NewCard = () => {
 			deck={deck}
 			onSubmit={handleSubmit}
 			card={card}
-			error={error}
-			loading={createCardLoading}
 			onQuestionInput={handleQuestionInput}
 			onAnswerInput={handleAnswerInput}
-			buttonText="Create Card"
-		/>
+		>
+			<BottomContainer>
+				{error && <p className="error">{error}</p>}
+				<Button loading={createCardLoading}>Create Card</Button>
+				<SimpleButton to={`/decks/${deck.id}`}>Cancel</SimpleButton>
+			</BottomContainer>
+		</EditableCard>
 	);
 };
 

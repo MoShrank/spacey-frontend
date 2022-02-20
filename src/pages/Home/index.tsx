@@ -2,6 +2,7 @@ import { getDecks } from "actions/deck";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
+import HeaderContainer from "components/HeaderContainer";
 import ListContainer from "components/ListContainer";
 import Loader from "components/Loader";
 import Text from "components/Text";
@@ -24,7 +25,12 @@ const Home = () => {
 
 	return (
 		<div className="deck_overview_container">
-			<Header kind="h1">Your Decks</Header>
+			<HeaderContainer>
+				<Header kind="h2">Your Decks</Header>
+				<Link to="/deck/new">
+					<FloatingButton />
+				</Link>
+			</HeaderContainer>
 			{decks && decks.length ? (
 				<ListContainer>
 					{decks.map((deck: DeckI) => (
@@ -36,9 +42,6 @@ const Home = () => {
 			) : (
 				<Hint />
 			)}
-			<Link className="floating_container" to="/deck/new">
-				<FloatingButton />
-			</Link>
 		</div>
 	);
 };

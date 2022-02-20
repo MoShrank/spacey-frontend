@@ -35,7 +35,11 @@
 	.floating_container {
 		position: fixed;
 		bottom: 20px;
-		right: 20px;
+		right: 38px;
+
+		svg {
+			margin-right: 12px;
+		}
 	}
 
 	.description_popup {
