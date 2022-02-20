@@ -1,12 +1,10 @@
-import React from "react";
+import { ComponentProps } from "react";
 
 import "./style.scss";
 
-interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
+interface TextProps extends ComponentProps<"p"> {
 	children: React.ReactNode;
 	color?: "darkblue" | "lightgrey" | "grey" | "black" | "white" | "red";
-	className?: string;
-	style?: React.CSSProperties;
 }
 
 const colors = {
@@ -18,12 +16,12 @@ const colors = {
 	red: "#c81c23",
 };
 
-const Text = (props: TextProps) => {
-	const color = props.color ? colors[props.color] : colors.darkblue;
+const Text = ({ children, color, style, ...rest }: TextProps) => {
+	const colorStyle = color ? colors[color] : colors.darkblue;
 
 	return (
-		<p className={props.className} style={{ color: color, ...props.style }}>
-			{props.children}
+		<p style={{ color: colorStyle, ...style }} {...rest}>
+			{children}
 		</p>
 	);
 };

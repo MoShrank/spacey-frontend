@@ -1,3 +1,4 @@
+import CookieBanner from "components/CookieBanner";
 import GlobalErrorPopup from "components/GlobalErrorPopup";
 import Navbar from "components/Navbar";
 import RedirectAuth from "components/RedirectAuth";
@@ -24,13 +25,18 @@ import { Outlet, Route, Routes } from "react-router-dom";
 import { store } from "store/store";
 import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
-import { getLoggedInState } from "util/user";
+import {
+	createHasSeenCookie,
+	getHasSeenCookie,
+	getLoggedInState,
+} from "util/user";
 
 import "./App.scss";
 
 type State = {
 	hand: "left" | "right";
 	isLoggedIn: boolean;
+	hasSeenCookie: boolean;
 	user: {
 		id: string;
 		name: string;
@@ -46,6 +52,7 @@ type State = {
 const initialState: State = {
 	hand: "right",
 	isLoggedIn: getLoggedInState(),
+	hasSeenCookie: getHasSeenCookie(),
 	user: {
 		id: "",
 		name: "",
@@ -72,6 +79,8 @@ function Layout() {
 function App() {
 	const [globalError, setGlobalError] = useGlobalState("globalError");
 	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+	const [hasSeenCookie, setHasSeenCookie] = useGlobalState("hasSeenCookie");
+
 	useEffect(() => {
 		GlobalError.setRenderCallback(setGlobalError);
 	}, []);
@@ -83,6 +92,14 @@ function App() {
 	return (
 		<>
 			{globalError && <GlobalErrorPopup />}
+			{!hasSeenCookie && (
+				<CookieBanner
+					onClick={() => {
+						setHasSeenCookie(true);
+						createHasSeenCookie();
+					}}
+				/>
+			)}
 			<Routes>
 				<Route path="/" element={<Layout />}>
 					<Route
