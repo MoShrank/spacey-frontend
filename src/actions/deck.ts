@@ -1,13 +1,17 @@
 import {
 	createCard,
+	createCardEvent,
 	createDeck,
+	createLearningSession,
 	deleteCard,
 	deleteDeck as deleteDeckCall,
 	fetchDecks,
+	finishLearningSession,
+	getLearningCards,
 	updateCard,
 	updateDeck,
 } from "api/deck";
-import { CardI, DeckI } from "types/deck";
+import { CardEventI, CardI, DeckI, LearningSessionI } from "types/deck";
 
 export const createDeckAction = async (deck: DeckI) => {
 	const { name } = deck;
@@ -26,14 +30,13 @@ export const createDeckAction = async (deck: DeckI) => {
 export const updateDeckAction = async (deck: DeckI) => {
 	const { name } = deck;
 	if (!name) throw Error("please fill in all required fields");
-
 	try {
-		const newDeck = await updateDeck(deck);
+		await updateDeck(deck);
 		return (curState: Array<DeckI>) => {
-			const filteredDecks = curState.filter(
-				(deck: DeckI) => deck.id !== newDeck.id,
+			const updatedDecks = curState.map(d =>
+				d.id === deck.id ? { ...d, ...deck } : d,
 			);
-			return [...filteredDecks, newDeck];
+			return [...updatedDecks];
 		};
 	} catch (e) {
 		throw Error("please fill in all required fields");
@@ -64,6 +67,18 @@ export const getDecks = async () => {
 
 		return () => {
 			return decks;
+		};
+	} catch (e) {
+		throw e as Error;
+	}
+};
+
+export const getDeckAction = async (id: string) => {
+	try {
+		const decks = await fetchDecks();
+
+		return () => {
+			return decks.find((deck: DeckI) => deck.id === id);
 		};
 	} catch (e) {
 		throw e as Error;
@@ -124,6 +139,69 @@ export const deleteCardAction = async (deckID: string, cardID: string) => {
 			deck.cards = [...newCards];
 
 			return [...curState];
+		};
+	} catch (e) {
+		throw Error((e as Error).message);
+	}
+};
+
+export const getLearningCardsAction = async (
+	deckID: string,
+	cardIDs: string[],
+) => {
+	try {
+		const learningCards = await getLearningCards(deckID, cardIDs);
+		return (curState: DeckI) => {
+			return {
+				...curState,
+				learningOrder: learningCards,
+				totalLearningCards: learningCards.length,
+			};
+		};
+	} catch (e) {
+		throw Error((e as Error).message);
+	}
+};
+
+export const createLearningSessionAction = async (deckID: string) => {
+	try {
+		const learningSession = await createLearningSession(deckID);
+
+		return () => {
+			return learningSession;
+		};
+	} catch (e) {
+		throw Error((e as Error).message);
+	}
+};
+
+export const finishLearningSessionAction = async (
+	learningSession: LearningSessionI,
+) => {
+	try {
+		await finishLearningSession(learningSession);
+
+		return () => {
+			return undefined;
+		};
+	} catch (e) {
+		throw Error((e as Error).message);
+	}
+};
+
+export const answerCardAction = async (cardEvent: CardEventI) => {
+	try {
+		await createCardEvent(cardEvent);
+
+		return (curState: DeckI) => {
+			const curLearningCard = curState.learningOrder[0];
+			let newCards = curState.learningOrder.slice(1);
+
+			if (!cardEvent.correct) {
+				newCards = [...newCards, curLearningCard];
+			}
+
+			return { ...curState, learningOrder: newCards };
 		};
 	} catch (e) {
 		throw Error((e as Error).message);

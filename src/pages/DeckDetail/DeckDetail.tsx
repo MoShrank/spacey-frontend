@@ -1,12 +1,15 @@
 import { getDecks } from "actions/deck";
 import { ReactComponent as EditIcon } from "assets/icons/edit.svg";
 import { ReactComponent as InfoIcon } from "assets/icons/info.svg";
+import { ReactComponent as LearnIcon } from "assets/icons/learn.svg";
 import CardCount from "components/CardCount/CardCount";
 import CardListItem from "components/CardListItem";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
+import HeaderContainer from "components/HeaderContainer";
 import ListContainer from "components/ListContainer";
 import Loader from "components/Loader";
+import SecondaryButton from "components/SecondaryButton";
 import Text from "components/Text";
 import useAPIFetch from "hooks/useAPIFetch";
 import useOnClickOutside from "hooks/useClickOutside";
@@ -71,15 +74,23 @@ const DeckDetail = () => {
 					<EditIcon />
 				</Link>
 			</div>
-			<Header kind="h2">Your Cards</Header>
+			<HeaderContainer>
+				<Header kind="h2">Your Cards</Header>
+				<Link to="card/new">
+					<FloatingButton />
+				</Link>
+			</HeaderContainer>
 			<CardCount count={deck.cards.length} />
 			<ListContainer>
 				{deck?.cards.map(card => (
 					<CardListItem key={card.id} color={deck.color} {...card} />
 				))}
 			</ListContainer>
-			<Link className="floating_container" to="card/new">
-				<FloatingButton />
+			<Link className="floating_container" to={`/learn/${deckID}`}>
+				<SecondaryButton onClick={undefined} backgroundColor="blue">
+					<LearnIcon />
+					<Text color="white">Learn</Text>
+				</SecondaryButton>
 			</Link>
 			{infoOpen && <span className="overlay" />}
 		</div>

@@ -2,7 +2,7 @@ import { getConfig } from "actions/config";
 import Button from "components/Button";
 import ColorPopup from "components/ColorPopup";
 import Form from "components/Form";
-import FormBottom from "components/FormBottom";
+import BottomContainer from "components/FormBottom";
 import SecondaryButton from "components/SecondaryButton";
 import SimpleButton from "components/SimpleButton";
 import TextArea from "components/TextArea";
@@ -67,7 +67,11 @@ const EditableDeck = ({
 		<Form onSubmit={handleSubmit}>
 			<div style={{ background: deck.color }} className="color_header">
 				<span ref={ref}>
-					<SecondaryButton type="button" onClick={() => setColorsOpen(!colorsOpen)}>
+					<SecondaryButton
+						backgroundColor="lightblue"
+						type="button"
+						onClick={() => setColorsOpen(!colorsOpen)}
+					>
 						change color
 					</SecondaryButton>
 					{colorsOpen && (
@@ -96,14 +100,14 @@ const EditableDeck = ({
 				maxLength={200}
 				onChange={e => setDeck({ ...deck, description: e.target.value })}
 			/>
-			<FormBottom>
+			<BottomContainer>
 				{error && <p className="error">{error}</p>}
 				{children}
 				<Button loading={loading} disabled={loading}>
 					{buttonName}
 				</Button>
 				<SimpleButton to={redirectOnSubmit}>Cancel</SimpleButton>
-			</FormBottom>
+			</BottomContainer>
 		</Form>
 	);
 };

@@ -2,9 +2,12 @@ import { deleteCardAction, getDecks } from "actions/deck";
 import { updateCardAction } from "actions/deck";
 import { ReactComponent as NextIcon } from "assets/icons/next.svg";
 import { ReactComponent as PrevIcon } from "assets/icons/prev.svg";
+import Button from "components/Button";
 import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
+import BottomContainer from "components/FormBottom";
 import Loader from "components/Loader";
+import SimpleButton from "components/SimpleButton";
 import Text from "components/Text";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
@@ -106,13 +109,9 @@ const CardDetail = () => {
 		<EditableCard
 			deck={deck}
 			card={card}
-			error={editDeckError}
-			loading={editDeckLoading}
 			onSubmit={handleSubmit}
 			onQuestionInput={handleQuestionInput}
 			onAnswerInput={handleAnswerInput}
-			buttonText="Save card"
-			buttonDisabled={buttonDisabled}
 		>
 			<div className={style.swipe_container}>
 				<PrevIcon onClick={handlePrev} />
@@ -121,7 +120,14 @@ const CardDetail = () => {
 				</Text>
 				<NextIcon onClick={handleNext} />
 			</div>
-			<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
+			<BottomContainer>
+				{editDeckError && <p className="error">{editDeckError}</p>}
+				<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
+				<Button disabled={buttonDisabled} loading={editDeckLoading}>
+					Save card
+				</Button>
+				<SimpleButton to={`/decks/${deck.id}`}>Cancel</SimpleButton>
+			</BottomContainer>
 		</EditableCard>
 	);
 };

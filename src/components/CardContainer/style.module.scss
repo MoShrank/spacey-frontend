@@ -26,6 +26,10 @@
 		grid-area: answer;
 	}
 
+	> * {
+		font-family: "Berlin Sans FB" !important;
+	}
+
 	.line {
 		position: absolute;
 		top: 0;

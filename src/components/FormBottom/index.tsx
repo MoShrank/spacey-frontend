@@ -1,11 +1,11 @@
 import style from "./style.module.scss";
 
-interface FormBottomProps {
+interface BottomContainerProps {
 	children: React.ReactNode;
 }
 
-const FormBottom = ({ children }: FormBottomProps) => {
+const BottomContainer = ({ children }: BottomContainerProps) => {
 	return <div className={style.bottom}>{children}</div>;
 };
 
-export default FormBottom;
+export default BottomContainer;

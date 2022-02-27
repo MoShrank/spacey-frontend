@@ -19,11 +19,7 @@ class Store {
 
 	getState<T>(key: string, val?: T) {
 		if (!Object.prototype.hasOwnProperty.call(this.state, key)) {
-			if (val) store.newKey(key, val);
-			else
-				throw new Error(
-					"You need to pass a value if the key hasn't been initialized",
-				);
+			store.newKey(key, val);
 		}
 		return this.state[key];
 	}

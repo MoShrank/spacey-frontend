@@ -9,10 +9,13 @@ import DeckDetail from "pages/DeckDetail/DeckDetail";
 import EditDeck from "pages/EditDeck";
 import Home from "pages/Home";
 import Imprint from "pages/Imprint";
+import Learning from "pages/Learning";
+import LearningFinished from "pages/LearningFinished";
 import Login from "pages/Login";
 import Logout from "pages/Logout";
 import NewCard from "pages/NewCard";
 import NewDeck from "pages/NewDeck";
+import NoLearning from "pages/NoLearning";
 import SignUp from "pages/SignUp";
 import { useEffect } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
@@ -126,6 +129,30 @@ function App() {
 							element={
 								<RequireAuth>
 									<CardDetail />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="/learn/:deckID"
+							element={
+								<RequireAuth>
+									<Learning />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="/learn/:deckID/finished"
+							element={
+								<RequireAuth>
+									<LearningFinished />
+								</RequireAuth>
+							}
+						/>
+						<Route
+							path="/decks/:deckID/nolearning"
+							element={
+								<RequireAuth>
+									<NoLearning />
 								</RequireAuth>
 							}
 						/>

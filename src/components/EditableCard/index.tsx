@@ -1,8 +1,5 @@
-import Button from "components/Button";
 import CardContainer from "components/CardContainer";
 import Form from "components/Form";
-import FormBottom from "components/FormBottom";
-import SimpleButton from "components/SimpleButton";
 import Text from "components/Text";
 import { useEffect } from "react";
 import { DeckI } from "types/deck";
@@ -19,10 +16,6 @@ interface EditableCardI {
 	onQuestionInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	onAnswerInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-	error: string;
-	loading: boolean;
-	buttonText: string;
-	buttonDisabled?: boolean;
 }
 
 const resize = (target: HTMLTextAreaElement) => {
@@ -41,10 +34,6 @@ const EditableCard = ({
 	onQuestionInput,
 	onAnswerInput,
 	onSubmit,
-	error,
-	loading,
-	buttonText,
-	buttonDisabled,
 }: EditableCardI) => {
 	useEffect(() => {
 		resize(document.getElementById("question") as HTMLTextAreaElement);
@@ -65,7 +54,7 @@ const EditableCard = ({
 				/>
 				<textarea
 					id="answer"
-					className={style.textarea}
+					className={`${style.textarea} ${style.answer}`}
 					value={card.answer}
 					onInput={handleResize}
 					onChange={onAnswerInput}
@@ -73,13 +62,6 @@ const EditableCard = ({
 				/>
 			</CardContainer>
 			{children}
-			<FormBottom>
-				{error && <p className="error">{error}</p>}
-				<Button disabled={buttonDisabled} loading={loading}>
-					{buttonText}
-				</Button>
-				<SimpleButton to={`/decks/${deck.id}`}>Cancel</SimpleButton>
-			</FormBottom>
 		</Form>
 	);
 };
