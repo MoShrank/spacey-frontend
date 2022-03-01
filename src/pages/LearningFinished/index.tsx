@@ -1,4 +1,6 @@
+import { ReactComponent as LogoIcon } from "assets/img/logo.svg";
 import Button from "components/Button";
+import BottomContainer from "components/FormBottom";
 import Header from "components/Header";
 import Text from "components/Text";
 import { useEffect } from "react";
@@ -22,11 +24,19 @@ const LearningFinished = () => {
 
 	return (
 		<div className={style.container}>
-			<Header kind="h2">Congrats</Header>
-			<Text>come back tomorrow for more </Text>
-			<Link to={`/decks/${deckID}`}>
-				<Button>Return to deck</Button>
-			</Link>
+			<Text>{deck.name}</Text>
+			<LogoIcon />
+			<Header kind="h2">Congratulations!</Header>
+			<Header kind="h2">You finished learning</Header>
+			<Header kind="h2" color="secondary">
+				{deck.totalLearningCards} {deck.totalLearningCards === 1 ? "card" : "cards"}
+			</Header>
+			<Text className={style.center}>come back tomorrow for more</Text>
+			<BottomContainer>
+				<Link to={`/decks/${deckID}`}>
+					<Button>Return to deck</Button>
+				</Link>
+			</BottomContainer>
 		</div>
 	);
 };
