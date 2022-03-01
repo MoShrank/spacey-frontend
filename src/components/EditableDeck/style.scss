@@ -1,3 +1,5 @@
+@use "../../styles/vars.scss";
+
 .input_container_overlay {
 	position: absolute;
 	background: rgba(255, 255, 255, 0.7);
@@ -12,8 +14,8 @@
 .color_header {
 	height: 133px;
 	display: flex;
-	margin-left: -38px;
-	margin-right: -38px;
+	margin-left: 0 - (vars.$page-gap);
+	margin-right: 0 - (vars.$page-gap);
 	position: relative;
 
 	span {

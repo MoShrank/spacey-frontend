@@ -10,6 +10,7 @@ import HeaderContainer from "components/HeaderContainer";
 import Hint from "components/Hint";
 import ListContainer from "components/ListContainer";
 import Loader from "components/Loader";
+import PageHeaderContainer from "components/PageHeaderContainer";
 import SecondaryButton from "components/SecondaryButton";
 import Text from "components/Text";
 import useAPIFetch from "hooks/useAPIFetch";
@@ -66,21 +67,23 @@ const DeckDetail = () => {
 
 	return (
 		<div className="deck_detail_container">
-			<div className="deck_detail_header">
-				<Text color="darkblue">{deck?.name}</Text>
-				{infoOpen && <DescriptionPopup ref={ref} description={deck.description} />}
-				<InfoIcon id="info_icon" onClick={() => setInfoOpen(!infoOpen)} />
-				<Link to="edit">
-					<EditIcon />
-				</Link>
-			</div>
-			<HeaderContainer>
-				<Header kind="h2">Your Cards</Header>
-				<Link to="card/new">
-					<FloatingButton />
-				</Link>
-			</HeaderContainer>
-			<CardCount count={deck.cards.length} />
+			<PageHeaderContainer>
+				<div className="deck_detail_header">
+					<Text color="darkblue">{deck?.name}</Text>
+					{infoOpen && <DescriptionPopup ref={ref} description={deck.description} />}
+					<InfoIcon id="info_icon" onClick={() => setInfoOpen(!infoOpen)} />
+					<Link to="edit">
+						<EditIcon />
+					</Link>
+				</div>
+				<HeaderContainer>
+					<Header kind="h2">Your Cards</Header>
+					<Link to="card/new">
+						<FloatingButton />
+					</Link>
+				</HeaderContainer>
+				<CardCount count={deck.cards.length} />
+			</PageHeaderContainer>
 			{deck?.cards.length ? (
 				<ListContainer>
 					{deck.cards.map(card => (
