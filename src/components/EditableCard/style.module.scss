@@ -10,7 +10,8 @@
 	word-break: break-all;
 	background: none;
 
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
 	border: none;
 	text-align: center;
 	height: auto;
