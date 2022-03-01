@@ -28,18 +28,17 @@ body {
 		background: colors.$lightblue;
 	}
 
-	margin: 0;
 	font-family: Dubai;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
 	display: flex;
 	flex-direction: column;
-	margin: 0;
 	min-height: 100vh;
 	min-height: -webkit-fill-available;
 
 	margin: 0 vars.$page-gap;
+	overflow: auto;
 }
 
 #root {
