@@ -124,7 +124,7 @@ const CardDetail = () => {
 				{editDeckError && <p className="error">{editDeckError}</p>}
 				<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
 				<Button disabled={buttonDisabled} loading={editDeckLoading}>
-					Save card
+					Save changes
 				</Button>
 				<SimpleButton to={`/decks/${deck.id}`}>Cancel</SimpleButton>
 			</BottomContainer>

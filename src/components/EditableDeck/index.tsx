@@ -18,7 +18,7 @@ import "./style.scss";
 
 interface EditableDeckProps {
 	submitAction: (deck: DeckI) => Promise<(curState: Array<DeckI>) => DeckI[]>;
-	buttonName: "Create Deck" | "Save Changes";
+	buttonName: "Create deck" | "Save changes";
 	deckPrefill?: DeckI;
 	children?: React.ReactNode;
 	redirectOnSubmit?: string;

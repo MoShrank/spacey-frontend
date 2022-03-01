@@ -97,7 +97,7 @@ const Learning = () => {
 	}, [deck]);
 
 	if (deckLoading || learningCardsLoading) {
-		return <Loader />;
+		return <Loader size="large" />;
 	}
 
 	if (

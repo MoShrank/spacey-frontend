@@ -26,4 +26,8 @@
 
 .answer {
 	color: colors.$darkgray;
+
+	&::placeholder {
+		color: colors.$lightgray;
+	}
 }

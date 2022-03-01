@@ -68,7 +68,7 @@ const NewCard = () => {
 		>
 			<BottomContainer>
 				{error && <p className="error">{error}</p>}
-				<Button loading={createCardLoading}>Create Card</Button>
+				<Button loading={createCardLoading}>Create card</Button>
 				<SimpleButton to={`/decks/${deck.id}`}>Cancel</SimpleButton>
 			</BottomContainer>
 		</EditableCard>

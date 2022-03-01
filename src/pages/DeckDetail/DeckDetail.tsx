@@ -7,6 +7,7 @@ import CardListItem from "components/CardListItem";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
 import HeaderContainer from "components/HeaderContainer";
+import Hint from "components/Hint";
 import ListContainer from "components/ListContainer";
 import Loader from "components/Loader";
 import SecondaryButton from "components/SecondaryButton";
@@ -36,7 +37,7 @@ const DescriptionPopup = forwardRef<HTMLDivElement, DescriptionPopupProps>(
 				style={{ wordBreak: "break-all" }}
 				className="description_popup"
 			>
-				<Text color={props.description ? "darkblue" : "lightgrey"}>
+				<Text color={props.description ? "black" : "lightgrey"}>
 					{props.description || emptyDeckPlaceholder}
 				</Text>
 			</div>
@@ -81,17 +82,23 @@ const DeckDetail = () => {
 				</Link>
 			</HeaderContainer>
 			<CardCount count={deck.cards.length} />
-			<ListContainer>
-				{deck?.cards.map(card => (
-					<CardListItem key={card.id} color={deck.color} {...card} />
-				))}
-			</ListContainer>
-			<Link className="floating_container" to={`/learn/${deckID}`}>
-				<SecondaryButton onClick={undefined} backgroundColor="blue">
-					<LearnIcon />
-					<Text color="white">Learn</Text>
-				</SecondaryButton>
-			</Link>
+			{deck?.cards.length ? (
+				<ListContainer>
+					{deck.cards.map(card => (
+						<CardListItem key={card.id} color={deck.color} {...card} />
+					))}
+				</ListContainer>
+			) : (
+				<Hint>No cards yet. Click the plus button to add a card.</Hint>
+			)}
+			{deck.cards.length > 0 && (
+				<Link className="floating_container" to={`/learn/${deckID}`}>
+					<SecondaryButton onClick={undefined} backgroundColor="blue">
+						<LearnIcon />
+						<Text color="white">Learn</Text>
+					</SecondaryButton>
+				</Link>
+			)}
 			{infoOpen && <span className="overlay" />}
 		</div>
 	);

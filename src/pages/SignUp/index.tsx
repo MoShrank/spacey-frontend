@@ -38,7 +38,7 @@ const SignUp = () => {
 			setEmailError("please fill in your email");
 			valid = false;
 		}
-		if (password.length < 7) {
+		if (password.length < 6) {
 			setPasswordError("password must be at least 6 characters");
 			valid = false;
 		}

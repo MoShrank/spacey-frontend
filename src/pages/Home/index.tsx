@@ -3,20 +3,14 @@ import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
 import HeaderContainer from "components/HeaderContainer";
+import Hint from "components/Hint";
 import ListContainer from "components/ListContainer";
 import Loader from "components/Loader";
-import Text from "components/Text";
 import useAPIFetch from "hooks/useAPIFetch";
 import { Link } from "react-router-dom";
 import { DeckI } from "types/deck";
 
 import "./style.scss";
-
-const Hint = () => (
-	<Text className="hint" color="lightgrey">
-		Create your first deck here on the plus button below
-	</Text>
-);
 
 const Home = () => {
 	const [loading, , decks] = useAPIFetch("decks", getDecks);
@@ -40,7 +34,7 @@ const Home = () => {
 					))}
 				</ListContainer>
 			) : (
-				<Hint />
+				<Hint>No decks yet. Click the plus button to add a deck.</Hint>
 			)}
 		</div>
 	);
