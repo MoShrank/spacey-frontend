@@ -1,6 +1,6 @@
 @use "../../styles/vars.scss";
 
-.navbar_container {
+.container {
 	z-index: 999;
 	max-height: vars.$navbar-height;
 	position: fixed;
@@ -14,17 +14,16 @@
 	align-items: center;
 	justify-content: space-between;
 
-	img {
-		display: block;
-		margin-top: auto;
-		margin-bottom: auto;
+	.home_icon {
+		display: flex;
+
+		> svg {
+			height: 30px;
+			width: 33px;
+		}
 	}
 
 	> svg {
 		cursor: pointer;
 	}
-}
-
-.left {
-	flex-direction: row-reverse !important;
 }

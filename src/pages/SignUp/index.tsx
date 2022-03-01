@@ -1,5 +1,5 @@
 import { signup } from "api/user";
-import Planet from "assets/img/planet.png";
+import Planet from "assets/img/logo_simple.svg";
 import Button from "components/Button";
 import Header from "components/Header";
 import SimpleButton from "components/SimpleButton";
