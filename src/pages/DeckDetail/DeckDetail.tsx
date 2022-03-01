@@ -14,6 +14,7 @@ import SecondaryButton from "components/SecondaryButton";
 import Text from "components/Text";
 import useAPIFetch from "hooks/useAPIFetch";
 import useOnClickOutside from "hooks/useClickOutside";
+import useLockBodyScroll from "hooks/useScrollLock";
 import { useRef, useState } from "react";
 import { forwardRef } from "react";
 import { useParams } from "react-router-dom";
@@ -31,12 +32,10 @@ interface DescriptionPopupProps {
 
 const DescriptionPopup = forwardRef<HTMLDivElement, DescriptionPopupProps>(
 	(props, ref) => {
+		useLockBodyScroll();
+
 		return (
-			<div
-				ref={ref}
-				style={{ wordBreak: "break-all" }}
-				className="description_popup"
-			>
+			<div ref={ref} className="description_popup">
 				<Text color={props.description ? "black" : "lightgrey"}>
 					{props.description || emptyDeckPlaceholder}
 				</Text>
