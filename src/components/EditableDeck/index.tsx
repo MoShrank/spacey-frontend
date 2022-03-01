@@ -16,6 +16,17 @@ import { DeckI } from "types/deck";
 
 import "./style.scss";
 
+const deckEq = (
+	deck: { name: string; description: string; color: string } | undefined,
+	newDeck: { name: string; description: string; color: string } | undefined,
+) => {
+	return (
+		deck?.color === newDeck?.color &&
+		deck?.name === newDeck?.name &&
+		deck?.description === newDeck?.description
+	);
+};
+
 interface EditableDeckProps {
 	submitAction: (deck: DeckI) => Promise<(curState: Array<DeckI>) => DeckI[]>;
 	buttonName: "Create deck" | "Save changes";
@@ -103,7 +114,7 @@ const EditableDeck = ({
 			<BottomContainer>
 				{error && <p className="error">{error}</p>}
 				{children}
-				<Button loading={loading} disabled={loading}>
+				<Button loading={loading} disabled={loading || deckEq(deck, deckPrefill)}>
 					{buttonName}
 				</Button>
 				<SimpleButton to={redirectOnSubmit}>Cancel</SimpleButton>
