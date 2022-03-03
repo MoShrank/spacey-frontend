@@ -1,4 +1,13 @@
+@use "../../styles/vars.scss";
+
 .container {
 	overflow-x: hidden;
 	overflow-y: auto;
+
+	margin-left: -(vars.$page-gap);
+	margin-right: -(vars.$page-gap);
+	padding: 15px vars.$page-gap;
+	width: 100vw;
+	height: 1px;
+	flex-grow: 1;
 }
