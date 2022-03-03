@@ -8,6 +8,7 @@
 	justify-content: flex-start;
 	align-items: center;
 	padding: 1px;
+	border-radius: 20px;
 
 	.bar {
 		height: 100%;
@@ -23,7 +24,7 @@
 		border-top-left-radius: 20px;
 	}
 
-	> :last-child {
+	.last_bar {
 		border-bottom-right-radius: 20px;
 		border-top-right-radius: 20px;
 	}

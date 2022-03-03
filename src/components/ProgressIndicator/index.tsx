@@ -11,12 +11,14 @@ const ProgressIndicator = ({
 	const bars = Array.from(Array(progress).keys());
 	return (
 		<div className={style.container}>
-			{bars.map(bar => {
+			{bars.map((_, idx) => {
 				return (
 					<span
 						style={{ width: `${singleWidth}%` }}
-						className={style.bar}
-						key={bar}
+						className={`${style.bar} ${
+							idx + 1 === bars.length && bars.length === total ? style.last_bar : null
+						}`}
+						key={idx}
 					/>
 				);
 			})}
