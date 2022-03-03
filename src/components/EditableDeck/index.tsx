@@ -102,6 +102,7 @@ const EditableDeck = ({
 				placeholder="name"
 				value={deck.name}
 				error={error}
+				maxLength={30}
 				onChange={e => setDeck({ ...deck, name: e.target.value })}
 			/>
 			<TextArea
