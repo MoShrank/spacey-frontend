@@ -1,8 +1,10 @@
+import React from "react";
+
 import "./style.scss";
 
 interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
-	color?: "darkblue" | "lightgrey" | "grey" | "black" | "white";
+	color?: "darkblue" | "lightgrey" | "grey" | "black" | "white" | "red";
 	className?: string;
 	style?: React.CSSProperties;
 }
@@ -13,6 +15,7 @@ const colors = {
 	grey: "#636363",
 	black: "#000000",
 	white: "#ffffff",
+	red: "#c81c23",
 };
 
 const Text = (props: TextProps) => {

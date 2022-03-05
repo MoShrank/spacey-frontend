@@ -1,0 +1,49 @@
+@use "../../styles/colors.scss";
+
+.checkbox {
+	flex-shrink: 0;
+	-webkit-appearance: none;
+	appearance: none;
+	position: relative;
+	width: 30px;
+	height: 30px;
+
+	border-radius: 50%;
+	background-color: colors.$lightblue;
+	border: 1px solid colors.$lightgray;
+
+	display: grid;
+	place-content: center;
+
+	&::before {
+		position: absolute;
+		content: url("../../assets/icons/checkmark.svg");
+		left: 3px;
+		top: -1px;
+		transform: scale(0);
+		transition: 120ms transform ease-in-out;
+	}
+
+	&:checked::before {
+		transform: scale(1);
+	}
+
+	&:checked {
+		border-color: colors.$blue;
+	}
+}
+
+.label {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+
+	> :first-child {
+		margin-right: 12px;
+	}
+}
+
+.error {
+	border-color: colors.$rederror;
+}

@@ -1,25 +1,29 @@
 import { signup } from "api/user";
 import Planet from "assets/img/logo_simple.svg";
 import Button from "components/Button";
+import Checkbox from "components/Checkbox";
 import Header from "components/Header";
 import SimpleButton from "components/SimpleButton";
+import Text from "components/Text";
 import TextInput from "components/TextInput";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
 import { ValidationError } from "util/error";
 
-import "./style.scss";
+import style from "./style.module.scss";
 
 const SignUp = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [repPassword, setRepPassword] = useState("");
+	const [legalAccepted, setLegalAccepted] = useState(false);
 
 	const [nameError, setNameError] = useState<string | undefined>("");
 	const [emailError, setEmailError] = useState<string | undefined>("");
 	const [passwordError, setPasswordError] = useState<string | undefined>("");
+	const [legalError, setLegalError] = useState<string | undefined>("");
 
 	const [disabled, setDisabled] = useState(false);
 
@@ -51,6 +55,11 @@ const SignUp = () => {
 			valid = false;
 		}
 
+		if (!legalAccepted) {
+			setLegalError("please accept the legal agreement");
+			valid = false;
+		}
+
 		return valid;
 	};
 
@@ -62,6 +71,7 @@ const SignUp = () => {
 		setNameError("");
 		setPasswordError("");
 		setEmailError("");
+		setLegalError("");
 
 		setDisabled(true);
 		try {
@@ -84,7 +94,7 @@ const SignUp = () => {
 	};
 
 	return (
-		<div className="signup_container">
+		<div className={style.container}>
 			<img src={Planet} alt="planet logo" />
 			<Header kind="h1">Sign up</Header>
 			<form onSubmit={handleSubmit}>
@@ -95,7 +105,11 @@ const SignUp = () => {
 					error={nameError}
 					onChange={e => setName(e.target.value)}
 				/>
-				{nameError && <p className="error">{nameError}</p>}
+				{nameError && (
+					<Text className={style.error} color="red">
+						{nameError}
+					</Text>
+				)}
 				<TextInput
 					type="text"
 					placeholder="e-mail"
@@ -103,8 +117,12 @@ const SignUp = () => {
 					error={emailError}
 					onChange={e => setEmail(e.target.value)}
 				/>
-				{emailError && <p className="error">{emailError}</p>}
-				<div className="password_container">
+				{emailError && (
+					<Text color="red" className={style.error}>
+						{emailError}
+					</Text>
+				)}
+				<div className={style.password_container}>
 					<TextInput
 						type="password"
 						placeholder="password"
@@ -120,7 +138,30 @@ const SignUp = () => {
 						onChange={e => setRepPassword(e.target.value)}
 					/>
 				</div>
-				{passwordError && <p className="error">{passwordError}</p>}
+				{passwordError && (
+					<Text className={style.error} color="red">
+						{passwordError}
+					</Text>
+				)}
+				<Checkbox
+					checked={legalAccepted}
+					error={legalError}
+					onChange={() => setLegalAccepted(!legalAccepted)}
+				>
+					<Text
+						className={style.legal_text}
+						color={legalError ? "red" : legalAccepted ? "darkblue" : "lightgrey"}
+					>
+						I agree to the&nbsp;
+						<Link target="_blank" rel="noopener noreferrer" to="/privacy">
+							Privacy Policy
+						</Link>
+						&nbsp;and&nbsp;
+						<Link target="_blank" rel="noopener noreferrer" to="/tos">
+							Terms of Use
+						</Link>
+					</Text>
+				</Checkbox>
 				<Button loading={disabled} disabled={disabled} type="submit">
 					Sign up
 				</Button>
