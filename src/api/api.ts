@@ -28,7 +28,7 @@ class API {
 
 		setTimeout(() => {
 			controller.abort();
-		}, 5000);
+		}, 20000);
 
 		let res;
 
