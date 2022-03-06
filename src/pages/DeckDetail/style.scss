@@ -1,5 +1,6 @@
 @use "../../styles/colors.scss";
 @use "../../styles/vars.scss";
+@use "../../styles/breakpoints.scss";
 
 .deck_detail_container {
 	flex: 1;
@@ -36,6 +37,12 @@
 		position: fixed;
 		bottom: 20px;
 		right: vars.$page-gap;
+
+		@include breakpoints.s {
+			position: relative;
+			align-self: flex-end;
+			right: 0;
+		}
 
 		svg {
 			margin-right: 12px;

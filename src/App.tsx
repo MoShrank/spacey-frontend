@@ -58,11 +58,12 @@ const initialState: State = {
 
 store.init(initialState);
 
-function NavbarLayout() {
+function Layout() {
 	return (
-		<>
+		<div className="layout">
+			<Navbar />
 			<Outlet />
-		</>
+		</div>
 	);
 }
 
@@ -78,85 +79,82 @@ function App() {
 	}, [isLoggedIn]);
 
 	return (
-		<div className="App">
-			{isLoggedIn && <Navbar />}
+		<>
 			{globalError && <GlobalErrorPopup />}
-			<div className="content">
-				<Routes>
-					<Route path="/" element={<NavbarLayout />}>
-						<Route
-							path="/"
-							element={
-								<RequireAuth>
-									<Home />
-								</RequireAuth>
-							}
-						/>
-						<Route
-							path="/deck/new"
-							element={
-								<RequireAuth>
-									<NewDeck />
-								</RequireAuth>
-							}
-						/>
-						<Route
-							path="/decks/:deckID"
-							element={
-								<RequireAuth>
-									<DeckDetail />
-								</RequireAuth>
-							}
-						/>
-						<Route
-							path="/decks/:deckID/edit"
-							element={
-								<RequireAuth>
-									<EditDeck />
-								</RequireAuth>
-							}
-						/>
-						<Route
-							path="/decks/:deckID/card/new"
-							element={
-								<RequireAuth>
-									<NewCard />
-								</RequireAuth>
-							}
-						/>
-						<Route
-							path="/decks/:deckID/cards/:cardID"
-							element={
-								<RequireAuth>
-									<CardDetail />
-								</RequireAuth>
-							}
-						/>
-						<Route
-							path="/learn/:deckID"
-							element={
-								<RequireAuth>
-									<Learning />
-								</RequireAuth>
-							}
-						/>
-						<Route
-							path="/learn/:deckID/finished"
-							element={
-								<RequireAuth>
-									<LearningFinished />
-								</RequireAuth>
-							}
-						/>
-						<Route
-							path="/decks/:deckID/nolearning"
-							element={
-								<RequireAuth>
-									<NoLearning />
-								</RequireAuth>
-							}
-						/>
-					</Route>
+			<Routes>
+				<Route path="/" element={<Layout />}>
+					<Route
+						path="/"
+						element={
+							<RequireAuth>
+								<Home />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path="/deck/new"
+						element={
+							<RequireAuth>
+								<NewDeck />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path="/decks/:deckID"
+						element={
+							<RequireAuth>
+								<DeckDetail />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path="/decks/:deckID/edit"
+						element={
+							<RequireAuth>
+								<EditDeck />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path="/decks/:deckID/card/new"
+						element={
+							<RequireAuth>
+								<NewCard />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path="/decks/:deckID/cards/:cardID"
+						element={
+							<RequireAuth>
+								<CardDetail />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path="/learn/:deckID"
+						element={
+							<RequireAuth>
+								<Learning />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path="/learn/:deckID/finished"
+						element={
+							<RequireAuth>
+								<LearningFinished />
+							</RequireAuth>
+						}
+					/>
+					<Route
+						path="/decks/:deckID/nolearning"
+						element={
+							<RequireAuth>
+								<NoLearning />
+							</RequireAuth>
+						}
+					/>
 					<Route
 						path="/logout"
 						element={
@@ -183,9 +181,9 @@ function App() {
 					/>
 					<Route path="imprint" element={<Imprint />} />
 					<Route path="*" element={<Error404 />} />
-				</Routes>
-			</div>
-		</div>
+				</Route>
+			</Routes>
+		</>
 	);
 }
 

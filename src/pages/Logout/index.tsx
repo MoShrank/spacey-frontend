@@ -1,4 +1,5 @@
 import { logout } from "api/user";
+import Loader from "components/Loader";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
@@ -16,7 +17,7 @@ const Logout = () => {
 		});
 	}, []);
 
-	return null;
+	return <Loader size="large" />;
 };
 
 export default Logout;

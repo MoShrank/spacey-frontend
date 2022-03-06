@@ -1,4 +1,5 @@
 @use "../../styles/vars.scss";
+@use "./styles/breakpoints.scss";
 
 .container {
 	overflow-x: hidden;
@@ -7,7 +8,16 @@
 	margin-left: -(vars.$page-gap);
 	margin-right: -(vars.$page-gap);
 	padding: 15px vars.$page-gap;
-	width: 100vw;
+
 	height: 1px;
 	flex-grow: 1;
+
+	@include breakpoints.s {
+		width: 100vw;
+
+		margin-right: calc((100vw - breakpoints.$screen-s) / -2);
+		margin-left: calc((100vw - breakpoints.$screen-s) / -2);
+		padding-right: calc((100vw - breakpoints.$screen-s) / 2);
+		padding-left: calc((100vw - breakpoints.$screen-s) / 2);
+	}
 }

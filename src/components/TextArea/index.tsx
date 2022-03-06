@@ -18,9 +18,11 @@ const TextArea = (props: texInputI) => {
 				maxLength={maxLength}
 				{...inputProps}
 			/>
-			<Text className={style.max_length_hint} color="lightgrey">{`${
-				(value as string).length
-			}/${maxLength}`}</Text>
+			{maxLength && (
+				<Text className={style.max_length_hint} color="lightgrey">
+					{maxLength - (value as string).length}
+				</Text>
+			)}
 		</Input>
 	);
 };

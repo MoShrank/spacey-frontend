@@ -7,7 +7,7 @@ const CardCount = ({ count }: { count: number }) => {
 	return (
 		<div className="flashcards">
 			<img src={FlashcardsIcon} alt="flascards icon" />
-			<Text color="lightgrey">{count} flashcards</Text>
+			<Text color="lightgrey">{count} cards</Text>
 		</div>
 	);
 };

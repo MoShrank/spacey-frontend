@@ -1,6 +1,5 @@
-$screen-s: 481px;
-$screen-m: 768px;
-$screen-l: 1024px;
+$screen-s: 500px;
+$screen-m: 1239px;
 
 @mixin s {
 	@media (min-width: #{$screen-s}) {
