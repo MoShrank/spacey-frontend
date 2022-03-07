@@ -16,7 +16,9 @@ import Logout from "pages/Logout";
 import NewCard from "pages/NewCard";
 import NewDeck from "pages/NewDeck";
 import NoLearning from "pages/NoLearning";
+import Privacy from "pages/Privacy";
 import SignUp from "pages/SignUp";
+import TOS from "pages/TOS";
 import { useEffect } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { store } from "store/store";
@@ -180,6 +182,8 @@ function App() {
 						}
 					/>
 					<Route path="imprint" element={<Imprint />} />
+					<Route path="tos" element={<TOS />} />
+					<Route path="privacy" element={<Privacy />} />
 					<Route path="*" element={<Error404 />} />
 				</Route>
 			</Routes>

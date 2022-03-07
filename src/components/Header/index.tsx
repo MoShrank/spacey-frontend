@@ -1,4 +1,4 @@
-import "./style.scss";
+import style from "./style.module.scss";
 
 interface HeaderProps {
 	kind: "h1" | "h2";
@@ -16,12 +16,20 @@ const Header = ({ children, kind, color }: HeaderProps) => {
 
 	color = color || "primary";
 
-	const style = { color: colorMapping[color] };
+	const headerStyle = { color: colorMapping[color] };
 
 	if (kind === "h1") {
-		header = <h1 style={style}>{children}</h1>;
+		header = (
+			<h1 className={style.h1} style={headerStyle}>
+				{children}
+			</h1>
+		);
 	} else {
-		header = <h2 style={style}>{children}</h2>;
+		header = (
+			<h2 className={style.h2} style={headerStyle}>
+				{children}
+			</h2>
+		);
 	}
 
 	return header;
