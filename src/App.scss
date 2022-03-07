@@ -88,3 +88,11 @@ a:visited {
 	text-align: center;
 	color: colors.$rederror;
 }
+
+.template_text {
+	p {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+}

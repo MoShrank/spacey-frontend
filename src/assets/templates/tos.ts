@@ -3,7 +3,7 @@ const privacy = `
 
 <p>Version 1.0</p>
 
-<p>The Spacey website located at [spacey-learn.com](http://spacey-learn.com/) is a copyrighted work belonging to Spacey. Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.</p>
+<p>The Spacey website located at (http://spacey-learn.com/) is a copyrighted work belonging to Spacey. Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.</p>
 
 <p>All such additional terms, guidelines, and rules are incorporated by reference into these Terms.</p>
 
