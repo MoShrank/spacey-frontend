@@ -11,13 +11,4 @@
 
 	height: 1px;
 	flex-grow: 1;
-
-	@include breakpoints.s {
-		width: 100vw;
-
-		margin-right: calc((100vw - breakpoints.$screen-s) / -2);
-		margin-left: calc((100vw - breakpoints.$screen-s) / -2);
-		padding-right: calc((100vw - breakpoints.$screen-s) / 2);
-		padding-left: calc((100vw - breakpoints.$screen-s) / 2);
-	}
 }
