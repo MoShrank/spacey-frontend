@@ -10,6 +10,7 @@ import HeaderContainer from "components/HeaderContainer";
 import Hint from "components/Hint";
 import ListContainer from "components/ListContainer";
 import Loader from "components/Loader";
+import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
 import PageHeaderContainer from "components/PageHeaderContainer";
 import SecondaryButton from "components/SecondaryButton";
 import Text from "components/Text";
@@ -69,12 +70,21 @@ const DeckDetail = () => {
 		<div className="deck_detail_container">
 			<PageHeaderContainer>
 				<div className="deck_detail_header">
-					<Text color="darkblue">{deck?.name}</Text>
+					<Text color="darkblue" className="title">
+						{deck?.name}
+					</Text>
 					{infoOpen && <DescriptionPopup ref={ref} description={deck.description} />}
 					<InfoIcon id="info_icon" onClick={() => setInfoOpen(!infoOpen)} />
 					<Link to="edit">
 						<EditIcon />
 					</Link>
+				</div>
+				<div className="memory_stability_indicator">
+					<MemoryStabilityIndicator
+						probability={deck.averageRecallProbability}
+						styles={{ width: "24px", height: "24px" }}
+						fill={"blue"}
+					></MemoryStabilityIndicator>
 				</div>
 				<HeaderContainer>
 					<Header kind="h2">Your Cards</Header>

@@ -13,10 +13,22 @@
 
 	.center {
 		text-align: center;
+		font-size: 22px;
 	}
 
-	svg {
+	> svg {
 		margin-left: auto;
 		margin-right: auto;
 	}
+
+	.deck_title {
+		font-size: 22px;
+		margin-top: 17px;
+		margin-bottom: 11px;
+	}
+}
+
+.indicator {
+	margin-left: auto;
+	margin-right: auto;
 }

@@ -13,18 +13,19 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+		border-color: colors.$blue;
 
 		> :first-child {
-			margin-right: 8px;
 			z-index: 5;
 		}
 
 		#info_icon {
 			z-index: 5;
+			margin-left: auto;
+			margin-right: 4px;
 		}
 
 		> :last-child {
-			margin-left: auto;
 			display: flex;
 		}
 
@@ -73,4 +74,18 @@
 		z-index: 3;
 		background: rgba(255, 255, 255, 0.7);
 	}
+}
+
+.title {
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.memory_stability_indicator {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-bottom: solid 1px;
+	border-color: colors.$blue;
+	padding: 17px 0px;
 }
