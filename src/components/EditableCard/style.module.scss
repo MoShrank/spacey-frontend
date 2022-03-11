@@ -13,7 +13,7 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 	border: none;
-	text-align: center;
+	text-align: left;
 	height: auto;
 	max-height: 100%;
 
@@ -25,10 +25,20 @@
 	}
 }
 
+.question {
+	color: black;
+
+	&::placeholder {
+		color: rgba(0, 0, 0, 0.5);
+		text-align: center;
+	}
+}
+
 .answer {
 	color: colors.$darkgray;
 
 	&::placeholder {
-		color: colors.$lightgray;
+		color: rgba(99, 99, 99, 0.5);
+		text-align: center;
 	}
 }

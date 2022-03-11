@@ -46,7 +46,7 @@ const EditableCard = ({
 			<CardContainer color={deck.color}>
 				<textarea
 					id="question"
-					className={style.textarea}
+					className={`${style.textarea} ${style.question}`}
 					value={card.question}
 					onInput={handleResize}
 					onChange={onQuestionInput}
