@@ -18,8 +18,8 @@
 	&::before {
 		position: absolute;
 		content: url("../../assets/icons/checkmark.svg");
-		left: 3px;
-		top: -1px;
+		left: 1px;
+		top: -2px;
 		transform: scale(0);
 		transition: 120ms transform ease-in-out;
 	}
@@ -29,7 +29,7 @@
 	}
 
 	&:checked {
-		border-color: colors.$blue;
+		border-color: colors.$darkblue;
 	}
 }
 

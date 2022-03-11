@@ -7,8 +7,8 @@ interface HeaderProps {
 }
 
 const colorMapping = {
-	primary: "#417DB5",
-	secondary: "#19344C",
+	primary: "#19344C",
+	secondary: "#417DB5",
 };
 
 const Header = ({ children, kind, color }: HeaderProps) => {

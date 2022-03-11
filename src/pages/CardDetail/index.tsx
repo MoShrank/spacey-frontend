@@ -1,7 +1,6 @@
 import { deleteCardAction, getDecks } from "actions/deck";
 import { updateCardAction } from "actions/deck";
-import { ReactComponent as NextIcon } from "assets/icons/next.svg";
-import { ReactComponent as PrevIcon } from "assets/icons/prev.svg";
+import { ReactComponent as ArrowIcon } from "assets/icons/arrow.svg";
 import Button from "components/Button";
 import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
@@ -114,11 +113,11 @@ const CardDetail = () => {
 			onAnswerInput={handleAnswerInput}
 		>
 			<div className={style.swipe_container}>
-				<PrevIcon onClick={handlePrev} />
+				<ArrowIcon onClick={handlePrev} />
 				<Text color="lightgrey">
 					card {cardIdx + 1} of {deck.cards.length}
 				</Text>
-				<NextIcon onClick={handleNext} />
+				<ArrowIcon onClick={handleNext} />
 			</div>
 			<BottomContainer>
 				{editDeckError && <p className="error">{editDeckError}</p>}

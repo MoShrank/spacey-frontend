@@ -7,4 +7,8 @@
 	svg {
 		cursor: pointer;
 	}
+
+	> :last-child {
+		transform: rotate(180deg);
+	}
 }
