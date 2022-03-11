@@ -52,9 +52,10 @@ body {
 	display: flex;
 	flex-direction: column;
 
-	padding: vars.$navbar-height vars.$page-gap 0 vars.$page-gap;
+	padding: vars.$navbar-height + 8px vars.$page-gap 0 vars.$page-gap;
 
 	@include breakpoints.s {
+		padding-top: vars.$navbar-height + 64px;
 		margin-left: auto;
 		margin-right: auto;
 		min-width: breakpoints.$screen-s;
