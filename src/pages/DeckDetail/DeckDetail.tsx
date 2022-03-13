@@ -95,7 +95,7 @@ const DeckDetail = () => {
 			)}
 			{deck.cards.length > 0 && (
 				<Link className="floating_container" to={`/learn/${deckID}`}>
-					<SecondaryButton onClick={undefined} backgroundColor="blue">
+					<SecondaryButton onClick={undefined} backgroundColor="darkblue">
 						<LearnIcon />
 						<Text color="white">Learn</Text>
 					</SecondaryButton>

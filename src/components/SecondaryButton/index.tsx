@@ -4,12 +4,18 @@ import "./style.scss";
 
 interface SecondaryButtonI extends ComponentProps<"button"> {
 	onClick?: () => void;
-	backgroundColor: "lightblue" | "blue";
+	backgroundColor: "lightblue" | "blue" | "darkblue";
 }
+
+const colors = {
+	darkblue: "#19344c",
+	blue: "#417db5",
+	lightblue: "#e9f4ff",
+};
 
 const SecondaryButton = (props: SecondaryButtonI) => {
 	const { children, backgroundColor, ...buttonProps } = props;
-	const color = backgroundColor === "lightblue" ? "#e9f4ff" : "#417db5";
+	const backgroundColorStyle = colors[backgroundColor];
 
 	const onClick = (e: React.FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -18,7 +24,7 @@ const SecondaryButton = (props: SecondaryButtonI) => {
 
 	return (
 		<button
-			style={{ backgroundColor: color }}
+			style={{ backgroundColor: backgroundColorStyle }}
 			onClick={onClick}
 			className="secondary_button"
 			{...buttonProps}
