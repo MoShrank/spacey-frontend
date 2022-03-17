@@ -10,7 +10,7 @@ class Store {
 	> = {};
 
 	init(initialState: Record<string, unknown>) {
-		this.state = initialState;
+		this.state = JSON.parse(JSON.stringify(initialState));
 		this.initialState = initialState;
 		Object.keys(initialState).forEach(key => {
 			this.listeners[key] = new Set();
@@ -50,7 +50,7 @@ class Store {
 	}
 
 	clearState() {
-		this.state = this.initialState;
+		this.state = JSON.parse(JSON.stringify(this.initialState));
 	}
 }
 

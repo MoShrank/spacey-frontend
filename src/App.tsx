@@ -34,7 +34,6 @@ import {
 import "./App.scss";
 
 type State = {
-	hand: "left" | "right";
 	isLoggedIn: boolean;
 	hasSeenCookie: boolean;
 	user: {
@@ -50,7 +49,6 @@ type State = {
 };
 
 const initialState: State = {
-	hand: "right",
 	isLoggedIn: getLoggedInState(),
 	hasSeenCookie: getHasSeenCookie(),
 	user: {
