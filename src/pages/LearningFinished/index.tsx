@@ -25,7 +25,7 @@ const LearningFinished = () => {
 
 	return (
 		<div className={style.container}>
-			<Text className={style.deck_title}>{deck.name}</Text>
+			<Text>{deck.name}</Text>
 			<LogoIcon />
 			<Header kind="h2">You finished learning</Header>
 			<Header kind="h2" color="secondary">

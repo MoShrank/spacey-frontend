@@ -24,7 +24,11 @@ const MemoryStabilityIndicator = (props: MemoryStabilityIndicatorProps) => {
 		<div className={style.indicator}>
 			{emptyArr.map((_, idx) =>
 				idx <= level ? (
-					<MemoryStabilityIconFull style={props.styles} fill={fill} />
+					<MemoryStabilityIconFull
+						style={props.styles}
+						key={idx}
+						fill={idx <= level ? fill : "grey"}
+					/>
 				) : (
 					<MemoryStabilityIconEmpty style={props.styles} />
 				),

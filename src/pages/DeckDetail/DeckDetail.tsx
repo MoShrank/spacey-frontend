@@ -79,7 +79,7 @@ const DeckDetail = () => {
 						<EditIcon />
 					</Link>
 				</div>
-				<div className="memory_stability_indicator">
+				<div className="memory_stability_indicator_container">
 					<MemoryStabilityIndicator
 						probability={deck.averageRecallProbability}
 						styles={{ width: "24px", height: "24px" }}
