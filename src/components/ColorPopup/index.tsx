@@ -9,6 +9,11 @@ interface Props {
 const ColorPopup = ({ colors, onClickColor, selectedColor }: Props) => {
 	return (
 		<div className="color_popup_container">
+			<div className="label_overlay_container">
+				<span className="line" />
+				<label>color</label>
+			</div>
+
 			{colors.map((color: string) => {
 				return (
 					<div

@@ -28,6 +28,7 @@ const EditDeck = () => {
 		<EditableDeck
 			submitAction={updateDeckAction}
 			buttonName="Save changes"
+			formTitle="Edit Deck"
 			deckPrefill={deck}
 			redirectOnSubmit={`/decks/${deckID}`}
 		>
