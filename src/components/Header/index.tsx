@@ -7,7 +7,7 @@ interface HeaderProps {
 }
 
 const colorMapping = {
-	primary: "#19344C",
+	primary: "#224462",
 	secondary: "#417DB5",
 };
 

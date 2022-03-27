@@ -8,7 +8,7 @@ interface SecondaryButtonI extends ComponentProps<"button"> {
 }
 
 const colors = {
-	darkblue: "#19344c",
+	darkblue: "#224462",
 	blue: "#417db5",
 	lightblue: "#e9f4ff",
 };
