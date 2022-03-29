@@ -14,8 +14,11 @@
 	overflow-x: hidden;
 	border: none;
 	text-align: left;
-	height: auto;
+	height: 100%;
+	min-height: 100%;
 	max-height: 100%;
+
+	padding: 0 16px;
 
 	outline: none;
 	resize: none;
