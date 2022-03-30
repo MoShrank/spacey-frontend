@@ -8,7 +8,7 @@ interface TextProps extends ComponentProps<"p"> {
 }
 
 const colors = {
-	darkblue: "#19344c",
+	darkblue: "#224462",
 	blue: "#417db5",
 	lightgrey: "#8c8c8c",
 	grey: "#636363",
