@@ -15,14 +15,14 @@
 
 	textarea {
 		text-indent: 0 !important;
-		height: 162px !important;
+		height: 126px !important;
 		padding: 4px 13px 4px 13px !important;
 		resize: none;
 	}
 
 	.label_overlay_container {
 		pointer-events: none;
-		$top-offset: -15px;
+		$top-offset: -13.5px;
 
 		display: none;
 		position: absolute;
@@ -69,7 +69,7 @@
 
 		&:focus {
 			outline: none !important;
-			border: 1px solid #417db5;
+			border: 1px solid colors.$darkblue;
 
 			&::placeholder {
 				color: transparent;
