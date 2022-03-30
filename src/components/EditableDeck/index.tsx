@@ -1,10 +1,10 @@
 import { getConfig } from "actions/config";
 import Button from "components/Button";
-import ColorPopup from "components/ColorPopup";
+import ColorInput from "components/ColorInput";
 import Form from "components/Form";
 import BottomContainer from "components/FormBottom";
+import Header from "components/Header";
 import SimpleButton from "components/SimpleButton";
-import Text from "components/Text";
 import TextArea from "components/TextArea";
 import TextInput from "components/TextInput";
 import useAPIFetch from "hooks/useAPIFetch";
@@ -72,9 +72,9 @@ const EditableDeck = ({
 
 	return (
 		<Form onSubmit={handleSubmit}>
-			<Text color="darkblue" className="title">
+			<Header kind="h2" color="primary">
 				{formTitle}
-			</Text>
+			</Header>
 			<TextInput
 				type="text"
 				placeholder="name"
@@ -90,7 +90,7 @@ const EditableDeck = ({
 				maxLength={200}
 				onChange={e => setDeck({ ...deck, description: e.target.value })}
 			/>
-			<ColorPopup
+			<ColorInput
 				colors={config.colors}
 				selectedColor={deck.color}
 				onClickColor={(color: string) => setDeck({ ...deck, color })}

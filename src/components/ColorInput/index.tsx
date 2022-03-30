@@ -6,9 +6,9 @@ interface Props {
 	selectedColor: string;
 }
 
-const ColorPopup = ({ colors, onClickColor, selectedColor }: Props) => {
+const ColorInput = ({ colors, onClickColor, selectedColor }: Props) => {
 	return (
-		<div className="color_popup_container">
+		<div className="color_input_container">
 			<div className="label_overlay_container">
 				<span className="line" />
 				<label>color</label>
@@ -30,4 +30,4 @@ const ColorPopup = ({ colors, onClickColor, selectedColor }: Props) => {
 	);
 };
 
-export default ColorPopup;
+export default ColorInput;
