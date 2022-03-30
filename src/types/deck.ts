@@ -29,6 +29,7 @@ export interface DeckI {
 	learningOrder: LearningCardI[];
 	totalLearningCards: number;
 	lastLearned: Date;
+	averageRecallProbability: number;
 }
 
 export interface LearningSessionI {
