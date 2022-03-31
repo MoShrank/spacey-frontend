@@ -1,3 +1,4 @@
+import { setRecallProbability } from "actions/deck";
 import { ReactComponent as LogoIcon } from "assets/img/logo.svg";
 import Button from "components/Button";
 import BottomContainer from "components/FormBottom";
@@ -7,7 +8,7 @@ import Text from "components/Text";
 import { useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { useGlobalState } from "store/store";
+import { store, useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 
 import style from "./style.module.scss";
@@ -16,8 +17,9 @@ const LearningFinished = () => {
 	const { deckID } = useParams();
 
 	const [deck, setDeck] = useGlobalState<DeckI | undefined>("deck");
-
 	if (!deck || deckID !== deck.id) return <Navigate to="/404" />;
+
+	store.emit("decks", setRecallProbability(deck.id, 1));
 
 	useEffect(() => {
 		return () => setDeck(undefined);
@@ -35,7 +37,7 @@ const LearningFinished = () => {
 			<div className={style.indicator}>
 				<MemoryStabilityIndicator
 					styles={{ width: "50px", height: "50px" }}
-					probability={deck.averageRecallProbability}
+					probability={1}
 					fill={"darkblue"}
 				></MemoryStabilityIndicator>
 			</div>

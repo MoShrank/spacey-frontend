@@ -5,6 +5,7 @@ import {
 	createLearningSession,
 	deleteCard,
 	deleteDeck as deleteDeckCall,
+	fetchAvgRecallProbabilities,
 	fetchDecks,
 	finishLearningSession,
 	getLearningCards,
@@ -57,6 +58,19 @@ export const deleteDeck = async (id: string) => {
 export const getDecks = async () => {
 	try {
 		const decks = await fetchDecks();
+
+		const deckData = decks.map(deck => {
+			return {
+				deckID: deck.id,
+				totalNoCards: deck.cards.length,
+			};
+		});
+
+		const recallProbabilities = await fetchAvgRecallProbabilities(deckData);
+
+		decks.forEach(
+			deck => (deck.averageRecallProbability = recallProbabilities[deck.id]),
+		);
 
 		/*
 		TODO: this should be implemented as soon as the backend is ready
@@ -206,4 +220,17 @@ export const answerCardAction = async (cardEvent: CardEventI) => {
 	} catch (e) {
 		throw Error((e as Error).message);
 	}
+};
+
+export const setRecallProbability = (deckID: string, probability: number) => {
+	return (curState: Array<DeckI>) => {
+		const newDecks = curState.map((deck: DeckI) => {
+			if (deck.id === deckID) {
+				deck.averageRecallProbability = probability;
+			}
+			return deck;
+		});
+
+		return [...newDecks];
+	};
 };
