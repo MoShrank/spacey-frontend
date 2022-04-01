@@ -5,7 +5,10 @@ interface SpacerPropsI {
 const singleSpacing = 8;
 
 const Spacer = ({ spacing }: SpacerPropsI) => {
-	return <div style={{ height: `${singleSpacing * spacing}px` }} />;
+	const height = `${singleSpacing * spacing}px`;
+	return (
+		<span style={{ height: height, minHeight: height, display: "block" }} />
+	);
 };
 
 export default Spacer;

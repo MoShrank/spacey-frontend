@@ -7,7 +7,6 @@
 	flex-direction: column;
 	border-radius: 20px;
 	border: 1px solid colors.$lightgray;
-	margin-bottom: 25px;
 
 	@include animations.scale_hover;
 

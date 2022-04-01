@@ -99,28 +99,28 @@ function App() {
 				/>
 			)}
 			<Routes>
+				<Route
+					path="/"
+					element={
+						<RequireAuth>
+							<Home />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/decks/:deckID"
+					element={
+						<RequireAuth>
+							<DeckDetail />
+						</RequireAuth>
+					}
+				/>
 				<Route path="/" element={<Layout />}>
-					<Route
-						path="/"
-						element={
-							<RequireAuth>
-								<Home />
-							</RequireAuth>
-						}
-					/>
 					<Route
 						path="/deck/new"
 						element={
 							<RequireAuth>
 								<NewDeck />
-							</RequireAuth>
-						}
-					/>
-					<Route
-						path="/decks/:deckID"
-						element={
-							<RequireAuth>
-								<DeckDetail />
 							</RequireAuth>
 						}
 					/>

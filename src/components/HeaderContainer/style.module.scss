@@ -1,7 +1,17 @@
+@use "../../styles/vars.scss";
+@use "../../styles/breakpoints.scss";
+
 .container {
 	display: flex;
 	flex-direction: row;
+	width: 100%;
+	padding: 0 vars.$page-gap;
 	justify-content: space-between;
 	align-items: center;
-	margin: 20px 0;
+
+	@include breakpoints.s {
+		min-width: vars.$content-width;
+		max-width: vars.$content-width;
+		padding: 0;
+	}
 }
