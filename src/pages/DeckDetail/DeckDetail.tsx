@@ -86,7 +86,7 @@ const DeckDetail = () => {
 					<MemoryStabilityIndicator
 						probability={deck.averageRecallProbability}
 						styles={{ width: "24px", height: "24px" }}
-						fill={"blue"}
+						fill={"darkblue"}
 					></MemoryStabilityIndicator>
 				</div>
 				<Spacer spacing={2} />
