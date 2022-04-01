@@ -1,5 +1,6 @@
 import CardContainer from "components/CardContainer";
 import Form from "components/Form";
+import Spacer from "components/Spacer";
 import Text from "components/Text";
 import { DeckI } from "types/deck";
 
@@ -26,24 +27,27 @@ const EditableCard = ({
 	onSubmit,
 }: EditableCardI) => {
 	return (
-		<Form onSubmit={onSubmit}>
+		<>
 			<Text color="darkblue">{deck.name}</Text>
-			<CardContainer color={deck.color}>
-				<textarea
-					className={`${style.textarea} ${style.question}`}
-					value={card.question}
-					onChange={onQuestionInput}
-					placeholder="question"
-				/>
-				<textarea
-					className={`${style.textarea} ${style.answer}`}
-					value={card.answer}
-					onChange={onAnswerInput}
-					placeholder="answer"
-				/>
-			</CardContainer>
-			{children}
-		</Form>
+			<Spacer spacing={2} />
+			<Form onSubmit={onSubmit}>
+				<CardContainer color={deck.color}>
+					<textarea
+						className={`${style.textarea} ${style.question}`}
+						value={card.question}
+						onChange={onQuestionInput}
+						placeholder="question"
+					/>
+					<textarea
+						className={`${style.textarea} ${style.answer}`}
+						value={card.answer}
+						onChange={onAnswerInput}
+						placeholder="answer"
+					/>
+				</CardContainer>
+				{children}
+			</Form>
+		</>
 	);
 };
 
