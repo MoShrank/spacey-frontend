@@ -1,5 +1,3 @@
-import { ReactComponent as ExitIcon } from "assets/icons/exit.svg";
-import { ReactComponent as InfoIcon } from "assets/icons/info.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import Text from "components/Text";
 import useLockBodyScroll from "hooks/useScrollLock";
@@ -19,12 +17,6 @@ const menuItems = [
 		to: "/logout",
 		needsLogin: true,
 	},
-	{
-		label: "Imprint",
-		Icon: InfoIcon,
-		to: "/imprint",
-		needsLogin: false,
-	},
 ];
 
 const BurgerMenu = ({ onClose }: BurgerMenuProps) => {
@@ -39,15 +31,15 @@ const BurgerMenu = ({ onClose }: BurgerMenuProps) => {
 
 	return (
 		<div className={style.container}>
-			<div className={style.overlay} onClick={onClose} />
-			<div className={style.menu}>
-				<ExitIcon onClick={onClose} />
-				{items.map(({ label, Icon, to }) => (
-					<Link onClick={onClose} key={label} to={to} className={style.item}>
-						<Text color="darkblue">{label}</Text>
-						<Icon />
-					</Link>
-				))}
+			<div className={style.overlay} onClick={onClose}>
+				<div className={style.menu}>
+					{items.map(({ label, Icon, to }) => (
+						<Link onClick={onClose} key={label} to={to} className={style.item}>
+							<Text color="darkblue">{label}</Text>
+							<Icon />
+						</Link>
+					))}
+				</div>
 			</div>
 		</div>
 	);

@@ -1,4 +1,4 @@
-import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
+import { ReactComponent as MenuIcon } from "assets/icons/accountIcon.svg";
 import { ReactComponent as HomeIcon } from "assets/img/logo_simple.svg";
 import BurgerMenu from "components/BurgerMenu";
 import useOnClickOutside from "hooks/useClickOutside";
@@ -17,11 +17,8 @@ const Navbar = () => {
 			<Link className={style.home_icon} to="/">
 				<HomeIcon />
 			</Link>
-			{menuOpen ? (
-				<BurgerMenu onClose={() => setMenuOpen(false)} />
-			) : (
-				<MenuIcon onClick={() => setMenuOpen(true)} />
-			)}
+			<MenuIcon onClick={() => setMenuOpen(true)} />
+			{menuOpen && <BurgerMenu onClose={() => setMenuOpen(false)} />}
 		</nav>
 	);
 };
