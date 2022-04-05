@@ -1,9 +1,7 @@
-import GlobalError from "events/globalError";
+import GlobalError, { PopupError } from "events/globalError";
 import { ValidationError } from "util/error";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
-
-const timeoutErrorText = "connection timeout.";
 
 class API {
 	private static _headers: Headers = new Headers({
@@ -48,14 +46,28 @@ class API {
 				e instanceof DOMException ||
 				(e as Error).message === "Failed to fetch"
 			) {
-				GlobalError.emit(timeoutErrorText);
+				GlobalError.emit(PopupError.TIMEOUT_ERROR);
 			}
-			return;
+			throw new Error("timeout");
 		}
-		const resBody = await res.json();
+
+		let resBody;
+
+		try {
+			resBody = await res.json();
+		} catch (e) {
+			GlobalError.emit(PopupError.UNKNOWN_ERROR);
+			throw new Error("unknown error");
+		}
 
 		if (res.status >= 500) {
-			GlobalError.emit(timeoutErrorText);
+			GlobalError.emit(PopupError.TIMEOUT_ERROR);
+			throw new Error(resBody.message || resBody.error);
+		}
+
+		if (res.status === 429) {
+			GlobalError.emit(PopupError.HIT_RATE_LIMIT);
+			throw new Error(resBody.message || resBody.error);
 		}
 
 		if (!res.ok) {
@@ -63,7 +75,7 @@ class API {
 				throw new ValidationError(resBody.message);
 			}
 
-			throw new Error(resBody.message || "error");
+			throw new Error(resBody.message || resBody.error);
 		}
 
 		return resBody.data;
