@@ -2,11 +2,10 @@ import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import Text from "components/Text";
 import useLockBodyScroll from "hooks/useScrollLock";
 import { Link } from "react-router-dom";
-import { useGlobalState } from "store/store";
 
 import style from "./style.module.scss";
 
-interface BurgerMenuProps {
+interface AccountMenuProps {
 	onClose: () => void;
 }
 
@@ -19,15 +18,10 @@ const menuItems = [
 	},
 ];
 
-const BurgerMenu = ({ onClose }: BurgerMenuProps) => {
+const AccountMenu = ({ onClose }: AccountMenuProps) => {
 	useLockBodyScroll();
 
-	const [isLoggedIn] = useGlobalState("isLoggedIn");
-
-	let items = menuItems;
-	if (!isLoggedIn) {
-		items = items.filter(item => !item.needsLogin);
-	}
+	const items = menuItems;
 
 	return (
 		<div className={style.container}>
@@ -45,4 +39,4 @@ const BurgerMenu = ({ onClose }: BurgerMenuProps) => {
 	);
 };
 
-export default BurgerMenu;
+export default AccountMenu;
