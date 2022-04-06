@@ -32,7 +32,7 @@ const LearningFinished = () => {
 				{deck.totalLearningCards} {deck.totalLearningCards === 1 ? "card" : "cards"}
 			</Header>
 			<div className={style.indicator_text_container}>
-				<Text className={style.bold_center}>This deck is now on fire!</Text>
+				<Header kind="h3">This deck is now on fire!</Header>
 				<div className={style.indicator}>
 					<MemoryStabilityIndicator
 						styles={{ width: "40px", height: "40px" }}

@@ -1,6 +1,6 @@
 import CardCount from "components/CardCount/CardCount";
+import Header from "components/Header";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
-import Text from "components/Text";
 import { DeckI } from "types/deck";
 
 import "./style.scss";
@@ -10,7 +10,7 @@ const Deck = (props: { deck: DeckI }) => {
 		<div className="deck_container">
 			<div style={{ background: props.deck.color }} className="deck_header"></div>
 			<div className="deck_body">
-				<Text className="text">{props.deck.name}</Text>
+				<Header kind="h3">{props.deck.name}</Header>
 				<div className="deck_info">
 					<CardCount count={props.deck.cards.length} />
 					<MemoryStabilityIndicator
