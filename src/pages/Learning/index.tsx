@@ -13,6 +13,7 @@ import BottomContainer from "components/FormBottom";
 import Loader from "components/Loader";
 import ProgressIndicator from "components/ProgressIndicator";
 import SimpleButton from "components/SimpleButton";
+import Spacer from "components/Spacer";
 import Text from "components/Text";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
@@ -139,14 +140,13 @@ const Learning = () => {
 				<Text color="black" className={style.card_text}>
 					{curCard.question}
 				</Text>
-				<span onClick={onShowAnswer}>
-					<Text color="grey" className={style.card_text}>
-						{showAnswer
-							? curCard.answer
-							: "Click here or use the button to show answer"}
-					</Text>
-				</span>
+				<Text color="grey" onClick={onShowAnswer} className={style.card_text}>
+					{showAnswer
+						? curCard.answer
+						: "Click here or use the button to show answer"}
+				</Text>
 			</CardContainer>
+			<Spacer spacing={8} />
 			<BottomContainer>
 				{showAnswer ? (
 					<div className={style.answer_container}>
@@ -170,6 +170,7 @@ const Learning = () => {
 					</>
 				)}
 			</BottomContainer>
+			<Spacer spacing={1} />
 		</div>
 	);
 };

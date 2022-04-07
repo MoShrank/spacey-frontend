@@ -1,5 +1,15 @@
+@use "../../styles/vars.scss";
+@use "../../styles/breakpoints.scss";
+
 .container {
 	display: flex;
 	flex-direction: column;
-	margin-bottom: 16px;
+	width: 100%;
+	padding: 0 vars.$page-gap;
+
+	@include breakpoints.s {
+		min-width: vars.$content-width;
+		max-width: vars.$content-width;
+		padding: 0;
+	}
 }

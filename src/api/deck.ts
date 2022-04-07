@@ -90,3 +90,12 @@ export const finishLearningSession = async (
 		finishedAt: getTimeFormatted(),
 	});
 };
+
+export const fetchAvgRecallProbabilities = async (
+	deckData: Array<{ deckID: string; totalNoCards: number }>,
+) => {
+	return (await API.POST("learning/probabilities", deckData)) as Record<
+		string,
+		number
+	>;
+};

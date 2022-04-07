@@ -4,11 +4,20 @@
 .container {
 	overflow-x: hidden;
 	overflow-y: auto;
-
-	margin-left: -(vars.$page-gap);
-	margin-right: -(vars.$page-gap);
-	padding: 0px vars.$page-gap;
-
+	padding: 8px vars.$page-gap;
+	width: 100%;
 	height: 1px;
 	flex-grow: 1;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	> * {
+		width: 100%;
+		@include breakpoints.s {
+			min-width: calc(breakpoints.$screen-s - 2 * vars.$page-gap);
+			max-width: calc(breakpoints.$screen-s - 2 * vars.$page-gap);
+		}
+	}
 }

@@ -8,11 +8,13 @@ import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
 import HeaderContainer from "components/HeaderContainer";
 import Hint from "components/Hint";
+import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
 import Loader from "components/Loader";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
 import PageHeaderContainer from "components/PageHeaderContainer";
 import SecondaryButton from "components/SecondaryButton";
+import Spacer from "components/Spacer";
 import Text from "components/Text";
 import useAPIFetch from "hooks/useAPIFetch";
 import useOnClickOutside from "hooks/useClickOutside";
@@ -23,7 +25,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 
-import "./style.scss";
+import style from "./style.module.scss";
 
 const emptyDeckPlaceholder =
 	"No description yet. Click the edit button to add a description.";
@@ -37,7 +39,7 @@ const DescriptionPopup = forwardRef<HTMLDivElement, DescriptionPopupProps>(
 		useLockBodyScroll();
 
 		return (
-			<div ref={ref} className="description_popup">
+			<div ref={ref} className={style.description_popup}>
 				<Text color={props.description ? "black" : "lightgrey"}>
 					{props.description || emptyDeckPlaceholder}
 				</Text>
@@ -67,35 +69,39 @@ const DeckDetail = () => {
 	}
 
 	return (
-		<div className="deck_detail_container">
+		<Layout width="full">
 			<PageHeaderContainer>
-				<div className="deck_detail_header">
-					<Text color="darkblue" className="title">
-						{deck?.name}
-					</Text>
+				<div className={style.deck_detail_header}>
+					<Text color="darkblue">{deck?.name}</Text>
 					{infoOpen && <DescriptionPopup ref={ref} description={deck.description} />}
-					<InfoIcon id="info_icon" onClick={() => setInfoOpen(!infoOpen)} />
+					<InfoIcon
+						className={style.info_icon}
+						onClick={() => setInfoOpen(!infoOpen)}
+					/>
 					<Link to="edit">
 						<EditIcon />
 					</Link>
 				</div>
-				<div className="memory_stability_indicator_container">
+				<div className={style.memory_stability_indicator_container}>
 					<MemoryStabilityIndicator
 						probability={deck.averageRecallProbability}
 						styles={{ width: "24px", height: "24px" }}
-						fill={"blue"}
+						fill={"darkblue"}
 					></MemoryStabilityIndicator>
 				</div>
+				<Spacer spacing={2} />
 				<HeaderContainer>
 					<Header kind="h2">Your Cards</Header>
 					<Link to="card/new">
 						<FloatingButton />
 					</Link>
 				</HeaderContainer>
+				<Spacer spacing={2} />
 				<CardCount count={deck.cards.length} />
 			</PageHeaderContainer>
+			<Spacer spacing={1} />
 			{deck?.cards.length ? (
-				<ListContainer>
+				<ListContainer spacing={2}>
 					{deck.cards.map(card => (
 						<CardListItem key={card.id} color={deck.color} {...card} />
 					))}
@@ -104,15 +110,15 @@ const DeckDetail = () => {
 				<Hint>No cards yet. Click the plus button to add a card.</Hint>
 			)}
 			{deck.cards.length > 0 && (
-				<Link className="floating_container" to={`/learn/${deckID}`}>
+				<Link className={style.floating_container} to={`/learn/${deckID}`}>
 					<SecondaryButton onClick={undefined} backgroundColor="darkblue">
 						<LearnIcon />
 						<Text color="white">Learn</Text>
 					</SecondaryButton>
 				</Link>
 			)}
-			{infoOpen && <span className="overlay" />}
-		</div>
+			{infoOpen && <span className={style.overlay} />}
+		</Layout>
 	);
 };
 
