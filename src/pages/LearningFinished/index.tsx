@@ -33,15 +33,17 @@ const LearningFinished = () => {
 			<Header kind="h2" color="secondary">
 				{deck.totalLearningCards} {deck.totalLearningCards === 1 ? "card" : "cards"}
 			</Header>
-			<Header kind="h2">This deck is now on fire!</Header>
-			<div className={style.indicator}>
-				<MemoryStabilityIndicator
-					styles={{ width: "50px", height: "50px" }}
-					probability={1}
-					fill={"darkblue"}
-				></MemoryStabilityIndicator>
+			<div className={style.indicator_text_container}>
+				<Header kind="h3">This deck is now on fire!</Header>
+				<div className={style.indicator}>
+					<MemoryStabilityIndicator
+						styles={{ width: "40px", height: "40px" }}
+						probability={1}
+						fill={"darkblue"}
+					></MemoryStabilityIndicator>
+				</div>
+				<Text className={style.center}>Come back tomorrow to keep it burning</Text>
 			</div>
-			<Text className={style.center}>Come back tomorrow to keep it burning</Text>
 			<BottomContainer>
 				<Link to={`/decks/${deckID}`}>
 					<Button>Return to deck</Button>

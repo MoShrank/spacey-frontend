@@ -1,7 +1,7 @@
 import style from "./style.module.scss";
 
 interface HeaderProps {
-	kind: "h1" | "h2";
+	kind: "h1" | "h2" | "h3";
 	color?: "primary" | "secondary";
 	children: React.ReactNode;
 }
@@ -24,11 +24,17 @@ const Header = ({ children, kind, color }: HeaderProps) => {
 				{children}
 			</h1>
 		);
-	} else {
+	} else if (kind === "h2") {
 		header = (
 			<h2 className={style.h2} style={headerStyle}>
 				{children}
 			</h2>
+		);
+	} else {
+		header = (
+			<h3 className={style.h3} style={headerStyle}>
+				{children}
+			</h3>
 		);
 	}
 

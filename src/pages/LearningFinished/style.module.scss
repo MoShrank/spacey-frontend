@@ -1,13 +1,16 @@
+@use "../../styles/colors.scss";
+
 .container {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 
 	> *:not(:last-child) {
-		margin-bottom: 20px;
+		margin-bottom: 32px;
 	}
 
 	h2 {
+        margin-bottom: 24px !important;
 		text-align: center;
 	}
 
@@ -28,6 +31,20 @@
 }
 
 .indicator {
-	margin-left: auto;
-	margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 24px auto;
+}
+
+.indicator_text_container {
+    border: 1px solid colors.$lightgray;
+    border-radius: 20px;
+    padding: 24px;
+    justify-content: center;
+    align-items: center;
+
+    h3 {
+        text-align: center;
+    }
 }
