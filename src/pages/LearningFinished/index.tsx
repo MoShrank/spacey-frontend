@@ -39,7 +39,7 @@ const LearningFinished = () => {
 					<MemoryStabilityIndicator
 						styles={{ width: "40px", height: "40px" }}
 						probability={1}
-						fill={"darkblue"}
+						fill={"blue"}
 					></MemoryStabilityIndicator>
 				</div>
 				<Text className={style.center}>Come back tomorrow to keep it burning</Text>
