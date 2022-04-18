@@ -21,13 +21,11 @@ const menuItems = [
 const AccountMenu = ({ onClose }: AccountMenuProps) => {
 	useLockBodyScroll();
 
-	const items = menuItems;
-
 	return (
 		<div className={style.container}>
 			<div className={style.overlay} onClick={onClose}>
 				<div className={style.menu}>
-					{items.map(({ label, Icon, to }) => (
+					{menuItems.map(({ label, Icon, to }) => (
 						<Link onClick={onClose} key={label} to={to} className={style.item}>
 							<Text color="darkblue">{label}</Text>
 							<Icon />
