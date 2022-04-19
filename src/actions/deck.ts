@@ -7,12 +7,15 @@ import {
 	deleteDeck as deleteDeckCall,
 	fetchAvgRecallProbabilities,
 	fetchDecks,
+	fetchNotes,
 	finishLearningSession,
+	generateCards,
 	getLearningCards,
 	updateCard,
 	updateDeck,
 } from "api/deck";
 import { CardEventI, CardI, DeckI, LearningSessionI } from "types/deck";
+import { NoteI } from "types/note";
 
 export const createDeckAction = async (deck: DeckI) => {
 	const { name } = deck;
@@ -55,7 +58,7 @@ export const deleteDeck = async (id: string) => {
 	}
 };
 
-export const getDecks = async () => {
+export const getDecksAction = async () => {
 	try {
 		const decks = await fetchDecks();
 
@@ -232,5 +235,22 @@ export const setRecallProbability = (deckID: string, probability: number) => {
 		});
 
 		return [...newDecks];
+	};
+};
+
+export const generateCardsAction = async (deckID: string, noteText: string) => {
+	const note = await generateCards(deckID, noteText);
+
+	return (curState: Record<string, NoteI>) => {
+		const newNotes = { ...curState, [deckID]: note };
+		return newNotes;
+	};
+};
+
+export const getNotesAction = async () => {
+	const notes = await fetchNotes();
+
+	return () => {
+		return notes;
 	};
 };

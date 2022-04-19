@@ -1,5 +1,5 @@
 import { deleteDeck, updateDeckAction } from "actions/deck";
-import { getDecks } from "actions/deck";
+import { getDecksAction } from "actions/deck";
 import DeleteDialog from "components/DeleteDialog";
 import EditableDeck from "components/EditableDeck";
 import Loader from "components/Loader";
@@ -10,7 +10,7 @@ import { DeckI } from "types/deck";
 
 const EditDeck = () => {
 	const { deckID } = useParams();
-	const [loading, , decks] = useAPIFetch("decks", getDecks);
+	const [loading, , decks] = useAPIFetch("decks", getDecksAction);
 	const [, , call] = useAction("decks", deleteDeck);
 
 	const navigate = useNavigate();

@@ -3,15 +3,22 @@ import Navbar from "components/Navbar";
 import style from "./style.module.scss";
 
 interface LayoutPropsI {
-	width: "full" | "s";
+	width: "full" | "desktop" | "s";
 	children: React.ReactNode;
+	className?: string;
 }
 
-const Layout = ({ width, children }: LayoutPropsI) => {
-	const widthClass = width === "full" ? style.full : style.s;
+const widthStyles = {
+	full: style.full,
+	desktop: style.desktop,
+	s: style.s,
+};
+
+const Layout = ({ width, children, className }: LayoutPropsI) => {
+	const widthClass = widthStyles[width];
 
 	return (
-		<div className={`${style.container} ${widthClass}`}>
+		<div className={`${style.container} ${widthClass} ${className}`}>
 			<Navbar />
 			{children}
 		</div>

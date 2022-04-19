@@ -1,5 +1,6 @@
-import { getDecks } from "actions/deck";
+import { ReactComponent as CreateIcon } from "assets/icons/create.svg";
 import { ReactComponent as EditIcon } from "assets/icons/edit.svg";
+import { ReactComponent as GenerateIcon } from "assets/icons/generate.svg";
 import { ReactComponent as InfoIcon } from "assets/icons/info.svg";
 import { ReactComponent as LearnIcon } from "assets/icons/learn.svg";
 import CardCount from "components/CardCount/CardCount";
@@ -10,13 +11,12 @@ import HeaderContainer from "components/HeaderContainer";
 import Hint from "components/Hint";
 import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
-import Loader from "components/Loader";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
 import PageHeaderContainer from "components/PageHeaderContainer";
+import Popup from "components/Popup";
 import SecondaryButton from "components/SecondaryButton";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
-import useAPIFetch from "hooks/useAPIFetch";
 import useOnClickOutside from "hooks/useClickOutside";
 import useLockBodyScroll from "hooks/useScrollLock";
 import { useRef, useState } from "react";
@@ -24,6 +24,10 @@ import { forwardRef } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
+import { useGlobalState } from "store/store";
+import colors from "styles/colors";
+import { DeckI } from "types/deck";
+import { UserI } from "types/user";
 
 import style from "./style.module.scss";
 
@@ -49,23 +53,46 @@ const DescriptionPopup = forwardRef<HTMLDivElement, DescriptionPopupProps>(
 );
 DescriptionPopup.displayName = "DescriptionPopup";
 
+interface PopupItemI {
+	Icon: React.ReactNode;
+	title: string;
+	url: string;
+	unauthorized?: boolean;
+}
+
+const PopupItem = ({ Icon, title, url, unauthorized }: PopupItemI) => {
+	return (
+		<div className={unauthorized ? style.unauthorized : undefined}>
+			<Link to={url} className={unauthorized ? style.disabled : undefined}>
+				<div className={style.popup_item}>
+					{unauthorized && <div className={style.beta}>beta</div>}
+					{Icon}
+					<Text>{title}</Text>
+				</div>
+			</Link>
+		</div>
+	);
+};
+
 const DeckDetail = () => {
-	const [loading, , decks] = useAPIFetch("decks", getDecks);
 	const { deckID } = useParams();
+
+	const [createPopupOpen, setCreatePopupOpen] = useState(false);
 	const [infoOpen, setInfoOpen] = useState(false);
 
-	const ref = useRef<HTMLDivElement>(null);
+	const [user] = useGlobalState<UserI>("user");
+	const [decks] = useGlobalState<DeckI[]>("decks");
 
-	useOnClickOutside(ref, () => setInfoOpen(false));
+	const infoRef = useRef<HTMLDivElement>(null);
+	const popupRef = useRef<HTMLDivElement>(null);
+
+	useOnClickOutside(infoRef, () => setInfoOpen(false));
+	useOnClickOutside(popupRef, () => setCreatePopupOpen(false));
 
 	const deck = decks.find(deck => deck.id === deckID);
 
 	if (!deck) {
-		if (loading) {
-			return <Loader size="large" />;
-		} else {
-			return <Navigate to="/404" />;
-		}
+		return <Navigate to="/404" />;
 	}
 
 	return (
@@ -73,10 +100,13 @@ const DeckDetail = () => {
 			<PageHeaderContainer>
 				<div className={style.deck_detail_header}>
 					<Text color="darkblue">{deck?.name}</Text>
-					{infoOpen && <DescriptionPopup ref={ref} description={deck.description} />}
+					{infoOpen && (
+						<DescriptionPopup ref={infoRef} description={deck.description} />
+					)}
 					<InfoIcon
 						className={style.info_icon}
 						onClick={() => setInfoOpen(!infoOpen)}
+						fill={colors.darkblue}
 					/>
 					<Link to="edit">
 						<EditIcon />
@@ -92,9 +122,20 @@ const DeckDetail = () => {
 				<Spacer spacing={2} />
 				<HeaderContainer>
 					<Header kind="h2">Your Cards</Header>
-					<Link to="card/new">
-						<FloatingButton />
-					</Link>
+					<span style={{ position: "relative" }}>
+						<FloatingButton action={() => setCreatePopupOpen(!createPopupOpen)} />
+						{createPopupOpen && (
+							<Popup ref={popupRef}>
+								<PopupItem title="Create" url="card/new" Icon={<CreateIcon />} />
+								<PopupItem
+									title="Generate"
+									url="card/generate"
+									unauthorized={!user.betaUser}
+									Icon={<GenerateIcon />}
+								/>
+							</Popup>
+						)}
+					</span>
 				</HeaderContainer>
 				<Spacer spacing={2} />
 				<CardCount count={deck.cards.length} />
@@ -117,7 +158,7 @@ const DeckDetail = () => {
 					</SecondaryButton>
 				</Link>
 			)}
-			{infoOpen && <span className={style.overlay} />}
+			{(infoOpen || createPopupOpen) && <span className={style.overlay} />}
 		</Layout>
 	);
 };
