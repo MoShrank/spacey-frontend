@@ -4,13 +4,13 @@ import Button from "components/Button";
 import CardListItem from "components/CardListItem";
 import Error from "components/Error";
 import Header from "components/Header";
+import TextArea from "components/Input/TextArea";
 import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
 import Loader from "components/Loader";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
-import TextArea from "components/TextArea";
 import useAction from "hooks/useAction";
 import { useState } from "react";
 import { useRef } from "react";
@@ -121,7 +121,7 @@ const GenerateCards = () => {
 			<Header className={style.align_left} kind="h1">
 				Generate Cards
 			</Header>
-			<span className={style.textarea_container}>
+			<div className={style.textarea_container}>
 				{pasteOverlayOpen && (
 					<div
 						onClick={handlePaste}
@@ -145,7 +145,7 @@ const GenerateCards = () => {
 					maxLength={1000}
 					onChange={e => setNote(e.target.value)}
 				/>
-			</span>
+			</div>
 			<Spacer spacing={6} />
 			{error && <Error>{error}</Error>}
 			<Hint />

@@ -5,6 +5,11 @@
 }
 
 .text_area {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
 	height: 126px;
 	line-height: 1;
+	text-indent: 0 !important;
+	resize: none;
 }

@@ -7,6 +7,22 @@ the input element itself while the rest can be something else
 and should be refactored in the future
 */
 
+interface LabelI {
+	children?: string;
+	error: boolean;
+}
+
+const Label = ({ children, error }: LabelI) => {
+	return (
+		<div className={style.label_overlay_container}>
+			<span className={style.line} />
+			<label className={`${error || ""}`} htmlFor={children}>
+				{children}
+			</label>
+		</div>
+	);
+};
+
 interface InputContainerI {
 	children: React.ReactNode;
 	error?: string;
@@ -26,17 +42,13 @@ const InputContainer = ({
 }: InputContainerI) => {
 	return (
 		<div
-			className={`${style.text_input_container} ${
-				error && style.error
-			} ${className}`}
-			style={{ height: height }}
+			className={`${style.text_input_container} ${error && style.error} ${
+				className || ""
+			} `}
+			style={{ height: height, minHeight: height }}
 		>
-			{Array.isArray(children) ? children[0] : children}
-			<div className={style.label_overlay_container}>
-				<span className={style.line} />
-				<label htmlFor={placeholder}>{placeholder || label}</label>
-			</div>
-			{Array.isArray(children) ? children.slice(1) : null}
+			{children}
+			<Label error={!!error}>{placeholder || label}</Label>
 		</div>
 	);
 };

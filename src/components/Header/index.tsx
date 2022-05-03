@@ -22,19 +22,19 @@ const Header = ({ children, kind, color, className }: HeaderProps) => {
 
 	if (kind === "h1") {
 		header = (
-			<h1 className={`${style.h1} ${className}`} style={headerStyle}>
+			<h1 className={`${style.h1} ${className || ""}`} style={headerStyle}>
 				{children}
 			</h1>
 		);
 	} else if (kind === "h2") {
 		header = (
-			<h2 className={`${style.h2} ${className}`} style={headerStyle}>
+			<h2 className={`${style.h2} ${className || ""}`} style={headerStyle}>
 				{children}
 			</h2>
 		);
 	} else {
 		header = (
-			<h3 className={`${style.h3} ${className}`} style={headerStyle}>
+			<h3 className={`${style.h3} ${className || ""}`} style={headerStyle}>
 				{children}
 			</h3>
 		);

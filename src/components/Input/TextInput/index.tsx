@@ -1,4 +1,4 @@
-import InputContainer from "components/InputContainer";
+import InputContainer from "components/Input/InputContainer";
 import { ComponentProps } from "react";
 
 interface texInputI extends ComponentProps<"input"> {

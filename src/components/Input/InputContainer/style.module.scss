@@ -1,8 +1,11 @@
-@use "../../styles/colors.scss";
+@use "../../../styles/colors.scss";
 
 .text_input_container {
 	position: relative;
 	width: 100%;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 
 	label,
 	input,
@@ -12,11 +15,6 @@
 		font-style: normal;
 		font-weight: normal;
 		font-size: 16px !important;
-	}
-
-	textarea {
-		text-indent: 0 !important;
-		resize: none;
 	}
 
 	input,
@@ -48,36 +46,9 @@
 			}
 		}
 
-		&:focus + .label_overlay_container,
-		&:not(:placeholder-shown) + .label_overlay_container {
+		&:focus ~ .label_overlay_container,
+		&:not(:placeholder-shown) ~ .label_overlay_container {
 			display: block;
-		}
-	}
-
-	.label_overlay_container {
-		pointer-events: none;
-		$top-offset: -13.5px;
-
-		display: none;
-		position: absolute;
-		left: 29px;
-		top: $top-offset;
-
-		label {
-			position: relative;
-			height: fit-content;
-			padding: 0 6px 0 6px;
-			color: colors.$darkblue;
-			z-index: 99;
-		}
-
-		.line {
-			position: absolute;
-			left: 0;
-			top: abs($top-offset);
-			width: 100%;
-			height: 1px;
-			background-color: white;
 		}
 	}
 }
@@ -93,4 +64,31 @@
 			color: colors.$rederror !important;
 		}
 	}
+}
+
+.label_overlay_container {
+    pointer-events: none;
+    $top-offset: -13.5px;
+
+    display: none;
+    position: absolute;
+    left: 29px;
+    top: $top-offset;
+
+    label {
+        position: relative;
+        height: fit-content;
+        padding: 0 6px 0 6px;
+        color: colors.$darkblue;
+        z-index: 99;
+    }
+
+    .line {
+        position: absolute;
+        left: 0;
+        top: abs($top-offset);
+        width: 100%;
+        height: 1px;
+        background-color: white;
+    }
 }

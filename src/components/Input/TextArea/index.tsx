@@ -1,4 +1,4 @@
-import InputContainer from "components/InputContainer";
+import InputContainer from "components/Input/InputContainer";
 import Text from "components/Text";
 import { ComponentProps } from "react";
 import { forwardRef } from "react";
