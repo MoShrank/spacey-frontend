@@ -45,7 +45,7 @@ const InputContainer = ({
 			className={`${style.text_input_container} ${error && style.error} ${
 				className || ""
 			} `}
-			style={{ height: height, minHeight: height }}
+			style={{ height: height, minHeight: height, maxHeight: height }}
 		>
 			{children}
 			<Label error={!!error}>{placeholder || label}</Label>
