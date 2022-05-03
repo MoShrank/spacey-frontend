@@ -1,4 +1,4 @@
-import { getDecks } from "actions/deck";
+import { getDecksAction } from "actions/deck";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { DeckI } from "types/deck";
 
 const Home = () => {
-	const [loading, , decks] = useAPIFetch("decks", getDecks);
+	const [loading, , decks] = useAPIFetch("decks", getDecksAction);
 
 	if (loading) return <Loader size="large"></Loader>;
 

@@ -76,3 +76,39 @@
 	border-color: colors.$darkblue;
 	padding: 16px 0px;
 }
+
+.popup_item {
+	position: relative;
+	svg {
+		margin-right: 8px;
+	}
+
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 8px 0px;
+}
+
+.unauthorized {
+	svg {
+		path {
+			fill: colors.$lightgray;
+		}
+	}
+
+	p {
+		color: colors.$lightgray !important;
+	}
+
+	.disabled {
+		pointer-events: none;
+	}
+}
+
+.beta {
+	position: absolute;
+	right: -18px;
+	top: 4px;
+	font-size: 12px;
+}

@@ -18,7 +18,7 @@ export const logout = async (): Promise<void> => {
 	await API.GET("user/logout");
 };
 
-export const getUserData = async (): Promise<UserI | null> => {
+export const fetchUserData = async (): Promise<UserI | null> => {
 	const data = (await API.GET("user")) as UserI;
 
 	return data;

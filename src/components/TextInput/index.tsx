@@ -1,4 +1,4 @@
-import Input from "components/Input";
+import InputContainer from "components/InputContainer";
 import { ComponentProps } from "react";
 
 interface texInputI extends ComponentProps<"input"> {
@@ -8,9 +8,9 @@ interface texInputI extends ComponentProps<"input"> {
 const TextInput = (props: texInputI) => {
 	const { error, placeholder, ...inputProps } = props;
 	return (
-		<Input error={error} placeholder={placeholder}>
+		<InputContainer height="42px" error={error} placeholder={placeholder}>
 			<input placeholder={placeholder} {...inputProps} />
-		</Input>
+		</InputContainer>
 	);
 };
 

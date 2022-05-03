@@ -21,7 +21,6 @@ const useAPIFetch = <T>(
 				if (args) await call(...args);
 				else await call();
 				setLoading(false);
-				setLoading(false);
 			} else {
 				setLoading(false);
 			}

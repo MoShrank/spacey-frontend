@@ -1,4 +1,4 @@
-import { createCardAction, getDecks } from "actions/deck";
+import { createCardAction, getDecksAction } from "actions/deck";
 import Button from "components/Button";
 import EditableCard from "components/EditableCard";
 import BottomContainer from "components/FormBottom";
@@ -14,7 +14,7 @@ const NewCard = () => {
 		"decks",
 		createCardAction,
 	);
-	const [loading, , decks] = useAPIFetch("decks", getDecks);
+	const [loading, , decks] = useAPIFetch("decks", getDecksAction);
 
 	const { deckID } = useParams();
 	const deck = decks.find(({ id }) => id === deckID);

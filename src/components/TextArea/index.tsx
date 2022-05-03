@@ -1,30 +1,53 @@
-import Input from "components/Input";
+import InputContainer from "components/InputContainer";
 import Text from "components/Text";
 import { ComponentProps } from "react";
+import { forwardRef } from "react";
 
 import style from "./style.module.scss";
 
-interface texInputI extends ComponentProps<"textarea"> {
+interface TextAreaI extends ComponentProps<"textarea"> {
 	error?: string;
+	height?: string;
+	label?: string;
 }
 
-const TextArea = (props: texInputI) => {
-	const { error, value, placeholder, maxLength, ...inputProps } = props;
-	return (
-		<Input error={error} placeholder={placeholder}>
-			<textarea
+const TextArea = forwardRef<HTMLTextAreaElement, TextAreaI>(
+	(props: TextAreaI, ref) => {
+		const {
+			error,
+			height = "126px",
+			value,
+			placeholder,
+			label,
+			maxLength,
+			className,
+			...inputProps
+		} = props;
+		return (
+			<InputContainer
+				height={height}
+				label={label}
+				error={error}
 				placeholder={placeholder}
-				value={value}
-				maxLength={maxLength}
-				{...inputProps}
-			/>
-			{maxLength && (
-				<Text className={style.max_length_hint} color="lightgrey">
-					{maxLength - (value as string).length}
-				</Text>
-			)}
-		</Input>
-	);
-};
+			>
+				<textarea
+					ref={ref}
+					className={`${style.text_area} ${className}`}
+					placeholder={placeholder}
+					value={value}
+					maxLength={maxLength}
+					{...inputProps}
+				/>
+				{maxLength && (
+					<Text className={style.max_length_hint} color="lightgrey">
+						{maxLength - (value as string).length}
+					</Text>
+				)}
+			</InputContainer>
+		);
+	},
+);
+
+TextArea.displayName = "TextArea";
 
 export default TextArea;

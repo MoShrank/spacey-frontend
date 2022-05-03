@@ -7,25 +7,38 @@ the input element itself while the rest can be something else
 and should be refactored in the future
 */
 
-const Input = ({
-	error,
-	placeholder,
-	children,
-}: {
+interface InputContainerI {
+	children: React.ReactNode;
 	error?: string;
 	placeholder?: string;
-	children: React.ReactNode;
-}) => {
+	className?: string;
+	height?: string;
+	label?: string;
+}
+
+const InputContainer = ({
+	children,
+	error,
+	placeholder,
+	className,
+	height,
+	label,
+}: InputContainerI) => {
 	return (
-		<div className={`${style.text_input_container} ${error && style.error}`}>
+		<div
+			className={`${style.text_input_container} ${
+				error && style.error
+			} ${className}`}
+			style={{ height: height }}
+		>
 			{Array.isArray(children) ? children[0] : children}
 			<div className={style.label_overlay_container}>
 				<span className={style.line} />
-				<label htmlFor={placeholder}>{placeholder}</label>
+				<label htmlFor={placeholder}>{placeholder || label}</label>
 			</div>
 			{Array.isArray(children) ? children.slice(1) : null}
 		</div>
 	);
 };
 
-export default Input;
+export default InputContainer;

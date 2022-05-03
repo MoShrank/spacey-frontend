@@ -32,7 +32,15 @@ class Store {
 	}
 
 	async emit<T>(key: string, action: (state: T) => T) {
-		const newState = await action(this.getState(key) as T);
+		const currentState = this.getState(key) as T;
+		const actionResult = await action(currentState);
+		let newState = undefined;
+		if (typeof actionResult == "function") {
+			newState = actionResult(currentState);
+		} else {
+			newState = actionResult;
+		}
+
 		this.setState(key, newState);
 	}
 

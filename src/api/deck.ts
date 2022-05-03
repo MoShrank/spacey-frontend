@@ -5,6 +5,7 @@ import {
 	LearningCardI,
 	LearningSessionI,
 } from "types/deck";
+import { NoteI } from "types/note";
 import { getTimeFormatted } from "util/time";
 
 import API from "./api";
@@ -98,4 +99,12 @@ export const fetchAvgRecallProbabilities = async (
 		string,
 		number
 	>;
+};
+
+export const generateCards = async (deckID: string, note: string) => {
+	return (await API.POST("notes", { text: note, deck_id: deckID })) as NoteI;
+};
+
+export const fetchNotes = async () => {
+	return (await API.GET("notes")) as NoteI;
 };

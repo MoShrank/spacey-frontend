@@ -1,13 +1,18 @@
+import { getDecksAction, getNotesAction } from "actions/deck";
+import { getUserDataAction } from "actions/user";
 import CookieBanner from "components/CookieBanner";
 import GlobalErrorPopup from "components/GlobalErrorPopup";
+import Loader from "components/Loader";
 import Navbar from "components/Navbar";
 import RedirectAuth from "components/RedirectAuth";
 import RequireAuth from "components/RequireAuth";
+import RequireBeta from "components/RequireBeta";
 import GlobalError from "events/globalError";
 import Error404 from "pages/404";
 import CardDetail from "pages/CardDetail";
 import DeckDetail from "pages/DeckDetail/DeckDetail";
 import EditDeck from "pages/EditDeck";
+import GenerateCards from "pages/GenerateCards";
 import Home from "pages/Home";
 import Imprint from "pages/Imprint";
 import Learning from "pages/Learning";
@@ -20,11 +25,13 @@ import NoLearning from "pages/NoLearning";
 import Privacy from "pages/Privacy";
 import SignUp from "pages/SignUp";
 import TOS from "pages/TOS";
+import { useState } from "react";
 import { useEffect } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { store } from "store/store";
 import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
+import { NoteI } from "types/note";
 import {
 	createHasSeenCookie,
 	getHasSeenCookie,
@@ -40,8 +47,10 @@ type State = {
 		id: string;
 		name: string;
 		email: string;
+		betaUser: string;
 	};
 	decks: Array<DeckI>;
+	notes: Record<string, NoteI>;
 	config: {
 		colors: Array<string>;
 	};
@@ -55,7 +64,9 @@ const initialState: State = {
 		id: "",
 		name: "",
 		email: "",
+		betaUser: "",
 	},
+	notes: {},
 	decks: [],
 	config: {
 		colors: [],
@@ -65,27 +76,43 @@ const initialState: State = {
 
 store.init(initialState);
 
-function Layout() {
+const Layout = () => {
 	return (
 		<div className="layout">
 			<Navbar />
 			<Outlet />
 		</div>
 	);
-}
+};
 
-function App() {
+const App = () => {
 	const [globalError, setGlobalError] = useGlobalState("globalError");
 	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
 	const [hasSeenCookie, setHasSeenCookie] = useGlobalState("hasSeenCookie");
+
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		GlobalError.setRenderCallback(setGlobalError);
 	}, []);
 
 	useEffect(() => {
-		setIsLoggedIn(getLoggedInState());
+		const loggedIn = getLoggedInState();
+
+		if (loggedIn) {
+			const requests = [
+				store.emit("notes", getNotesAction),
+				store.emit("decks", getDecksAction),
+				store.emit("user", getUserDataAction),
+			];
+
+			Promise.allSettled(requests).then(() => setLoading(false));
+		}
+
+		setIsLoggedIn(loggedIn);
 	}, [isLoggedIn]);
+
+	if (loading) return <Loader size="large" />;
 
 	return (
 		<>
@@ -112,6 +139,16 @@ function App() {
 					element={
 						<RequireAuth>
 							<DeckDetail />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/decks/:deckID/card/generate"
+					element={
+						<RequireAuth>
+							<RequireBeta>
+								<GenerateCards />
+							</RequireBeta>
 						</RequireAuth>
 					}
 				/>
@@ -204,6 +241,6 @@ function App() {
 			</Routes>
 		</>
 	);
-}
+};
 
 export default App;

@@ -2,6 +2,7 @@
 
 .text_input_container {
 	position: relative;
+	width: 100%;
 
 	label,
 	input,
@@ -15,9 +16,42 @@
 
 	textarea {
 		text-indent: 0 !important;
-		height: 126px !important;
-		padding: 4px 13px 4px 13px !important;
 		resize: none;
+	}
+
+	input,
+	textarea {
+		position: relative;
+		width: 100%;
+		height: 100%;
+
+		-webkit-appearance: none !important;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		-webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+		-moz-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+		border-radius: 20px;
+		text-indent: 10px;
+		font-size: 15px;
+		padding: 8px;
+		color: black;
+
+		border: 1px solid colors.$lightgray;
+		background: colors.$lightblue;
+
+		&:focus {
+			outline: none !important;
+			border: 1px solid colors.$darkblue;
+
+			&::placeholder {
+				color: transparent;
+			}
+		}
+
+		&:focus + .label_overlay_container,
+		&:not(:placeholder-shown) + .label_overlay_container {
+			display: block;
+		}
 	}
 
 	.label_overlay_container {
@@ -44,41 +78,6 @@
 			width: 100%;
 			height: 1px;
 			background-color: white;
-		}
-	}
-
-	input,
-	textarea {
-		position: relative;
-		width: 100%;
-		height: 42px;
-
-		-webkit-appearance: none !important;
-		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-		-webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-		-moz-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-		border-radius: 20px;
-		text-indent: 10px;
-		font-size: 15px;
-		padding: 4px;
-		color: black;
-
-		border: 1px solid colors.$lightgray;
-		background: colors.$lightblue;
-
-		&:focus {
-			outline: none !important;
-			border: 1px solid colors.$darkblue;
-
-			&::placeholder {
-				color: transparent;
-			}
-		}
-
-		&:focus + .label_overlay_container,
-		&:not(:placeholder-shown) + .label_overlay_container {
-			display: block;
 		}
 	}
 }

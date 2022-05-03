@@ -1,4 +1,4 @@
-import { deleteCardAction, getDecks } from "actions/deck";
+import { deleteCardAction, getDecksAction } from "actions/deck";
 import { updateCardAction } from "actions/deck";
 import { ReactComponent as ArrowIcon } from "assets/icons/arrow.svg";
 import Button from "components/Button";
@@ -26,7 +26,7 @@ const cardEq = (
 
 const CardDetail = () => {
 	const { deckID, cardID } = useParams();
-	const [loading, , decks] = useAPIFetch("decks", getDecks);
+	const [loading, , decks] = useAPIFetch("decks", getDecksAction);
 	const [editDeckLoading, editDeckError, action] = useAction(
 		"decks",
 		updateCardAction,
