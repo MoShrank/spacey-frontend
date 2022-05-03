@@ -107,6 +107,8 @@ const App = () => {
 			];
 
 			Promise.allSettled(requests).then(() => setLoading(false));
+		} else {
+			setLoading(false);
 		}
 
 		setIsLoggedIn(loggedIn);
