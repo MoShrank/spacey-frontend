@@ -1,14 +1,18 @@
 interface SpacerPropsI {
 	spacing: number;
+	direction?: "row" | "column";
 }
 
 const singleSpacing = 8;
 
-const Spacer = ({ spacing }: SpacerPropsI) => {
-	const height = `${singleSpacing * spacing}px`;
-	return (
-		<span style={{ height: height, minHeight: height, display: "block" }} />
-	);
+const Spacer = ({ spacing, direction = "column" }: SpacerPropsI) => {
+	const size = `${singleSpacing * spacing}px`;
+	const sizeStyle =
+		direction == "row"
+			? { width: size, minWidth: size }
+			: { height: size, minHeight: size };
+
+	return <span style={{ ...sizeStyle, display: "block" }} />;
 };
 
 export default Spacer;

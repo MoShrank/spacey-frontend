@@ -1,13 +1,13 @@
 import { getDecksAction, getNotesAction } from "actions/deck";
 import { getUserDataAction } from "actions/user";
 import CookieBanner from "components/CookieBanner";
-import GlobalErrorPopup from "components/GlobalErrorPopup";
 import Loader from "components/Loader";
 import Navbar from "components/Navbar";
+import Notification from "components/Notification";
 import RedirectAuth from "components/RedirectAuth";
 import RequireAuth from "components/RequireAuth";
 import RequireBeta from "components/RequireBeta";
-import GlobalError from "events/globalError";
+import Notificator, { NotificatorI } from "events/notification";
 import Error404 from "pages/404";
 import CardDetail from "pages/CardDetail";
 import DeckDetail from "pages/DeckDetail/DeckDetail";
@@ -86,15 +86,21 @@ const Layout = () => {
 };
 
 const App = () => {
-	const [globalError, setGlobalError] = useGlobalState("globalError");
+	const [notifications, setNotifications] = useState<NotificatorI[]>([]);
+
 	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
 	const [hasSeenCookie, setHasSeenCookie] = useGlobalState("hasSeenCookie");
 
 	const [loading, setLoading] = useState(true);
 
+	const pushNotification = async (newNotification: NotificatorI) => {
+		setNotifications([...notifications, newNotification]);
+	};
+
 	useEffect(() => {
-		GlobalError.setRenderCallback(setGlobalError);
-	}, []);
+		Notificator.subscribe(pushNotification);
+		() => Notificator.unsubcribe();
+	}, [notifications]);
 
 	useEffect(() => {
 		const loggedIn = getLoggedInState();
@@ -118,7 +124,12 @@ const App = () => {
 
 	return (
 		<>
-			{globalError && <GlobalErrorPopup />}
+			{!!notifications.length && (
+				<Notification
+					updateNotifications={setNotifications}
+					notifications={notifications}
+				/>
+			)}
 			{!hasSeenCookie && (
 				<CookieBanner
 					onClick={() => {

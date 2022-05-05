@@ -1,20 +1,21 @@
-import { createCardAction, getDecksAction } from "actions/deck";
+import { createCardAction } from "actions/deck";
 import Button from "components/Button";
 import EditableCard from "components/EditableCard";
 import BottomContainer from "components/FormBottom";
-import Loader from "components/Loader";
 import SimpleButton from "components/SimpleButton";
-import useAPIFetch from "hooks/useAPIFetch";
+import Notificator from "events/notification";
 import useAction from "hooks/useAction";
 import { useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
+import { useGlobalState } from "store/store";
+import { DeckI } from "types/deck";
 
 const NewCard = () => {
 	const [createCardLoading, error, action] = useAction(
 		"decks",
 		createCardAction,
 	);
-	const [loading, , decks] = useAPIFetch("decks", getDecksAction);
+	const [decks] = useGlobalState<DeckI[]>("decks");
 
 	const { deckID } = useParams();
 	const deck = decks.find(({ id }) => id === deckID);
@@ -33,13 +34,16 @@ const NewCard = () => {
 				answer: "",
 				deckID: deckID,
 			});
+			Notificator.push({
+				type: "INFO",
+				payload: {
+					message: "Card saved successfully",
+				},
+			});
 		});
 	};
 
-	if (!deck?.name) {
-		if (loading) return <Loader size="large" />;
-		else return <Navigate to="404" />;
-	}
+	if (!deck) return <Navigate to="404" />;
 
 	const handleQuestionInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		e.preventDefault();

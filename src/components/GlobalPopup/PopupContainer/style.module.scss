@@ -1,0 +1,25 @@
+@use "../../../styles/breakpoints.scss";
+
+
+.popup_container {
+	z-index: 9999;
+	position: fixed;
+	width: 90%;
+	max-width: calc(breakpoints.$screen-s + 60px);
+	left: 0;
+	right: 0;
+
+	margin-left: auto;
+	margin-right: auto;
+
+	background: #e9f4ff;
+	box-shadow: 4px 7px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 5px;
+
+	padding: 16px 35px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}

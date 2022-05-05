@@ -1,0 +1,10 @@
+@use "../../styles/colors.scss";
+
+.bar {
+	width: 100%;
+	height: 3px;
+	background: colors.$darkblue;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}

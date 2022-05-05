@@ -1,4 +1,5 @@
-import GlobalError, { PopupError } from "events/globalError";
+import { PopupError } from "events/errorTypes";
+import Notificator from "events/notification";
 import { ValidationError } from "util/error";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS";
@@ -46,7 +47,7 @@ class API {
 				e instanceof DOMException ||
 				(e as Error).message === "Failed to fetch"
 			) {
-				GlobalError.emit(PopupError.TIMEOUT_ERROR);
+				Notificator.push(PopupError.TIMEOUT_ERROR);
 			}
 			throw new Error("timeout");
 		}
@@ -56,17 +57,17 @@ class API {
 		try {
 			resBody = await res.json();
 		} catch (e) {
-			GlobalError.emit(PopupError.UNKNOWN_ERROR);
+			Notificator.push(PopupError.UNKNOWN_ERROR);
 			throw new Error("unknown error");
 		}
 
 		if (res.status >= 500) {
-			GlobalError.emit(PopupError.TIMEOUT_ERROR);
+			Notificator.push(PopupError.TIMEOUT_ERROR);
 			throw new Error(resBody.message || resBody.error);
 		}
 
 		if (res.status === 429) {
-			GlobalError.emit(PopupError.HIT_RATE_LIMIT);
+			Notificator.push(PopupError.HIT_RATE_LIMIT);
 			throw new Error(resBody.message || resBody.error);
 		}
 
