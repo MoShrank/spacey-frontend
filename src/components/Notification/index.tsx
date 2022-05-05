@@ -54,8 +54,8 @@ const notificationTypeComponents = {
 };
 
 const timeConfig = {
-	INFO: 1.5,
-	ERROR: 2,
+	INFO: 2,
+	ERROR: 3,
 };
 
 /*
@@ -71,18 +71,23 @@ const Notification = ({
 	const { ref, startProgress } = useProgress(controller);
 	const notification = notifications[notifications.length - 1];
 	const { type, payload } = notification;
-	const ContentComponent = notificationTypeComponents[type];
 	const time = timeConfig[type];
 
 	useEffect(() => {
-		startProgress(time).then(() => {
-			updateNotifications([]);
-		});
+		startProgress(time)
+			.then(() => {
+				updateNotifications([]);
+			})
+			.catch(
+				() => undefined,
+			); /* do nothing since promise has been aborted due to new notification */
 
 		return () => {
 			controller.abort();
 		};
 	}, [ref.current, notifications]);
+
+	const ContentComponent = notificationTypeComponents[type];
 
 	return (
 		<Modal>

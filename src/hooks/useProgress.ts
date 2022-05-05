@@ -6,7 +6,7 @@ const useProgress = (abortController?: AbortController, refreshRate = 10) => {
 	let width = 100;
 
 	const startProgress = async (seconds: number): Promise<void> => {
-		const update = (refreshRate / (seconds * 1000)) * 100;
+		const update = (100 / (seconds * 1000)) * refreshRate;
 
 		return new Promise<void>((resolve, reject) => {
 			const updateProgress = () => {
@@ -22,6 +22,7 @@ const useProgress = (abortController?: AbortController, refreshRate = 10) => {
 					return resolve();
 				}
 			};
+
 			const interval = setInterval(updateProgress, refreshRate);
 			if (abortController) {
 				abortController.signal.addEventListener("abort", () => {
