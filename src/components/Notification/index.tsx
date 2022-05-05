@@ -2,7 +2,6 @@ import { ReactComponent as CheckmarkIcon } from "assets/icons/checkmark.svg";
 import { ReactComponent as WarningIcon } from "assets/icons/infoTriangle.svg";
 import PopupContainer from "components/GlobalPopup/PopupContainer";
 import ContentHeader from "components/GlobalPopup/PopupHeader";
-import Header from "components/Header";
 import Modal from "components/Modal";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
@@ -24,7 +23,7 @@ const ErrorContent = ({ payload }: PayloadI) => {
 			<ContentHeader>
 				<WarningIcon />
 				<Spacer direction="row" spacing={1} />
-				<Header kind="h3">{message}</Header>
+				<Text style={{ fontWeight: "bold" }}>{message}</Text>
 			</ContentHeader>
 			<Spacer spacing={1} />
 			<Text color="lightgrey">{hint}</Text>
@@ -39,7 +38,7 @@ const InfoContent = ({ payload }: PayloadI) => {
 		<ContentHeader>
 			<CheckmarkIcon />
 			<Spacer direction="row" spacing={1} />
-			<Header kind="h3">{message}</Header>
+			<Text style={{ fontWeight: "bold" }}>{message}</Text>
 		</ContentHeader>
 	);
 };
