@@ -49,9 +49,14 @@ interface NotificationI {
 	updateNotifications: (notifications: NotificatorI[]) => void;
 }
 
-const NotificationTypeComponents = {
+const notificationTypeComponents = {
 	INFO: InfoContent,
 	ERROR: ErrorContent,
+};
+
+const timeConfig = {
+	INFO: 1.5,
+	ERROR: 2,
 };
 
 /*
@@ -64,9 +69,14 @@ const Notification = ({
 	updateNotifications,
 }: NotificationI) => {
 	const controller = new AbortController();
-	const { ref, startProgress } = useProgress(2, controller);
+	const { ref, startProgress } = useProgress(controller);
+	const notification = notifications[notifications.length - 1];
+	const { type, payload } = notification;
+	const ContentComponent = notificationTypeComponents[type];
+	const time = timeConfig[type];
+
 	useEffect(() => {
-		startProgress().then(() => {
+		startProgress(time).then(() => {
 			updateNotifications([]);
 		});
 
@@ -74,11 +84,6 @@ const Notification = ({
 			controller.abort();
 		};
 	}, [ref.current, notifications]);
-
-	const notification = notifications[notifications.length - 1];
-	const { type, payload } = notification;
-
-	const ContentComponent = NotificationTypeComponents[type];
 
 	return (
 		<Modal>

@@ -1,17 +1,13 @@
 import { useRef } from "react";
 
-const useProgress = (
-	seconds: number,
-	abortController?: AbortController,
-	refreshRate = 10,
-) => {
+const useProgress = (abortController?: AbortController, refreshRate = 10) => {
 	const ref = useRef<HTMLElement>(null);
 
 	let width = 100;
 
-	const update = (refreshRate / (seconds * 1000)) * 100;
+	const startProgress = async (seconds: number): Promise<void> => {
+		const update = (refreshRate / (seconds * 1000)) * 100;
 
-	const startProgress = async (): Promise<void> => {
 		return new Promise<void>((resolve, reject) => {
 			const updateProgress = () => {
 				if (!ref.current) {
