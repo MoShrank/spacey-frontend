@@ -67,28 +67,28 @@
 }
 
 .label_overlay_container {
-    pointer-events: none;
-    $top-offset: -13.5px;
+	pointer-events: none;
+	$top-offset: -13.5px;
 
-    display: none;
-    position: absolute;
-    left: 29px;
-    top: $top-offset;
+	display: none;
+	position: absolute;
+	left: 29px;
+	top: $top-offset;
 
-    label {
-        position: relative;
-        height: fit-content;
-        padding: 0 6px 0 6px;
-        color: colors.$darkblue;
-        z-index: 99;
-    }
+	label {
+		position: relative;
+		height: fit-content;
+		padding: 0 6px 0 6px;
+		color: colors.$darkblue;
+		z-index: 99;
+	}
 
-    .line {
-        position: absolute;
-        left: 0;
-        top: abs($top-offset);
-        width: 100%;
-        height: 1px;
-        background-color: white;
-    }
+	.line {
+		position: absolute;
+		left: 0;
+		top: abs($top-offset);
+		width: 100%;
+		height: 1px;
+		background-color: white;
+	}
 }
