@@ -6,4 +6,4 @@ $content-width: calc(breakpoints.$screen-s - 2 * $page-gap);
 
 // z-indices
 $overlay: 1000;
-$popup: $overlay + 1;
+$popup: $overlay + 100;

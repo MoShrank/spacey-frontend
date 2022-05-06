@@ -13,9 +13,14 @@
 		margin-left: auto;
 	}
 
-	svg {
+	> svg {
 		cursor: pointer;
-		display: flex;
+	}
+
+	> a,
+	> a:focus {
+		cursor: pointer;
+		display: inline-flex;
 	}
 }
 
