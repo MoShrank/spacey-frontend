@@ -2,16 +2,15 @@
 @use "../../styles/breakpoints.scss";
 
 .container {
+	position: relative;
 	display: flex;
 	flex-direction: row;
 	width: 100%;
-	padding: 0 vars.$page-gap;
 	justify-content: space-between;
 	align-items: center;
 
 	@include breakpoints.s {
 		min-width: vars.$content-width;
 		max-width: vars.$content-width;
-		padding: 0;
 	}
 }

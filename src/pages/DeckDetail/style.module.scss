@@ -6,26 +6,16 @@
 	position: relative;
 	display: flex;
 	flex-direction: row;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
-	border-color: colors.$blue;
 
-	> :first-child {
-		z-index: 5;
-	}
-
-	.info_icon {
-		z-index: 5;
+	svg:first-of-type {
 		margin-left: auto;
-		margin-right: 4px;
-	}
-
-	> :last-child {
-		display: flex;
 	}
 
 	svg {
 		cursor: pointer;
+		display: flex;
 	}
 }
 
@@ -50,7 +40,7 @@
 	background: colors.$lightblue;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
-	z-index: 5;
+	z-index: vars.$popup;
 	padding: 17px;
 
 	p {
@@ -58,23 +48,27 @@
 	}
 }
 
-.overlay {
+.create_card_popup_container {
 	position: absolute;
-	height: 100vh;
-	width: 100vw;
-	top: 0;
-	left: 0;
-	z-index: 3;
-	background: rgba(255, 255, 255, 0.7);
-}
+	width: 171px;
+	height: 109px;
 
-.memory_stability_indicator_container {
+	right: 0;
+	top: 50px;
+
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
-	align-items: center;
-	border-bottom: solid 1px;
-	border-color: colors.$darkblue;
-	padding: 16px 0px;
+	align-items: flex-start;
+
+	padding: 8px 16px;
+
+	background-color: white;
+	border: 0.5px solid #8c8c8c;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 20px;
+
+	z-index: vars.$popup;
 }
 
 .popup_item {

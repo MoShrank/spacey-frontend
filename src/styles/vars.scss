@@ -3,3 +3,7 @@
 $navbar-height: 55px;
 $page-gap: 16px;
 $content-width: calc(breakpoints.$screen-s - 2 * $page-gap);
+
+// z-indices
+$overlay: 1000;
+$popup: $overlay + 1;

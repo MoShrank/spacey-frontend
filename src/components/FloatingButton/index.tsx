@@ -2,11 +2,12 @@ import "./style.scss";
 
 interface FloatingButtonI {
 	action?: () => void;
+	id?: string;
 }
 
-const FloatingButton = ({ action }: FloatingButtonI) => {
+const FloatingButton = ({ action, id }: FloatingButtonI) => {
 	return (
-		<div className="floating_button_container" onClick={action}>
+		<div id={id} className="floating_button_container" onClick={action}>
 			<div className="horizontal-plus"></div>
 			<div className="vertical-plus"></div>
 		</div>

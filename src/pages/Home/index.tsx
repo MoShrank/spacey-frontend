@@ -1,30 +1,29 @@
-import { getDecksAction } from "actions/deck";
+import ContentTitle from "components/ContentTitle";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
-import HeaderContainer from "components/HeaderContainer";
 import Hint from "components/Hint";
 import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
-import Loader from "components/Loader";
+import PageHeaderContainer from "components/PageHeaderContainer";
 import Spacer from "components/Spacer";
-import useAPIFetch from "hooks/useAPIFetch";
 import { Link } from "react-router-dom";
+import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 
 const Home = () => {
-	const [loading, , decks] = useAPIFetch("decks", getDecksAction);
-
-	if (loading) return <Loader size="large"></Loader>;
+	const [decks] = useGlobalState<DeckI[]>("decks");
 
 	return (
 		<Layout width="full">
-			<HeaderContainer>
-				<Header kind="h2">Your Decks</Header>
-				<Link to="/deck/new">
-					<FloatingButton />
-				</Link>
-			</HeaderContainer>
+			<PageHeaderContainer>
+				<ContentTitle>
+					<Header kind="h2">Your Decks</Header>
+					<Link to="/deck/new">
+						<FloatingButton />
+					</Link>
+				</ContentTitle>
+			</PageHeaderContainer>
 			<Spacer spacing={2} />
 			{decks && decks.length ? (
 				<ListContainer spacing={3}>
