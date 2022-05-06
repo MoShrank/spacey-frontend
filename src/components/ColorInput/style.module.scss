@@ -1,42 +1,47 @@
 @use "../../styles/colors.scss";
 
+.color {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+	background-color: #fff;
+	margin: 0;
+	cursor: pointer;
+	height: 24px;
+	width: 24px;
+	border-radius: 50%;
+
+	border: 1px solid colors.$lightgray;
+	margin-top: 14px;
+	margin-right: 14px;
+}
+
+.selected {
+	border: 2px solid colors.$darkblue;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
 .color_input_container {
 	position: relative;
 	z-index: 999;
 	width: auto;
-	height: 42px;
+	min-height: 42px;
+	height: auto;
+	padding: 0 0 14px 14px;
 
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
 	flex-wrap: wrap;
-	padding-left: 15px;
 
 	border: 1px solid colors.$darkblue;
 	box-sizing: border-box;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
 	background: white;
-
-	> * {
-		margin-right: 15px;
-	}
-
-	.color {
-		cursor: pointer;
-		width: 24px;
-		height: 24px;
-
-		border-radius: 50%;
-
-		border: 1px solid colors.$lightgray;
-	}
-
-	.selected {
-		border: 2px solid colors.$darkblue;
-		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	}
 
 	.label_overlay_container {
 		pointer-events: none;

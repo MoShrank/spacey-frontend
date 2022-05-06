@@ -1,12 +1,5 @@
 import style from "./style.module.scss";
 
-/*
-children slicing is done because first children is supposed to be
-the input element itself while the rest can be something else
-(e.g. char limit on textarea) this is probably not the most elegant way
-and should be refactored in the future
-*/
-
 interface LabelI {
 	children?: string;
 	error: boolean;

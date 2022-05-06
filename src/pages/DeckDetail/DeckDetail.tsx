@@ -42,8 +42,8 @@ interface PopupItemI {
 
 const PopupItem = ({ Icon, title, url, unauthorized }: PopupItemI) => {
 	return (
-		<div className={unauthorized ? style.unauthorized : undefined}>
-			<Link to={url} className={unauthorized ? style.disabled : undefined}>
+		<div className={unauthorized ? style.unauthorized : ""}>
+			<Link to={url} className={unauthorized ? style.disabled : ""}>
 				<div className={style.popup_item}>
 					{unauthorized && <div className={style.beta}>beta</div>}
 					{Icon}

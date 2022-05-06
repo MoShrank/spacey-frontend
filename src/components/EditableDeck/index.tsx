@@ -64,6 +64,13 @@ const EditableDeck = ({
 		action(deck).then(() => navigate(redirectOnSubmit as string));
 	};
 
+	const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		e.preventDefault();
+
+		const color = e.target.id;
+		setDeck({ ...deck, color });
+	};
+
 	useEffect(() => {
 		if (config && !deck.color) {
 			setDeck({ ...deck, color: config.colors[0] });
@@ -93,7 +100,7 @@ const EditableDeck = ({
 			<ColorInput
 				colors={config.colors}
 				selectedColor={deck.color}
-				onClickColor={(color: string) => setDeck({ ...deck, color })}
+				onClickColor={handleColorChange}
 			/>
 			<BottomContainer>
 				{error && <p className="error">{error}</p>}
