@@ -265,13 +265,19 @@ export const updateGeneratedCardsAction = async (
 	cards: { question: string; answer: string }[],
 	newCard: { question: string; answer: string; idx: number },
 ) => {
-	const { question, answer } = newCard;
-	if (!question || !answer) throw Error("please fill in all required fields");
+	let newCards: { question: string; answer: string }[] = [];
 
-	const newCards = cards.map((c, idx) => {
-		if (idx === newCard.idx) c = newCard;
-		return c;
-	});
+	if (newCard !== undefined) {
+		const { question, answer } = newCard;
+		if (!question || !answer) throw Error("please fill in all required fields");
+
+		newCards = cards.map((c, idx) => {
+			if (idx === newCard.idx) c = newCard;
+			return c;
+		});
+	} else {
+		newCards = cards;
+	}
 
 	await updateGeneratedCards(noteID, newCards);
 
