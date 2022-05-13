@@ -5,6 +5,7 @@ const colors = {
 	rederror: "#c81c23",
 	darkblue: "#19344c",
 	darkgray: "#636363",
+	white: "#ffffff",
 };
 
 export default colors;

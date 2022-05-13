@@ -1,4 +1,5 @@
 import {
+	addGeneratedCards,
 	createCard,
 	createCardEvent,
 	createDeck,
@@ -13,6 +14,7 @@ import {
 	getLearningCards,
 	updateCard,
 	updateDeck,
+	updateGeneratedCards,
 } from "api/deck";
 import { CardEventI, CardI, DeckI, LearningSessionI } from "types/deck";
 import { NoteI } from "types/note";
@@ -239,6 +241,8 @@ export const setRecallProbability = (deckID: string, probability: number) => {
 };
 
 export const generateCardsAction = async (deckID: string, noteText: string) => {
+	if (!noteText) throw new Error("please fill in all required fields");
+
 	const note = await generateCards(deckID, noteText);
 
 	return (curState: Record<string, NoteI>) => {
@@ -252,5 +256,45 @@ export const getNotesAction = async () => {
 
 	return () => {
 		return notes;
+	};
+};
+
+export const updateGeneratedCardsAction = async (
+	noteID: string,
+	deckID: string,
+	cards: { question: string; answer: string }[],
+	newCard: { question: string; answer: string; idx: number },
+) => {
+	const { question, answer } = newCard;
+	if (!question || !answer) throw Error("please fill in all required fields");
+
+	const newCards = cards.map((c, idx) => {
+		if (idx === newCard.idx) c = newCard;
+		return c;
+	});
+
+	await updateGeneratedCards(noteID, newCards);
+
+	return (curState: Record<string, NoteI>): Record<string, NoteI> => {
+		const oldNote = curState[deckID];
+
+		const newNotes = { ...curState, [deckID]: { ...oldNote, cards: newCards } };
+		return newNotes;
+	};
+};
+
+export const addGeneratedCardsAction = async (
+	noteID: string,
+	deckID: string,
+) => {
+	const cards = (await addGeneratedCards(noteID, deckID)).cards;
+
+	return (curState: Array<DeckI>) => {
+		const deck = curState.find(deck => deck.id === deckID);
+		if (!deck) throw Error("deck not found");
+
+		deck.cards = [...deck.cards, ...cards];
+
+		return [...curState];
 	};
 };

@@ -6,6 +6,7 @@ import { ReactComponent as LearnIcon } from "assets/icons/learn.svg";
 import CardCount from "components/CardCount/CardCount";
 import CardListItem from "components/CardListItem";
 import ContentTitle from "components/ContentTitle";
+import ContentWidthConstraint from "components/ContentWidthConstraint";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
 import Hint from "components/Hint";
@@ -13,7 +14,6 @@ import Layout from "components/Layout";
 import Line from "components/Line";
 import ListContainer from "components/ListContainer";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
-import PageHeaderContainer from "components/PageHeaderContainer";
 import Popup from "components/Popup";
 import SecondaryButton from "components/SecondaryButton";
 import Spacer from "components/Spacer";
@@ -77,7 +77,7 @@ const DeckDetail = () => {
 
 	return (
 		<Layout width="full">
-			<PageHeaderContainer>
+			<ContentWidthConstraint>
 				<div className={style.deck_detail_header}>
 					<Text color="darkblue">{deck.name}</Text>
 					{infoOpen && (
@@ -129,12 +129,19 @@ const DeckDetail = () => {
 				</ContentTitle>
 				<Spacer spacing={2} />
 				<CardCount count={deck.cards.length} />
-			</PageHeaderContainer>
+			</ContentWidthConstraint>
 			<Spacer spacing={1} />
 			{deck.cards.length ? (
 				<ListContainer spacing={2}>
 					{deck.cards.map(card => (
-						<CardListItem key={card.id} color={deck.color} {...card} />
+						<CardListItem
+							as={Link}
+							to={`cards/${card.id}`}
+							key={card.id}
+							color={deck.color}
+							answer={card.answer}
+							question={card.question}
+						/>
 					))}
 				</ListContainer>
 			) : (

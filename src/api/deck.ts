@@ -44,7 +44,7 @@ interface CreateCardI {
 }
 
 export const createCard = async (card: CreateCardI): Promise<CardI> => {
-	return (await API.POST(`decks/${card.deckID}/cards`, card)) as CardI;
+	return (await API.POST(`decks/${card.deckID}/card`, card)) as CardI;
 };
 
 export const updateCard = async (card: CardI): Promise<CardI> => {
@@ -107,4 +107,17 @@ export const generateCards = async (deckID: string, note: string) => {
 
 export const fetchNotes = async () => {
 	return (await API.GET("notes")) as NoteI;
+};
+
+export const updateGeneratedCards = async (
+	noteID: string,
+	cards: { question: string; answer: string }[],
+) => {
+	return (await API.PUT(`notes/${noteID}`, { cards })) as NoteI;
+};
+
+export const addGeneratedCards = async (noteID: string, deckID: string) => {
+	return (await API.POST(`notes/${noteID}/cards`, {}, { deck_id: deckID })) as {
+		cards: CardI[];
+	};
 };

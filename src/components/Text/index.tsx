@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
+import { combineStyles } from "util/css";
 
-import "./style.scss";
+import style from "./style.module.scss";
 
 interface TextProps extends ComponentProps<"p"> {
 	children: React.ReactNode;
@@ -17,11 +18,21 @@ const colors = {
 	red: "#c81c23",
 };
 
-const Text = ({ children, color, style, ...rest }: TextProps) => {
+const Text = ({
+	children,
+	color,
+	style: textStyle,
+	className,
+	...rest
+}: TextProps) => {
 	const colorStyle = color ? colors[color] : colors.darkblue;
 
 	return (
-		<p style={{ color: colorStyle, ...style }} {...rest}>
+		<p
+			style={{ color: colorStyle, ...textStyle }}
+			className={combineStyles(style.text, className)}
+			{...rest}
+		>
 			{children}
 		</p>
 	);

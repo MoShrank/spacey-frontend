@@ -1,18 +1,26 @@
+import CustomTag from "components/CustomTag";
+import customTagT from "components/CustomTag/type";
 import Text from "components/Text";
-import { Link } from "react-router-dom";
 
 import "./style.scss";
 
 interface CardPropsI {
 	question: string;
 	answer: string;
-	id: string;
 	color: string;
+	as?: customTagT;
+	[key: string]: unknown;
 }
 
-const CardListItem = ({ question, answer, id, color }: CardPropsI) => {
+const CardListItem = ({
+	question,
+	answer,
+	color,
+	as = "div",
+	...rest
+}: CardPropsI) => {
 	return (
-		<Link to={`cards/${id}`}>
+		<CustomTag tag={as} {...rest}>
 			<div style={{ background: color }} className="card_container">
 				<Text className="input_text" color="black">
 					{question}
@@ -22,7 +30,7 @@ const CardListItem = ({ question, answer, id, color }: CardPropsI) => {
 				</Text>
 				<span className="line" />
 			</div>
-		</Link>
+		</CustomTag>
 	);
 };
 

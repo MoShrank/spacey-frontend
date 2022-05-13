@@ -1,31 +1,29 @@
-import { Link } from "react-router-dom";
+import CustomTag from "components/CustomTag";
+import customTagT from "components/CustomTag/type";
 
 import style from "./style.module.scss";
 
 interface SimpleButtonProps {
 	children: React.ReactChild;
-	action?: string | (() => void);
-	to?: string;
+	className?: string;
+	as: customTagT;
+	[key: string]: unknown;
 }
 
-interface NavigateI {
-	children: React.ReactNode;
-	action: string | (() => void) | undefined;
-}
-
-const Navigate = ({ children, action }: NavigateI) => {
-	if (typeof action === "string") {
-		return <Link to={action}>{children}</Link>;
-	} else {
-		return <span onClick={action}>{children}</span>;
-	}
-};
-
-const SimpleButton = ({ children, action, to }: SimpleButtonProps) => {
+const SimpleButton = ({
+	children,
+	as,
+	className,
+	...rest
+}: SimpleButtonProps) => {
+	const props = {
+		className: `${style.simple_button} ${className ? className : ""}`,
+		...rest,
+	};
 	return (
-		<Navigate action={to || action}>
-			<button className={style.simple_button}>{children}</button>
-		</Navigate>
+		<CustomTag tag={as} {...props}>
+			{children}
+		</CustomTag>
 	);
 };
 

@@ -166,7 +166,9 @@ const SignUp = () => {
 					Sign up
 				</Button>
 			</form>
-			<SimpleButton to="/login">Cancel</SimpleButton>
+			<SimpleButton as={Link} to="/login">
+				Cancel
+			</SimpleButton>
 		</div>
 	);
 };

@@ -1,11 +1,11 @@
 import ContentTitle from "components/ContentTitle";
+import ContentWidthConstraint from "components/ContentWidthConstraint";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
 import Hint from "components/Hint";
 import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
-import PageHeaderContainer from "components/PageHeaderContainer";
 import Spacer from "components/Spacer";
 import { Link } from "react-router-dom";
 import { useGlobalState } from "store/store";
@@ -16,14 +16,14 @@ const Home = () => {
 
 	return (
 		<Layout width="full">
-			<PageHeaderContainer>
+			<ContentWidthConstraint>
 				<ContentTitle>
 					<Header kind="h2">Your Decks</Header>
 					<Link to="/deck/new">
 						<FloatingButton />
 					</Link>
 				</ContentTitle>
-			</PageHeaderContainer>
+			</ContentWidthConstraint>
 			<Spacer spacing={2} />
 			{decks && decks.length ? (
 				<ListContainer spacing={3}>
