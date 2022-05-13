@@ -6,7 +6,7 @@ import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
 import useAction from "hooks/useAction";
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
 
@@ -62,7 +62,9 @@ const Login = () => {
 					Log in
 				</Button>
 			</form>
-			<SimpleButton to="/signup">Sign up</SimpleButton>
+			<SimpleButton as={Link} to="/signup">
+				Sign up
+			</SimpleButton>
 		</div>
 	);
 };

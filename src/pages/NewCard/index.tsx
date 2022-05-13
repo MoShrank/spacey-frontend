@@ -6,7 +6,7 @@ import SimpleButton from "components/SimpleButton";
 import Notificator from "events/notification";
 import useAction from "hooks/useAction";
 import { useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 
@@ -73,7 +73,9 @@ const NewCard = () => {
 			<BottomContainer>
 				{error && <p className="error">{error}</p>}
 				<Button loading={createCardLoading}>Create card</Button>
-				<SimpleButton to={`/decks/${deck.id}`}>Cancel</SimpleButton>
+				<SimpleButton as={Link} to={`/decks/${deck.id}`}>
+					Cancel
+				</SimpleButton>
 			</BottomContainer>
 		</EditableCard>
 	);

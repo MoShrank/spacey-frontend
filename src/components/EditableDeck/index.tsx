@@ -10,7 +10,7 @@ import SimpleButton from "components/SimpleButton";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DeckI } from "types/deck";
 
 import "./style.scss";
@@ -108,7 +108,9 @@ const EditableDeck = ({
 				<Button loading={loading} disabled={loading || deckEq(deck, deckPrefill)}>
 					{buttonName}
 				</Button>
-				<SimpleButton to={redirectOnSubmit}>Cancel</SimpleButton>
+				<SimpleButton as={Link} to={redirectOnSubmit}>
+					Cancel
+				</SimpleButton>
 			</BottomContainer>
 		</Form>
 	);

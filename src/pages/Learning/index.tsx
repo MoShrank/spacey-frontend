@@ -19,7 +19,7 @@ import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGlobalState } from "store/store";
 import { CardI, LearningSessionI } from "types/deck";
@@ -166,7 +166,9 @@ const Learning = () => {
 				) : (
 					<>
 						<Button onClick={onShowAnswer}>Show Answer</Button>
-						<SimpleButton to={`/decks/${deck.id}`}>Cancel</SimpleButton>
+						<SimpleButton as={Link} to={`/decks/${deck.id}`}>
+							Cancel
+						</SimpleButton>
 					</>
 				)}
 			</BottomContainer>

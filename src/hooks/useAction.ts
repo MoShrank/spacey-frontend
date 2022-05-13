@@ -11,9 +11,7 @@ const useAction = <T>(
 	action: (...args: any[]) => Promise<(state: T) => T>,
 	loadingDef?: boolean,
 ): [boolean, string, (...args: unknown[]) => Promise<unknown>] => {
-	const [loading, setLoading] = useState(
-		loadingDef === undefined ? false : loadingDef,
-	);
+	const [loading, setLoading] = useState(!!loadingDef);
 	const [error, setError] = useState("");
 
 	const call = async (...args: unknown[]) => {

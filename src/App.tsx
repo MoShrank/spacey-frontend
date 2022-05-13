@@ -10,9 +10,9 @@ import RequireBeta from "components/RequireBeta";
 import Notificator, { NotificatorI } from "events/notification";
 import Error404 from "pages/404";
 import CardDetail from "pages/CardDetail";
+import CardGeneration from "pages/CardGeneration";
 import DeckDetail from "pages/DeckDetail/DeckDetail";
 import EditDeck from "pages/EditDeck";
-import GenerateCards from "pages/GenerateCards";
 import Home from "pages/Home";
 import Imprint from "pages/Imprint";
 import Learning from "pages/Learning";
@@ -160,7 +160,7 @@ const App = () => {
 					element={
 						<RequireAuth>
 							<RequireBeta>
-								<GenerateCards />
+								<CardGeneration />
 							</RequireBeta>
 						</RequireAuth>
 					}

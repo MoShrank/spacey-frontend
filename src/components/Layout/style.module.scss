@@ -2,15 +2,18 @@
 @use "../../styles/vars.scss";
 
 .container {
+	background-color: #fff;
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	padding-top: vars.$navbar-height + 8px;
 	align-items: center;
 	height: 100%;
+	overflow: auto;
+	position: relative;
 
 	@include breakpoints.s {
-		padding-top: vars.$navbar-height + 64px;
+		padding-top: vars.$navbar-height + 32px;
 		margin-left: auto;
 		margin-right: auto;
 	}

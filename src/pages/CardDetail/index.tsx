@@ -1,21 +1,18 @@
 import { deleteCardAction, getDecksAction } from "actions/deck";
 import { updateCardAction } from "actions/deck";
-import { ReactComponent as ArrowIcon } from "assets/icons/arrow.svg";
 import Button from "components/Button";
 import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
 import BottomContainer from "components/FormBottom";
 import Loader from "components/Loader";
 import SimpleButton from "components/SimpleButton";
-import Text from "components/Text";
+import Swiper from "components/Swiper";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { CardI, DeckI } from "types/deck";
 import { next, prev } from "util/array";
-
-import style from "./style.module.scss";
 
 const cardEq = (
 	a: { question: string; answer: string } | undefined,
@@ -112,20 +109,18 @@ const CardDetail = () => {
 			onQuestionInput={handleQuestionInput}
 			onAnswerInput={handleAnswerInput}
 		>
-			<div className={style.swipe_container}>
-				<ArrowIcon onClick={handlePrev} />
-				<Text color="lightgrey">
-					card {cardIdx + 1} of {deck.cards.length}
-				</Text>
-				<ArrowIcon onClick={handleNext} />
-			</div>
+			<Swiper handleNext={handleNext} handlePrev={handlePrev}>
+				card {cardIdx + 1} of {deck.cards.length}
+			</Swiper>
 			<BottomContainer>
 				{editDeckError && <p className="error">{editDeckError}</p>}
 				<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
 				<Button disabled={buttonDisabled} loading={editDeckLoading}>
 					Save changes
 				</Button>
-				<SimpleButton to={`/decks/${deck.id}`}>Cancel</SimpleButton>
+				<SimpleButton as={Link} to={`/decks/${deck.id}`}>
+					Cancel
+				</SimpleButton>
 			</BottomContainer>
 		</EditableCard>
 	);

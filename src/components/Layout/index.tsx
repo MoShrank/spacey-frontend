@@ -1,4 +1,5 @@
 import Navbar from "components/Navbar";
+import { combineStyles } from "util/css";
 
 import style from "./style.module.scss";
 
@@ -6,6 +7,7 @@ interface LayoutPropsI {
 	width: "full" | "desktop" | "s";
 	children: React.ReactNode;
 	className?: string;
+	navbar?: boolean;
 }
 
 const widthStyles = {
@@ -14,12 +16,16 @@ const widthStyles = {
 	s: style.s,
 };
 
-const Layout = ({ width, children, className }: LayoutPropsI) => {
+const Layout = ({
+	width,
+	children,
+	className,
+	navbar = true,
+}: LayoutPropsI) => {
 	const widthClass = widthStyles[width];
-
 	return (
-		<div className={`${style.container} ${widthClass} ${className}`}>
-			<Navbar />
+		<div className={combineStyles(style.container, widthClass, className)}>
+			{navbar && <Navbar />}
 			{children}
 		</div>
 	);

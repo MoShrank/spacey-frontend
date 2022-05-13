@@ -89,8 +89,12 @@ class API {
 		return API.Request(url, "GET", { queryParameters });
 	}
 
-	static async POST(url: string, body: unknown): Promise<unknown> {
-		return API.Request(url, "POST", { body });
+	static async POST(
+		url: string,
+		body: unknown,
+		queryParameters?: Record<string, string> | string[][],
+	): Promise<unknown> {
+		return API.Request(url, "POST", { body, queryParameters });
 	}
 
 	static async PUT(url: string, body: unknown): Promise<unknown> {
