@@ -1,3 +1,4 @@
+import { ReactComponent as ArrowIcon } from "assets/icons/arrow.svg";
 import { ReactComponent as CreateIcon } from "assets/icons/create.svg";
 import { ReactComponent as EditIcon } from "assets/icons/edit.svg";
 import { ReactComponent as GenerateIcon } from "assets/icons/generate.svg";
@@ -20,7 +21,7 @@ import Spacer from "components/Spacer";
 import Text from "components/Text";
 import useOnClickOutside from "hooks/useClickOutside";
 import { useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
@@ -66,6 +67,8 @@ const DeckDetail = () => {
 	const infoRef = useRef<HTMLDivElement>(null);
 	const popupRef = useRef<HTMLDivElement>(null);
 
+	const navigate = useNavigate();
+
 	useOnClickOutside(infoRef, () => setInfoOpen(false));
 	useOnClickOutside(popupRef, () => setCreatePopupOpen(false));
 
@@ -79,6 +82,8 @@ const DeckDetail = () => {
 		<Layout width="full">
 			<ContentWidthConstraint>
 				<div className={style.deck_detail_header}>
+					<ArrowIcon onClick={() => navigate("/")} />
+					<Spacer spacing={2} direction="row" />
 					<Text color="darkblue">{deck.name}</Text>
 					{infoOpen && (
 						<Popup ref={infoRef} className={style.description_popup}>

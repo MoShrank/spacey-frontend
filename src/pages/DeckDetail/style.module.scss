@@ -9,10 +9,6 @@
 	justify-content: flex-start;
 	align-items: center;
 
-	svg:first-of-type {
-		margin-left: auto;
-	}
-
 	> svg {
 		cursor: pointer;
 	}
@@ -22,6 +18,10 @@
 		cursor: pointer;
 		display: inline-flex;
 	}
+}
+
+.info_icon {
+	margin-left: auto;
 }
 
 .floating_container {
