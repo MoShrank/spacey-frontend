@@ -13,6 +13,7 @@ import CardDetail from "pages/CardDetail";
 import CardGeneration from "pages/CardGeneration";
 import DeckDetail from "pages/DeckDetail/DeckDetail";
 import EditDeck from "pages/EditDeck";
+import GPT3Explanation from "pages/GP3Explanation";
 import Home from "pages/Home";
 import Imprint from "pages/Imprint";
 import Learning from "pages/Learning";
@@ -142,6 +143,14 @@ const App = () => {
 					element={
 						<RequireAuth>
 							<Home />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/ai"
+					element={
+						<RequireAuth>
+							<GPT3Explanation />
 						</RequireAuth>
 					}
 				/>
