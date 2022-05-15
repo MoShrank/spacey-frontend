@@ -1,33 +1,21 @@
-import { setRecallProbability } from "actions/deck";
 import { ReactComponent as LogoIcon } from "assets/img/logo.svg";
 import Button from "components/Button";
 import BottomContainer from "components/FormBottom";
 import Header from "components/Header";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
 import Text from "components/Text";
-import { useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { store, useGlobalState } from "store/store";
+import { Link } from "react-router-dom";
 import { DeckI } from "types/deck";
 
 import style from "./style.module.scss";
 
-const LearningFinished = () => {
-	const { deckID } = useParams();
+interface LearningFinishedI {
+	deck: DeckI;
+}
 
-	const [deck, setDeck] = useGlobalState<DeckI | undefined>("deck");
-	if (!deck || deckID !== deck.id) return <Navigate to="/404" />;
-
-	store.emit("decks", setRecallProbability(deck.id, 1));
-
-	useEffect(() => {
-		return () => setDeck(undefined);
-	}, []);
-
+const LearningFinished = ({ deck }: LearningFinishedI) => {
 	return (
 		<div className={style.container}>
-			<Text>{deck.name}</Text>
 			<LogoIcon />
 			<Header kind="h2">You finished learning</Header>
 			<Header kind="h2" color="secondary">
@@ -45,7 +33,7 @@ const LearningFinished = () => {
 				<Text className={style.center}>Come back tomorrow to keep it burning</Text>
 			</div>
 			<BottomContainer>
-				<Link to={`/decks/${deckID}`}>
+				<Link to={`/decks/${deck.id}`}>
 					<Button>Return to deck</Button>
 				</Link>
 			</BottomContainer>

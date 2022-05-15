@@ -1,4 +1,5 @@
 import Navbar from "components/Navbar";
+import Spacer from "components/Spacer";
 import { combineStyles } from "util/css";
 
 import style from "./style.module.scss";
@@ -27,6 +28,7 @@ const Layout = ({
 		<div className={combineStyles(style.container, widthClass, className)}>
 			{navbar && <Navbar />}
 			{children}
+			<Spacer spacing={1} />
 		</div>
 	);
 };

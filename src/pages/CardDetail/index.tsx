@@ -5,6 +5,8 @@ import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
 import BottomContainer from "components/FormBottom";
 import Loader from "components/Loader";
+import Modal from "components/Modal";
+import ModalLayout from "components/ModalLayout";
 import SimpleButton from "components/SimpleButton";
 import Swiper from "components/Swiper";
 import useAPIFetch from "hooks/useAPIFetch";
@@ -102,27 +104,31 @@ const CardDetail = () => {
 	};
 
 	return (
-		<EditableCard
-			deck={deck}
-			card={card}
-			onSubmit={handleSubmit}
-			onQuestionInput={handleQuestionInput}
-			onAnswerInput={handleAnswerInput}
-		>
-			<Swiper handleNext={handleNext} handlePrev={handlePrev}>
-				card {cardIdx + 1} of {deck.cards.length}
-			</Swiper>
-			<BottomContainer>
-				{editDeckError && <p className="error">{editDeckError}</p>}
-				<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
-				<Button disabled={buttonDisabled} loading={editDeckLoading}>
-					Save changes
-				</Button>
-				<SimpleButton as={Link} to={`/decks/${deck.id}`}>
-					Cancel
-				</SimpleButton>
-			</BottomContainer>
-		</EditableCard>
+		<Modal>
+			<ModalLayout onClose={() => navigate(`/decks/${deck.id}`)}>
+				<EditableCard
+					deck={deck}
+					card={card}
+					onSubmit={handleSubmit}
+					onQuestionInput={handleQuestionInput}
+					onAnswerInput={handleAnswerInput}
+				>
+					<Swiper handleNext={handleNext} handlePrev={handlePrev}>
+						card {cardIdx + 1} of {deck.cards.length}
+					</Swiper>
+					<BottomContainer>
+						{editDeckError && <p className="error">{editDeckError}</p>}
+						<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
+						<Button disabled={buttonDisabled} loading={editDeckLoading}>
+							Save changes
+						</Button>
+						<SimpleButton as={Link} to={`/decks/${deck.id}`}>
+							Cancel
+						</SimpleButton>
+					</BottomContainer>
+				</EditableCard>
+			</ModalLayout>
+		</Modal>
 	);
 };
 

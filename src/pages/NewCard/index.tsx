@@ -2,11 +2,14 @@ import { createCardAction } from "actions/deck";
 import Button from "components/Button";
 import EditableCard from "components/EditableCard";
 import BottomContainer from "components/FormBottom";
+import Modal from "components/Modal";
+import ModalLayout from "components/ModalLayout";
 import SimpleButton from "components/SimpleButton";
 import Notificator from "events/notification";
 import useAction from "hooks/useAction";
 import { useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 
@@ -19,6 +22,8 @@ const NewCard = () => {
 
 	const { deckID } = useParams();
 	const deck = decks.find(({ id }) => id === deckID);
+
+	const navigate = useNavigate();
 
 	const [card, setCard] = useState({
 		question: "",
@@ -63,21 +68,25 @@ const NewCard = () => {
 	};
 
 	return (
-		<EditableCard
-			deck={deck}
-			onSubmit={handleSubmit}
-			card={card}
-			onQuestionInput={handleQuestionInput}
-			onAnswerInput={handleAnswerInput}
-		>
-			<BottomContainer>
-				{error && <p className="error">{error}</p>}
-				<Button loading={createCardLoading}>Create card</Button>
-				<SimpleButton as={Link} to={`/decks/${deck.id}`}>
-					Cancel
-				</SimpleButton>
-			</BottomContainer>
-		</EditableCard>
+		<Modal>
+			<ModalLayout onClose={() => navigate(`/decks/${deck.id}`)}>
+				<EditableCard
+					deck={deck}
+					onSubmit={handleSubmit}
+					card={card}
+					onQuestionInput={handleQuestionInput}
+					onAnswerInput={handleAnswerInput}
+				>
+					<BottomContainer>
+						{error && <p className="error">{error}</p>}
+						<Button loading={createCardLoading}>Create card</Button>
+						<SimpleButton as={Link} to={`/decks/${deck.id}`}>
+							Cancel
+						</SimpleButton>
+					</BottomContainer>
+				</EditableCard>
+			</ModalLayout>
+		</Modal>
 	);
 };
 

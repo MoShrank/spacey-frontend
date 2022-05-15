@@ -1,13 +1,22 @@
 import { createDeckAction } from "actions/deck";
 import EditableDeck from "components/EditableDeck";
+import Modal from "components/Modal";
+import ModalLayout from "components/ModalLayout";
+import { useNavigate } from "react-router-dom";
 
 const NewDeck = () => {
+	const navigate = useNavigate();
+
 	return (
-		<EditableDeck
-			submitAction={createDeckAction}
-			buttonName="Create deck"
-			formTitle="Create Deck"
-		/>
+		<Modal>
+			<ModalLayout onClose={() => navigate("/")}>
+				<EditableDeck
+					submitAction={createDeckAction}
+					buttonName="Create deck"
+					formTitle="Create Deck"
+				/>
+			</ModalLayout>
+		</Modal>
 	);
 };
 

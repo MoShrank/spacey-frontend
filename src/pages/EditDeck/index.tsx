@@ -3,6 +3,8 @@ import { getDecksAction } from "actions/deck";
 import DeleteDialog from "components/DeleteDialog";
 import EditableDeck from "components/EditableDeck";
 import Loader from "components/Loader";
+import Modal from "components/Modal";
+import ModalLayout from "components/ModalLayout";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
@@ -25,15 +27,19 @@ const EditDeck = () => {
 	if (!deck) return <Navigate to="/404" />;
 
 	return (
-		<EditableDeck
-			submitAction={updateDeckAction}
-			buttonName="Save changes"
-			formTitle="Edit Deck"
-			deckPrefill={deck}
-			redirectOnSubmit={`/decks/${deckID}`}
-		>
-			<DeleteDialog onDelete={handleDelete}>Delete this Deck</DeleteDialog>
-		</EditableDeck>
+		<Modal>
+			<ModalLayout onClose={() => navigate(`/decks/${deckID}`)}>
+				<EditableDeck
+					submitAction={updateDeckAction}
+					buttonName="Save changes"
+					formTitle="Edit Deck"
+					deckPrefill={deck}
+					redirectOnSubmit={`/decks/${deckID}`}
+				>
+					<DeleteDialog onDelete={handleDelete}>Delete this Deck</DeleteDialog>
+				</EditableDeck>
+			</ModalLayout>
+		</Modal>
 	);
 };
 

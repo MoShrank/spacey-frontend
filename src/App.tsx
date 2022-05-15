@@ -16,12 +16,10 @@ import EditDeck from "pages/EditDeck";
 import Home from "pages/Home";
 import Imprint from "pages/Imprint";
 import Learning from "pages/Learning";
-import LearningFinished from "pages/LearningFinished";
 import Login from "pages/Login";
 import Logout from "pages/Logout";
 import NewCard from "pages/NewCard";
 import NewDeck from "pages/NewDeck";
-import NoLearning from "pages/NoLearning";
 import Privacy from "pages/Privacy";
 import SignUp from "pages/SignUp";
 import TOS from "pages/TOS";
@@ -165,63 +163,47 @@ const App = () => {
 						</RequireAuth>
 					}
 				/>
+				<Route
+					path="/deck/new"
+					element={
+						<RequireAuth>
+							<NewDeck />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/decks/:deckID/edit"
+					element={
+						<RequireAuth>
+							<EditDeck />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/decks/:deckID/card/new"
+					element={
+						<RequireAuth>
+							<NewCard />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/decks/:deckID/cards/:cardID"
+					element={
+						<RequireAuth>
+							<CardDetail />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/learn/:deckID"
+					element={
+						<RequireAuth>
+							<Learning />
+						</RequireAuth>
+					}
+				/>
 				<Route path="/" element={<Layout />}>
-					<Route
-						path="/deck/new"
-						element={
-							<RequireAuth>
-								<NewDeck />
-							</RequireAuth>
-						}
-					/>
-					<Route
-						path="/decks/:deckID/edit"
-						element={
-							<RequireAuth>
-								<EditDeck />
-							</RequireAuth>
-						}
-					/>
-					<Route
-						path="/decks/:deckID/card/new"
-						element={
-							<RequireAuth>
-								<NewCard />
-							</RequireAuth>
-						}
-					/>
-					<Route
-						path="/decks/:deckID/cards/:cardID"
-						element={
-							<RequireAuth>
-								<CardDetail />
-							</RequireAuth>
-						}
-					/>
-					<Route
-						path="/learn/:deckID"
-						element={
-							<RequireAuth>
-								<Learning />
-							</RequireAuth>
-						}
-					/>
-					<Route
-						path="/learn/:deckID/finished"
-						element={
-							<RequireAuth>
-								<LearningFinished />
-							</RequireAuth>
-						}
-					/>
-					<Route
-						path="/decks/:deckID/nolearning"
-						element={
-							<RequireAuth>
-								<NoLearning />
-							</RequireAuth>
-						}
-					/>
 					<Route
 						path="/logout"
 						element={
