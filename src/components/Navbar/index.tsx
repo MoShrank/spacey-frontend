@@ -1,30 +1,29 @@
-import { ReactComponent as MenuIcon } from "assets/icons/accountIcon.svg";
-import { ReactComponent as HomeIcon } from "assets/img/logo_simple.svg";
-import AccountMenu from "components/AccountMenu";
-import useOnClickOutside from "hooks/useClickOutside";
-import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useGlobalState } from "store/store";
 
+import DesktopNavbar from "./DesktopNavbar";
+import MobileNavbar from "./MobileNavbar";
 import style from "./style.module.scss";
 
 const Navbar = () => {
-	const [menuOpen, setMenuOpen] = useState(false);
-	const menuRef = useRef(null);
-	const [isLoggedIn] = useGlobalState("isLoggedIn");
-	useOnClickOutside(menuRef, () => setMenuOpen(false));
+	const [isLoggedIn] = useGlobalState<string>("isLoggedIn");
+	const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 500);
 
-	return (
-		<nav className={style.container}>
-			{isLoggedIn && (
-				<Link className={style.home_icon} to="/">
-					<HomeIcon />
-				</Link>
-			)}
-			{isLoggedIn && <MenuIcon onClick={() => setMenuOpen(true)} />}
-			{menuOpen && <AccountMenu onClose={() => setMenuOpen(false)} />}
-		</nav>
-	);
+	const Nav = isDesktop ? DesktopNavbar : MobileNavbar;
+
+	useEffect(() => {
+		const onChange = () => {
+			setIsDesktop(window.innerWidth >= 500);
+		};
+
+		window.addEventListener("resize", onChange);
+
+		return () => {
+			window.removeEventListener("resize", onChange);
+		};
+	}, []);
+
+	return <nav className={style.container}>{isLoggedIn && <Nav />}</nav>;
 };
 
 export default Navbar;

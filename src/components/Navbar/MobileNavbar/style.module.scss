@@ -1,0 +1,17 @@
+@use "../../../styles/vars.scss";
+
+.home_icon {
+	display: flex;
+
+	> svg {
+		height: 30px;
+		width: 33px;
+	}
+}
+
+.menu_position {
+	top: vars.$navbar-height;
+	right: 0;
+	position: fixed;
+	z-index: vars.$popup;
+}

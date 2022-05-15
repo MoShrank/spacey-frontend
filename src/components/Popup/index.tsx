@@ -12,7 +12,7 @@ const Overlay = () => (
 
 interface PopupI {
 	children: React.ReactNode;
-	className: string;
+	className?: string;
 }
 
 const Popup = forwardRef<HTMLDivElement, PopupI>(

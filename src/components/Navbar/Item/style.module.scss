@@ -1,0 +1,11 @@
+.item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	svg {
+		margin-left: 8px;
+		cursor: pointer;
+		box-shadow: none;
+	}
+}

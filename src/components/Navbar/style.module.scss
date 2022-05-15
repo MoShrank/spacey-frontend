@@ -14,15 +14,6 @@
 	align-items: center;
 	justify-content: space-between;
 
-	.home_icon {
-		display: flex;
-
-		> svg {
-			height: 30px;
-			width: 33px;
-		}
-	}
-
 	> svg {
 		cursor: pointer;
 	}
