@@ -93,6 +93,10 @@ const SignUp = () => {
 		setDisabled(false);
 	};
 
+	const legalTextColor = {
+		color: legalError ? "red" : legalAccepted ? "darkblue" : "lightgrey",
+	};
+
 	return (
 		<div className={style.container}>
 			<img src={Planet} alt="planet logo" />
@@ -153,11 +157,21 @@ const SignUp = () => {
 						color={legalError ? "red" : legalAccepted ? "darkblue" : "lightgrey"}
 					>
 						I agree to the&nbsp;
-						<Link target="_blank" rel="noopener noreferrer" to="/privacy">
+						<Link
+							style={legalTextColor}
+							target="_blank"
+							rel="noopener noreferrer"
+							to="/privacy"
+						>
 							Privacy Policy
 						</Link>
 						&nbsp;and&nbsp;
-						<Link target="_blank" rel="noopener noreferrer" to="/tos">
+						<Link
+							style={legalTextColor}
+							target="_blank"
+							rel="noopener noreferrer"
+							to="/tos"
+						>
 							Terms of Use
 						</Link>
 					</Text>

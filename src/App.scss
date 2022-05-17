@@ -64,15 +64,12 @@ body {
 }
 
 a,
-a:focus {
+a:focus,
+a:visited {
 	text-decoration: none;
 	display: block;
 	color: inherit;
 	outline: none;
-}
-
-a:visited {
-	color: inherit;
 }
 
 .error {

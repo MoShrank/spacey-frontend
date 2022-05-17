@@ -41,4 +41,13 @@
 	display: flex;
 	flex-wrap: wrap;
 	word-wrap: break-word;
+
+	a,
+	a:visited {
+		color: inherit !important;
+	}
+
+	a:focus {
+		text-decoration: underline;
+	}
 }
