@@ -31,6 +31,8 @@ interface CardGenerationInputI {
 	onSubmit: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
+const MAX_NOTE_LENGTH = 1000;
+
 const CardGenerationInput = ({
 	onClose,
 	onSubmit,
@@ -58,9 +60,11 @@ const CardGenerationInput = ({
 		}
 
 		const text = await navigator.clipboard.readText();
+		const noteTrimmed = text.slice(0, MAX_NOTE_LENGTH);
+
 		setPasteOverlayOpen(false);
 
-		setNote(text);
+		setNote(noteTrimmed);
 	};
 
 	return (
@@ -86,7 +90,7 @@ const CardGenerationInput = ({
 					label="text to generate cards from"
 					value={note}
 					error={error}
-					maxLength={1000}
+					maxLength={MAX_NOTE_LENGTH}
 					onChange={e => setNote(e.target.value)}
 				/>
 			</div>

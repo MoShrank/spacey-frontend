@@ -1,9 +1,17 @@
 @use "../../styles/colors.scss";
 
+.container {
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
 .loader {
 	border-radius: 50%;
 	animation: spin 1.7s linear infinite;
-	margin: auto;
+	margin-bottom: 16px;
 }
 
 .small {

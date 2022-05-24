@@ -13,7 +13,6 @@
 	position: relative;
 
 	@include breakpoints.s {
-		padding-top: vars.$navbar-height + 32px;
 		margin-left: auto;
 		margin-right: auto;
 	}

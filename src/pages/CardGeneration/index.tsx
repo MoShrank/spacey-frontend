@@ -39,7 +39,7 @@ enum pageStates {
 
 const pageHeader = {
 	[pageStates.GENERATE]: "Generate Cards",
-	[pageStates.LOADING]: "Loading...",
+	[pageStates.LOADING]: "Generating Cards",
 	[pageStates.REVIEW]: "Review Cards",
 	[pageStates.EDIT]: "Edit Cards",
 };
@@ -173,7 +173,13 @@ const CardGeneration = () => {
 
 	switch (pageState) {
 		case pageStates.LOADING:
-			Component = <Loader size="large" />;
+			Component = (
+				<>
+					<Loader size="large">
+						<Text color="grey">Your cards are being generated</Text>
+					</Loader>
+				</>
+			);
 			break;
 
 		case pageStates.GENERATE:
@@ -237,7 +243,6 @@ const CardGeneration = () => {
 				onClose={pageState === pageStates.EDIT ? onCloseEdit : onClose}
 			>
 				<Text className={style.align_left}>{deck.name}</Text>
-				<Spacer spacing={1} />
 				<Header className={style.align_left} kind="h1">
 					{pageHeader[pageState]}
 				</Header>

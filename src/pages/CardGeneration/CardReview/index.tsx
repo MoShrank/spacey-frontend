@@ -60,7 +60,7 @@ export const CardReview = ({
 				Add cards to deck
 			</Button>
 			<SimpleButton as="button" onClick={onClose}>
-				cancel
+				Cancel
 			</SimpleButton>
 		</ContentWidthConstraint>
 	</>
