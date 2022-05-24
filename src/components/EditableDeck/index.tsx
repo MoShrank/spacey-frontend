@@ -7,6 +7,7 @@ import Header from "components/Header";
 import TextArea from "components/Input/TextArea";
 import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
+import Spacer from "components/Spacer";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { useEffect, useState } from "react";
@@ -82,6 +83,7 @@ const EditableDeck = ({
 			<Header kind="h2" color="primary">
 				{formTitle}
 			</Header>
+			<Spacer spacing={3} />
 			<TextInput
 				type="text"
 				placeholder="name"
@@ -90,6 +92,7 @@ const EditableDeck = ({
 				maxLength={30}
 				onChange={e => setDeck({ ...deck, name: e.target.value })}
 			/>
+			<Spacer spacing={3} />
 			<TextArea
 				placeholder="description (optional)"
 				value={deck.description}
@@ -97,6 +100,7 @@ const EditableDeck = ({
 				maxLength={200}
 				onChange={e => setDeck({ ...deck, description: e.target.value })}
 			/>
+			<Spacer spacing={3} />
 			<ColorInput
 				colors={config.colors}
 				selectedColor={deck.color}

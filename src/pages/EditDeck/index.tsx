@@ -5,6 +5,7 @@ import EditableDeck from "components/EditableDeck";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
+import Spacer from "components/Spacer";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
@@ -37,6 +38,7 @@ const EditDeck = () => {
 					redirectOnSubmit={`/decks/${deckID}`}
 				>
 					<DeleteDialog onDelete={handleDelete}>Delete this Deck</DeleteDialog>
+					<Spacer spacing={2} />
 				</EditableDeck>
 			</ModalLayout>
 		</Modal>

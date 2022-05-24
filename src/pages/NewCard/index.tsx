@@ -1,10 +1,12 @@
 import { createCardAction } from "actions/deck";
 import Button from "components/Button";
 import EditableCard from "components/EditableCard";
+import Error from "components/Error";
 import BottomContainer from "components/FormBottom";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
 import SimpleButton from "components/SimpleButton";
+import Spacer from "components/Spacer";
 import Notificator from "events/notification";
 import useAction from "hooks/useAction";
 import { useState } from "react";
@@ -78,7 +80,8 @@ const NewCard = () => {
 					onAnswerInput={handleAnswerInput}
 				>
 					<BottomContainer>
-						{error && <p className="error">{error}</p>}
+						{error && <Error>{error}</Error>}
+						<Spacer spacing={4} />
 						<Button loading={createCardLoading}>Create card</Button>
 						<SimpleButton as={Link} to={`/decks/${deck.id}`}>
 							Cancel

@@ -8,6 +8,7 @@ import Loader from "components/Loader";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
 import SimpleButton from "components/SimpleButton";
+import Spacer from "components/Spacer";
 import Swiper from "components/Swiper";
 import useAPIFetch from "hooks/useAPIFetch";
 import useAction from "hooks/useAction";
@@ -113,12 +114,15 @@ const CardDetail = () => {
 					onQuestionInput={handleQuestionInput}
 					onAnswerInput={handleAnswerInput}
 				>
+					<Spacer spacing={3} />
 					<Swiper handleNext={handleNext} handlePrev={handlePrev}>
 						card {cardIdx + 1} of {deck.cards.length}
 					</Swiper>
+					<Spacer spacing={3} />
 					<BottomContainer>
 						{editDeckError && <p className="error">{editDeckError}</p>}
 						<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
+						<Spacer spacing={3} />
 						<Button disabled={buttonDisabled} loading={editDeckLoading}>
 							Save changes
 						</Button>
