@@ -100,7 +100,6 @@ const Learning = () => {
 				learningCards.totalLearningCards > 0 &&
 				learningCards.learningOrder.length === 0
 			) {
-				console.log("finished inside use effect");
 				finishedLearningSession(learningSession).then(() => {
 					store.emit("decks", setRecallProbability(deckID, 1));
 					setPageState(pageStates.FINISHED);
@@ -118,9 +117,6 @@ const Learning = () => {
 			}
 		}
 	}, [learningCards]);
-
-	console.log(pageState);
-	console.log(learningCards);
 
 	const onShowAnswer = () => {
 		setShowAnswer(true);

@@ -95,7 +95,7 @@ const CardGeneration = () => {
 			await generateCardsCall(deckID, note);
 			setPageState(pageStates.REVIEW);
 		} catch (e) {
-			/* tslint:disable:no-empty */
+			setPageState(pageStates.GENERATE);
 		}
 	};
 
