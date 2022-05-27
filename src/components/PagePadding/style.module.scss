@@ -1,0 +1,6 @@
+@use "../../styles/vars.scss";
+
+.padding {
+	padding-left: vars.$page-gap;
+	padding-right: vars.$page-gap;
+}

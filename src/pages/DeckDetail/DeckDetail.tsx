@@ -15,12 +15,13 @@ import Layout from "components/Layout";
 import Line from "components/Line";
 import ListContainer from "components/ListContainer";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
+import PagePadding from "components/PagePadding";
 import Popup from "components/Popup";
 import SecondaryButton from "components/SecondaryButton";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
 import useOnClickOutside from "hooks/useClickOutside";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
@@ -80,59 +81,63 @@ const DeckDetail = () => {
 
 	return (
 		<Layout width="full">
-			<div className={style.deck_detail_header}>
-				<ArrowIcon onClick={() => navigate("/")} />
-				<Spacer spacing={2} direction="row" />
-				<Text color="darkblue">{deck.name}</Text>
-				{infoOpen && (
-					<Popup ref={infoRef} className={style.description_popup}>
-						{
-							<Text color={deck.description ? "black" : "lightgrey"}>
-								{deck.description || emptyDeckPlaceholder}
-							</Text>
-						}
-					</Popup>
-				)}
-				<InfoIcon
-					className={style.info_icon}
-					id="info_icon"
-					onClick={() => setInfoOpen(!infoOpen)}
-					fill={colors.darkblue}
-				/>
-				<Spacer spacing={1} direction="row" />
-				<Link to="edit">
-					<EditIcon />
-				</Link>
-			</div>
-			<Spacer spacing={2} />
-			<MemoryStabilityIndicator
-				probability={deck.averageRecallProbability}
-				styles={{ width: "24px", height: "24px" }}
-				fill={"darkblue"}></MemoryStabilityIndicator>
-			<Spacer spacing={2} />
-			<Line />
-			<Spacer spacing={2} />
-			<ContentTitle>
-				<Header kind="h2">Your Cards</Header>
-				<FloatingButton
-					id="create_button"
-					action={() => setCreatePopupOpen(!createPopupOpen)}
-				/>
-				{createPopupOpen && (
-					<Popup ref={popupRef} className={style.create_card_popup_container}>
-						<PopupItem title="Create" url="card/new" Icon={<CreateIcon />} />
-						<PopupItem
-							title="Generate"
-							url="card/generate"
-							unauthorized={!user.betaUser}
-							Icon={<GenerateIcon />}
-						/>
-					</Popup>
-				)}
-			</ContentTitle>
-			<Spacer spacing={2} />
-			<CardCount count={deck.cards.length} />
-			<Spacer spacing={1} />
+			<PagePadding>
+				<div className={style.deck_detail_header}>
+					<ArrowIcon onClick={() => navigate("/")} />
+					<Spacer spacing={2} direction="row" />
+					<Text color="darkblue">{deck.name}</Text>
+					{infoOpen && (
+						<Popup ref={infoRef} className={style.description_popup}>
+							{
+								<Text color={deck.description ? "black" : "lightgrey"}>
+									{deck.description || emptyDeckPlaceholder}
+								</Text>
+							}
+						</Popup>
+					)}
+					<InfoIcon
+						className={style.info_icon}
+						id="info_icon"
+						onClick={() => setInfoOpen(!infoOpen)}
+						fill={colors.darkblue}
+					/>
+					<Spacer spacing={1} direction="row" />
+					<Link to="edit">
+						<EditIcon />
+					</Link>
+				</div>
+				<Spacer spacing={2} />
+				<div className={style.center}>
+					<MemoryStabilityIndicator
+						probability={deck.averageRecallProbability}
+						styles={{ width: "24px", height: "24px" }}
+						fill={"darkblue"}></MemoryStabilityIndicator>
+				</div>
+				<Spacer spacing={2} />
+				<Line />
+				<Spacer spacing={2} />
+				<ContentTitle>
+					<Header kind="h2">Your Cards</Header>
+					<FloatingButton
+						id="create_button"
+						action={() => setCreatePopupOpen(!createPopupOpen)}
+					/>
+					{createPopupOpen && (
+						<Popup ref={popupRef} className={style.create_card_popup_container}>
+							<PopupItem title="Create" url="card/new" Icon={<CreateIcon />} />
+							<PopupItem
+								title="Generate"
+								url="card/generate"
+								unauthorized={!user.betaUser}
+								Icon={<GenerateIcon />}
+							/>
+						</Popup>
+					)}
+				</ContentTitle>
+				<Spacer spacing={2} />
+				<CardCount count={deck.cards.length} />
+				<Spacer spacing={1} />
+			</PagePadding>
 			{deck.cards.length ? (
 				<ListContainer spacing={2}>
 					{deck.cards.map(card => (

@@ -1,31 +1,26 @@
 @use "../../styles/vars.scss";
 @use "../../styles/breakpoints.scss";
+@use "../../styles/colors.scss";
+@use "../../styles/styles.scss";
 
 .container {
-	overflow-x: hidden;
-	overflow-y: auto;
+	@include styles.custom_scrollbar;
+
+	max-width: vars.$content-area-width;
 	padding: 8px vars.$page-gap;
-	width: 100vw;
-	height: 1px;
-	flex-grow: 1;
+
+	flex-direction: column;
+
+	align-self: center;
+	gap: 16px;
 
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	margin-right: -(vars.$page-gap);
-	margin-left: -(vars.$page-gap);
+	width: 100%;
 
 	@include breakpoints.s {
-		margin-right: calc((100vw - vars.$content-width + vars.$page-gap) / -2);
-		margin-left: calc((100vw - vars.$content-width + vars.$page-gap) / -2);
-		padding: 8px 0;
-	}
-
-	> * {
-		width: 100%;
-		@include breakpoints.s {
-			max-width: calc(vars.$content-width - vars.$page-gap * 2);
-			//min-width: vars.$content-width;
-		}
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-content: flex-start;
 	}
 }

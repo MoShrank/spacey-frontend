@@ -1,14 +1,17 @@
 import React from "react";
 
-import customTag from "./type";
-
-interface CustomTagI {
-	tag: customTag;
+export type CustomTagI<C extends React.ElementType> = {
+	tag?: C;
 	children: React.ReactNode;
-}
+} & React.ComponentPropsWithoutRef<C>;
 
-const CustomTag = ({ tag, children, ...props }: CustomTagI) => {
-	return React.createElement(tag, props, children);
+const CustomTag = <C extends React.ElementType>({
+	tag,
+	children,
+	...rest
+}: CustomTagI<C>) => {
+	const Component = tag || "span";
+	return <Component {...rest}>{children}</Component>;
 };
 
 export default CustomTag;
