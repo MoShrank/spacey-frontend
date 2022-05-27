@@ -16,14 +16,12 @@ const Home = () => {
 
 	return (
 		<Layout width="full">
-			<ContentWidthConstraint>
-				<ContentTitle>
-					<Header kind="h2">Your Decks</Header>
-					<Link to="/deck/new">
-						<FloatingButton />
-					</Link>
-				</ContentTitle>
-			</ContentWidthConstraint>
+			<ContentTitle>
+				<Header kind="h2">Your Decks</Header>
+				<Link to="/deck/new">
+					<FloatingButton />
+				</Link>
+			</ContentTitle>
 			<Spacer spacing={2} />
 			{decks && decks.length ? (
 				<ListContainer spacing={3}>

@@ -10,7 +10,7 @@
 	align-items: center;
 
 	@include breakpoints.s {
-		min-width: vars.$content-width;
+		width: 100%;
 		max-width: vars.$content-width;
 	}
 }
