@@ -209,39 +209,33 @@ const CardGeneration = () => {
 
 		case pageStates.EDIT:
 			Component = (
-				<ContentWidthConstraint className={style.flex_grow}>
-					<EditableCard
-						onSubmit={onSubmitEdit}
-						card={card}
-						deck={deck}
-						onAnswerInput={e => setCard({ ...card, answer: e.target.value })}
-						onQuestionInput={e => setCard({ ...card, question: e.target.value })}
-					>
-						{updateError && <Error>{updateError}</Error>}
-						<DeleteDialog onDelete={handleDelete}>Delete card</DeleteDialog>
-						<Swiper handleNext={handleNext} handlePrev={handlePrev}>
-							card {card.idx + 1} of {exiNote.cards.length}
-						</Swiper>
-						<BottomContainer>
-							<Button loading={updateLoading} disabled={!cardDifferent}>
-								Save card
-							</Button>
-							<SimpleButton as="button" onClick={onCloseEdit}>
-								Cancel
-							</SimpleButton>
-						</BottomContainer>
-					</EditableCard>
-				</ContentWidthConstraint>
+				<EditableCard
+					onSubmit={onSubmitEdit}
+					card={card}
+					deck={deck}
+					onAnswerInput={e => setCard({ ...card, answer: e.target.value })}
+					onQuestionInput={e => setCard({ ...card, question: e.target.value })}>
+					{updateError && <Error>{updateError}</Error>}
+					<DeleteDialog onDelete={handleDelete}>Delete card</DeleteDialog>
+					<Swiper handleNext={handleNext} handlePrev={handlePrev}>
+						card {card.idx + 1} of {exiNote.cards.length}
+					</Swiper>
+					<BottomContainer>
+						<Button loading={updateLoading} disabled={!cardDifferent}>
+							Save card
+						</Button>
+						<SimpleButton as="button" onClick={onCloseEdit}>
+							Cancel
+						</SimpleButton>
+					</BottomContainer>
+				</EditableCard>
 			);
 			break;
 	}
 
 	return (
 		<Modal>
-			<ModalLayout
-				width="desktop"
-				onClose={pageState === pageStates.EDIT ? onCloseEdit : onClose}
-			>
+			<ModalLayout onClose={pageState === pageStates.EDIT ? onCloseEdit : onClose}>
 				<Text className={style.align_left}>{deck.name}</Text>
 				<Header className={style.align_left} kind="h1">
 					{pageHeader[pageState]}

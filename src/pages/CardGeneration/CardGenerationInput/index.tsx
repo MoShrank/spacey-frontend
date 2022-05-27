@@ -1,6 +1,5 @@
 import { ReactComponent as InfoIcon } from "assets/icons/info.svg";
 import Button from "components/Button";
-import ContentWidthConstraint from "components/ContentWidthConstraint";
 import Error from "components/Error";
 import Header from "components/Header";
 import TextArea from "components/Input/TextArea";
@@ -74,8 +73,7 @@ const CardGenerationInput = ({
 					<div
 						onClick={handlePaste}
 						onContextMenu={handlePaste}
-						className={style.overlay}
-					>
+						className={style.overlay}>
 						<Header color="black" kind="h2">
 							Right-click to paste your text
 						</Header>
@@ -96,14 +94,12 @@ const CardGenerationInput = ({
 			</div>
 			<Spacer spacing={6} />
 			{error && <Error>{error}</Error>}
-			<ContentWidthConstraint>
-				<Hint />
-				<Spacer spacing={2} />
-				<Button onClick={onSubmit}>Generate Cards</Button>
-				<SimpleButton as="button" onClick={onClose}>
-					Cancel
-				</SimpleButton>
-			</ContentWidthConstraint>
+			<Hint />
+			<Spacer spacing={2} />
+			<Button onClick={onSubmit}>Generate Cards</Button>
+			<SimpleButton as="button" onClick={onClose}>
+				Cancel
+			</SimpleButton>
 		</>
 	);
 };

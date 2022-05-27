@@ -6,14 +6,12 @@ import style from "./style.module.scss";
 const ModalLayout = ({
 	children,
 	onClose,
-	width = "s",
 }: {
 	children: React.ReactNode;
 	onClose: () => void;
-	width?: "s" | "full" | "desktop";
 }) => (
 	<div className={style.popup_layout}>
-		<Layout width={width} navbar={false}>
+		<Layout navbar={false}>
 			<CancelIcon className={style.close_button} onClick={onClose} />
 			{children}
 		</Layout>
