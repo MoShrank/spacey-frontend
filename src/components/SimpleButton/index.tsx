@@ -1,12 +1,11 @@
 import CustomTag from "components/CustomTag";
-import customTagT from "components/CustomTag/type";
 
 import style from "./style.module.scss";
 
 interface SimpleButtonProps {
 	children: React.ReactChild;
 	className?: string;
-	as: customTagT;
+	as: React.ElementType;
 	[key: string]: unknown;
 }
 

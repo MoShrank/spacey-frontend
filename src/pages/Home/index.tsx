@@ -26,9 +26,7 @@ const Home = () => {
 			{decks && decks.length ? (
 				<ListContainer spacing={3}>
 					{decks.map((deck: DeckI) => (
-						<Link key={deck.id} to={`decks/${deck.id}`}>
-							<Deck deck={deck} />
-						</Link>
+						<Deck key={deck.id} deck={deck} />
 					))}
 				</ListContainer>
 			) : (

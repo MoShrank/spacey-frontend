@@ -1,5 +1,4 @@
 import Navbar from "components/Navbar";
-import Spacer from "components/Spacer";
 import React from "react";
 import { combineStyles } from "util/css";
 
@@ -10,7 +9,6 @@ interface LayoutPropsI {
 	children: React.ReactNode;
 	className?: string;
 	navbar?: boolean;
-	constrainContentWidth?: boolean;
 }
 
 const widthStyles = {
@@ -18,9 +16,13 @@ const widthStyles = {
 	normal: style.normal,
 };
 
-const Content = ({ children }: { children: React.ReactNode }) => (
-	<div className={style.content}>{children}</div>
-);
+const Content = ({
+	children,
+	className,
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) => <div className={combineStyles(style.content, className)}>{children}</div>;
 
 const ContentArea = ({ children }: { children: React.ReactNode }) => (
 	<div className={style.content_area}>{children}</div>
@@ -31,16 +33,21 @@ const Layout = ({
 	className,
 	width = "normal",
 	navbar = true,
-	constrainContentWidth = true,
 }: LayoutPropsI) => {
 	const widthClass = widthStyles[width];
 
+	let Con = children;
+
+	if (width === "normal") {
+		Con = <Content className={widthClass}>{Con}</Content>;
+	}
+
+	<Content>{children}</Content>;
+
 	return (
-		<div className={combineStyles(style.container, widthClass, className)}>
+		<div className={combineStyles(style.container, className)}>
 			{navbar && <Navbar />}
-			<ContentArea>
-				<Content>{children}</Content>
-			</ContentArea>
+			<ContentArea>{Con}</ContentArea>
 		</div>
 	);
 };

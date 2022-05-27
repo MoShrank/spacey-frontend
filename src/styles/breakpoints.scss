@@ -1,5 +1,5 @@
 $screen-s: 500px;
-$screen-m: 982px;
+$screen-m: 984px;
 
 @mixin s {
 	@media (min-width: #{$screen-s}) {

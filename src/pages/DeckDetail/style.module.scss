@@ -28,9 +28,14 @@
 	position: fixed;
 	bottom: 20px;
 	right: vars.$page-gap;
+	width: 158px;
 
 	@include breakpoints.s {
-		right: calc((100vw - vars.$content-width) / 2);
+		width: 343px;
+		right: 0;
+		left: 0;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	svg {
