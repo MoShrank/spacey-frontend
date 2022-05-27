@@ -216,10 +216,13 @@ const CardGeneration = () => {
 					onAnswerInput={e => setCard({ ...card, answer: e.target.value })}
 					onQuestionInput={e => setCard({ ...card, question: e.target.value })}>
 					{updateError && <Error>{updateError}</Error>}
+					<Spacer spacing={3} />
 					<DeleteDialog onDelete={handleDelete}>Delete card</DeleteDialog>
+					<Spacer spacing={3} />
 					<Swiper handleNext={handleNext} handlePrev={handlePrev}>
 						card {card.idx + 1} of {exiNote.cards.length}
 					</Swiper>
+					<Spacer spacing={3} />
 					<BottomContainer>
 						<Button loading={updateLoading} disabled={!cardDifferent}>
 							Save card
@@ -237,7 +240,7 @@ const CardGeneration = () => {
 		<Modal>
 			<ModalLayout onClose={pageState === pageStates.EDIT ? onCloseEdit : onClose}>
 				<Text className={style.align_left}>{deck.name}</Text>
-				<Header className={style.align_left} kind="h1">
+				<Header className={style.align_left} kind="h2">
 					{pageHeader[pageState]}
 				</Header>
 				<Spacer spacing={2} />

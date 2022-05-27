@@ -1,26 +1,26 @@
 import CardCount from "components/CardCount/CardCount";
 import Header from "components/Header";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
+import { Link } from "react-router-dom";
 import { DeckI } from "types/deck";
 
 import "./style.scss";
 
-const Deck = (props: { deck: DeckI }) => {
+const Deck = ({ deck }: { deck: DeckI }) => {
 	return (
-		<div className="deck_container">
-			<div style={{ background: props.deck.color }} className="deck_header"></div>
+		<Link key={deck.id} to={`decks/${deck.id}`} className="deck_container">
+			<div style={{ background: deck.color }} className="deck_header"></div>
 			<div className="deck_body">
-				<Header kind="h3">{props.deck.name}</Header>
+				<Header kind="h3">{deck.name}</Header>
 				<div className="deck_info">
-					<CardCount count={props.deck.cards.length} />
+					<CardCount count={deck.cards.length} />
 					<MemoryStabilityIndicator
-						probability={props.deck.averageRecallProbability}
+						probability={deck.averageRecallProbability}
 						styles={{ width: "24px", height: "24px" }}
-						fill={"darkblue"}
-					></MemoryStabilityIndicator>
+						fill={"darkblue"}></MemoryStabilityIndicator>
 				</div>
 			</div>
-		</div>
+		</Link>
 	);
 };
 

@@ -1,6 +1,5 @@
 import CardContainer from "components/CardContainer";
 import Form from "components/Form";
-import Spacer from "components/Spacer";
 import { DeckI } from "types/deck";
 
 import style from "./style.module.scss";
@@ -27,7 +26,6 @@ const EditableCard = ({
 }: EditableCardI) => {
 	return (
 		<>
-			<Spacer spacing={2} />
 			<Form onSubmit={onSubmit}>
 				<CardContainer color={deck.color}>
 					<textarea

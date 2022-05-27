@@ -6,6 +6,7 @@ import Header from "components/Header";
 import Hint from "components/Hint";
 import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
+import PagePadding from "components/PagePadding";
 import Spacer from "components/Spacer";
 import { Link } from "react-router-dom";
 import { useGlobalState } from "store/store";
@@ -16,19 +17,19 @@ const Home = () => {
 
 	return (
 		<Layout width="full">
-			<ContentTitle>
-				<Header kind="h2">Your Decks</Header>
-				<Link to="/deck/new">
-					<FloatingButton />
-				</Link>
-			</ContentTitle>
+			<PagePadding>
+				<ContentTitle>
+					<Header kind="h2">Your Decks</Header>
+					<Link to="/deck/new">
+						<FloatingButton />
+					</Link>
+				</ContentTitle>
+			</PagePadding>
 			<Spacer spacing={2} />
 			{decks && decks.length ? (
 				<ListContainer spacing={3}>
 					{decks.map((deck: DeckI) => (
-						<Link key={deck.id} to={`decks/${deck.id}`}>
-							<Deck deck={deck} />
-						</Link>
+						<Deck key={deck.id} deck={deck} />
 					))}
 				</ListContainer>
 			) : (

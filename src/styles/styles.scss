@@ -1,0 +1,14 @@
+@use "./colors.scss";
+
+@mixin custom_scrollbar {
+	overflow-y: overlay;
+
+	&::-webkit-scrollbar {
+		width: 4px;
+		background-color: inherit;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: colors.$lightgray;
+	}
+}
