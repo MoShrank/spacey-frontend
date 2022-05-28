@@ -116,3 +116,8 @@
 	top: 4px;
 	font-size: 12px;
 }
+
+.content {
+	padding-left: vars.$page-gap;
+	padding-right: vars.$page-gap;
+}

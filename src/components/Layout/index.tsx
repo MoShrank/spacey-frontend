@@ -42,8 +42,6 @@ const Layout = ({
 		Con = <Content className={widthClass}>{Con}</Content>;
 	}
 
-	<Content>{children}</Content>;
-
 	return (
 		<div className={combineStyles(style.container, className)}>
 			{navbar && <Navbar />}
