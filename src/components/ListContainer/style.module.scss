@@ -4,6 +4,7 @@
 
 .container {
 	overflow-y: overlay;
+	--webkit-overflow: auto;
 
 	&::-webkit-scrollbar {
 		width: 4px;
@@ -14,7 +15,6 @@
 		background: colors.$lightgray;
 	}
 
-	width: vars.$content-area-width;
 	max-width: vars.$content-area-width;
 	padding: 8px vars.$page-gap;
 
