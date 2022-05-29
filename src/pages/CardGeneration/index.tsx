@@ -4,7 +4,6 @@ import {
 	updateGeneratedCardsAction,
 } from "actions/deck";
 import Button from "components/Button";
-import ContentWidthConstraint from "components/ContentWidthConstraint";
 import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
 import Error from "components/Error";
@@ -13,6 +12,7 @@ import Header from "components/Header";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
+import PagePadding from "components/PagePadding";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Swiper from "components/Swiper";
@@ -214,7 +214,8 @@ const CardGeneration = () => {
 					card={card}
 					deck={deck}
 					onAnswerInput={e => setCard({ ...card, answer: e.target.value })}
-					onQuestionInput={e => setCard({ ...card, question: e.target.value })}>
+					onQuestionInput={e => setCard({ ...card, question: e.target.value })}
+				>
 					{updateError && <Error>{updateError}</Error>}
 					<Spacer spacing={3} />
 					<DeleteDialog onDelete={handleDelete}>Delete card</DeleteDialog>
@@ -236,14 +237,27 @@ const CardGeneration = () => {
 			break;
 	}
 
+	let PageHeader = (
+		<>
+			<Text className={style.align_left}>{deck.name}</Text>
+			<Header className={style.align_left} kind="h2">
+				{pageHeader[pageState]}
+			</Header>
+			<Spacer spacing={2} />
+		</>
+	);
+
+	if (pageState === pageStates.REVIEW) {
+		PageHeader = <PagePadding>{PageHeader}</PagePadding>;
+	}
+
 	return (
 		<Modal>
-			<ModalLayout onClose={pageState === pageStates.EDIT ? onCloseEdit : onClose}>
-				<Text className={style.align_left}>{deck.name}</Text>
-				<Header className={style.align_left} kind="h2">
-					{pageHeader[pageState]}
-				</Header>
-				<Spacer spacing={2} />
+			<ModalLayout
+				width={pageState === pageStates.REVIEW ? "full" : "normal"}
+				onClose={pageState === pageStates.EDIT ? onCloseEdit : onClose}
+			>
+				{PageHeader}
 				{Component}
 			</ModalLayout>
 		</Modal>

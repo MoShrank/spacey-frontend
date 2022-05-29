@@ -1,5 +1,6 @@
 import CustomTag from "components/CustomTag";
 import Text from "components/Text";
+import { combineStyles } from "util/css";
 
 import style from "./style.module.scss";
 
@@ -16,6 +17,7 @@ const CardListItem = ({
 	answer,
 	color,
 	as = "span",
+	className,
 	...rest
 }: CardPropsI) => {
 	return (
@@ -23,7 +25,11 @@ const CardListItem = ({
 			tag={as}
 			{...rest}
 			style={{ background: color }}
-			className={style.card_container}>
+			className={combineStyles(
+				style.card_container,
+				className as string | undefined,
+			)}
+		>
 			<Text className={style.card_text} color="black">
 				{question}
 			</Text>
