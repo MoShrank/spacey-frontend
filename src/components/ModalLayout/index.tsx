@@ -1,5 +1,6 @@
 import { ReactComponent as CancelIcon } from "assets/icons/exit.svg";
 import Layout from "components/Layout";
+import ResponsiveIcon from "components/ResponsiveIcon";
 
 import style from "./style.module.scss";
 
@@ -14,7 +15,11 @@ const ModalLayout = ({
 }) => (
 	<div className={style.popup_layout}>
 		<Layout width={width} navbar={false}>
-			<CancelIcon className={style.close_button} onClick={onClose} />
+			<ResponsiveIcon
+				icon={CancelIcon}
+				className={style.close_button}
+				onClick={onClose}
+			/>
 			{children}
 		</Layout>
 	</div>

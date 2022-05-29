@@ -7,7 +7,6 @@ import { ReactComponent as LearnIcon } from "assets/icons/learn.svg";
 import CardCount from "components/CardCount/CardCount";
 import CardListItem from "components/CardListItem";
 import ContentTitle from "components/ContentTitle";
-import ContentWidthConstraint from "components/ContentWidthConstraint";
 import FloatingButton from "components/FloatingButton";
 import Header from "components/Header";
 import Hint from "components/Hint";
@@ -17,6 +16,7 @@ import ListContainer from "components/ListContainer";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
 import PagePadding from "components/PagePadding";
 import Popup from "components/Popup";
+import ResponsiveIcon from "components/ResponsiveIcon";
 import SecondaryButton from "components/SecondaryButton";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
@@ -83,7 +83,7 @@ const DeckDetail = () => {
 		<Layout width="full">
 			<PagePadding>
 				<div className={style.deck_detail_header}>
-					<ArrowIcon onClick={() => navigate("/")} />
+					<ResponsiveIcon icon={ArrowIcon} onClick={() => navigate("/")} />
 					<Spacer spacing={2} direction="row" />
 					<Text color="darkblue">{deck.name}</Text>
 					{infoOpen && (
@@ -111,7 +111,8 @@ const DeckDetail = () => {
 					<MemoryStabilityIndicator
 						probability={deck.averageRecallProbability}
 						styles={{ width: "24px", height: "24px" }}
-						fill={"darkblue"}></MemoryStabilityIndicator>
+						fill={"darkblue"}
+					></MemoryStabilityIndicator>
 				</div>
 				<Spacer spacing={2} />
 				<Line />
