@@ -2,6 +2,7 @@ import Button from "components/Button";
 import CardListItem from "components/CardListItem";
 import Error from "components/Error";
 import ListContainer from "components/ListContainer";
+import PagePadding from "components/PagePadding";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 
@@ -54,11 +55,13 @@ export const CardReview = ({
 		<CardList onClickCard={onClickCard} cards={cards} color="#FFEC87" />
 		<Spacer spacing={2} />
 		{error && <Error>{error}</Error>}
-		<Button loading={loading} onClick={onClickAddCards}>
-			Add cards to deck
-		</Button>
-		<SimpleButton as="button" onClick={onClose}>
-			Cancel
-		</SimpleButton>
+		<PagePadding>
+			<Button loading={loading} onClick={onClickAddCards}>
+				Add cards to deck
+			</Button>
+			<SimpleButton as="button" onClick={onClose}>
+				Cancel
+			</SimpleButton>
+		</PagePadding>
 	</>
 );
