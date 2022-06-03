@@ -11,7 +11,9 @@ const Deck = ({ deck }: { deck: DeckI }) => {
 		<Link key={deck.id} to={`decks/${deck.id}`} className={style.deck_container}>
 			<div style={{ background: deck.color }} className={style.deck_header}></div>
 			<div className={style.deck_body}>
-				<Header kind="h3">{deck.name}</Header>
+				<Header className={style.deck_name} kind="h3">
+					{deck.name}
+				</Header>
 				<CardCount count={deck.cards.length} />
 				<div className={style.indicator}>
 					<MemoryStabilityIndicator
