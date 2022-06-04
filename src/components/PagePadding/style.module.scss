@@ -3,4 +3,6 @@
 .padding {
 	padding-left: vars.$page-gap;
 	padding-right: vars.$page-gap;
+	display: flex;
+	flex-direction: column;
 }

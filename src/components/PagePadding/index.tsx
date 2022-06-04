@@ -1,7 +1,13 @@
 import style from "./style.module.scss";
 
-const PagePadding = ({ children }: { children: React.ReactNode }) => (
-	<span className={style.padding}>{children}</span>
+interface PagePaddingI extends React.HTMLAttributes<HTMLSpanElement> {
+	children: React.ReactNode;
+}
+
+const PagePadding = ({ children, ...props }: PagePaddingI) => (
+	<span className={style.padding} {...props}>
+		{children}
+	</span>
 );
 
 export default PagePadding;

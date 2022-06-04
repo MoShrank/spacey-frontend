@@ -1,0 +1,93 @@
+@use "../../../styles/colors.scss";
+@use "../../../styles/breakpoints.scss";
+
+.container {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	align-items: center;
+	padding: 0 64px;
+}
+
+.line {
+	flex-grow: 1;
+	height: 1px;
+	width: 100%;
+	background-color: colors.$darkblue;
+
+	&.done {
+		height: 2px;
+	}
+}
+
+.step {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+
+	&.done {
+		.number {
+			background-color: colors.$darkblue;
+			color: white !important;
+			border-color: colors.$darkblue;
+		}
+	}
+
+	&.current {
+		.number {
+			background-color: colors.$lightblue;
+		}
+	}
+
+	&.todo {
+		.number {
+			color: colors.$lightgray !important;
+		}
+
+		.title {
+			color: colors.$lightgray !important;
+		}
+	}
+
+	.number {
+		height: 50px;
+		width: 50px;
+		border-radius: 50%;
+		border: 1px solid;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.title {
+		width: max-content;
+		text-align: center;
+		position: absolute;
+		bottom: -35px;
+	}
+}
+
+.step_mobile {
+	width: 20px;
+	min-width: 20px;
+	height: 20px;
+	border: 2px solid;
+	border-radius: 50%;
+
+	&.done {
+		border-color: colors.$darkblue;
+		background-color: colors.$darkblue;
+	}
+
+	&.current {
+		border-color: colors.$darkblue;
+		background-color: white;
+	}
+
+	&.todo {
+		border-color: colors.$lightgray;
+		background-color: white;
+	}
+}

@@ -4,11 +4,11 @@ import {
 	updateGeneratedCardsAction,
 } from "actions/deck";
 import Button from "components/Button";
+import ContentWidthConstraint from "components/ContentWidthConstraint";
 import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
 import Error from "components/Error";
 import BottomContainer from "components/FormBottom";
-import Header from "components/Header";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
@@ -18,6 +18,7 @@ import Spacer from "components/Spacer";
 import Swiper from "components/Swiper";
 import Text from "components/Text";
 import useAction from "hooks/useAction";
+import useMediaQuery from "hooks/useMediaQuery";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,6 +29,7 @@ import { next, prev } from "util/array";
 
 import CardGenerationInput from "./CardGenerationInput";
 import { CardReview } from "./CardReview";
+import ProgressIndicator from "./ProgressIndicator";
 import style from "./style.module.scss";
 
 enum pageStates {
@@ -37,11 +39,11 @@ enum pageStates {
 	EDIT = "edit",
 }
 
-const pageHeader = {
-	[pageStates.GENERATE]: "Generate Cards",
-	[pageStates.LOADING]: "Generating Cards",
-	[pageStates.REVIEW]: "Review Cards",
-	[pageStates.EDIT]: "Edit Cards",
+const pageStateOrder = {
+	[pageStates.GENERATE]: 0,
+	[pageStates.LOADING]: 1,
+	[pageStates.REVIEW]: 2,
+	[pageStates.EDIT]: 2,
 };
 
 const CardGeneration = () => {
@@ -209,41 +211,44 @@ const CardGeneration = () => {
 
 		case pageStates.EDIT:
 			Component = (
-				<EditableCard
-					onSubmit={onSubmitEdit}
-					card={card}
-					deck={deck}
-					onAnswerInput={e => setCard({ ...card, answer: e.target.value })}
-					onQuestionInput={e => setCard({ ...card, question: e.target.value })}
-				>
-					{updateError && <Error>{updateError}</Error>}
-					<Spacer spacing={3} />
-					<DeleteDialog onDelete={handleDelete}>Delete card</DeleteDialog>
-					<Spacer spacing={3} />
-					<Swiper handleNext={handleNext} handlePrev={handlePrev}>
-						card {card.idx + 1} of {exiNote.cards.length}
-					</Swiper>
-					<Spacer spacing={3} />
-					<BottomContainer>
-						<Button loading={updateLoading} disabled={!cardDifferent}>
-							Save card
-						</Button>
-						<SimpleButton as="button" onClick={onCloseEdit}>
-							Cancel
-						</SimpleButton>
-					</BottomContainer>
-				</EditableCard>
+				<ContentWidthConstraint>
+					<EditableCard
+						onSubmit={onSubmitEdit}
+						card={card}
+						deck={deck}
+						onAnswerInput={e => setCard({ ...card, answer: e.target.value })}
+						onQuestionInput={e => setCard({ ...card, question: e.target.value })}
+					>
+						{updateError && <Error>{updateError}</Error>}
+						<Spacer spacing={3} />
+						<DeleteDialog onDelete={handleDelete}>Delete card</DeleteDialog>
+						<Spacer spacing={3} />
+						<Swiper handleNext={handleNext} handlePrev={handlePrev}>
+							card {card.idx + 1} of {exiNote.cards.length}
+						</Swiper>
+						<Spacer spacing={3} />
+						<BottomContainer>
+							<Button loading={updateLoading} disabled={!cardDifferent}>
+								Save card
+							</Button>
+							<SimpleButton as="button" onClick={onCloseEdit}>
+								Cancel
+							</SimpleButton>
+						</BottomContainer>
+					</EditableCard>
+				</ContentWidthConstraint>
 			);
 			break;
 	}
 
+	const matches = useMediaQuery("(max-width: 500px)");
+
 	let PageHeader = (
 		<>
 			<Text className={style.align_left}>{deck.name}</Text>
-			<Header className={style.align_left} kind="h2">
-				{pageHeader[pageState]}
-			</Header>
-			<Spacer spacing={2} />
+			<Spacer spacing={matches ? 2 : 4} />
+			<ProgressIndicator currentState={pageStateOrder[pageState]} />
+			<Spacer spacing={matches ? 4 : 8} />
 		</>
 	);
 
@@ -254,10 +259,10 @@ const CardGeneration = () => {
 	return (
 		<Modal>
 			<ModalLayout
-				width={pageState === pageStates.REVIEW ? "full" : "normal"}
+				width={"full"}
 				onClose={pageState === pageStates.EDIT ? onCloseEdit : onClose}
 			>
-				{PageHeader}
+				<PagePadding>{PageHeader}</PagePadding>
 				{Component}
 			</ModalLayout>
 		</Modal>

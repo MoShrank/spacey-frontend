@@ -3,6 +3,7 @@ import Button from "components/Button";
 import Error from "components/Error";
 import Header from "components/Header";
 import TextArea from "components/Input/TextArea";
+import PagePadding from "components/PagePadding";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
@@ -41,7 +42,7 @@ const CardGenerationInput = ({
 }: CardGenerationInputI) => {
 	const isDesktop = window.innerWidth >= 768;
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
-	const [pasteOverlayOpen, setPasteOverlayOpen] = useState(isDesktop);
+	const [pasteOverlayOpen, setPasteOverlayOpen] = useState(isDesktop && !note);
 
 	const handleFocusLost = () => {
 		if (!note && isDesktop) setPasteOverlayOpen(true);
@@ -67,13 +68,14 @@ const CardGenerationInput = ({
 	};
 
 	return (
-		<>
+		<PagePadding style={{ flexGrow: 1 }}>
 			<div className={style.textarea_container}>
 				{pasteOverlayOpen && (
 					<div
 						onClick={handlePaste}
 						onContextMenu={handlePaste}
-						className={style.overlay}>
+						className={style.overlay}
+					>
 						<Header color="black" kind="h2">
 							Right-click to paste your text
 						</Header>
@@ -92,7 +94,7 @@ const CardGenerationInput = ({
 					onChange={e => setNote(e.target.value)}
 				/>
 			</div>
-			<Spacer spacing={6} />
+			<Spacer spacing={2} />
 			{error && <Error>{error}</Error>}
 			<Hint />
 			<Spacer spacing={2} />
@@ -100,7 +102,7 @@ const CardGenerationInput = ({
 			<SimpleButton as="button" onClick={onClose}>
 				Cancel
 			</SimpleButton>
-		</>
+		</PagePadding>
 	);
 };
 

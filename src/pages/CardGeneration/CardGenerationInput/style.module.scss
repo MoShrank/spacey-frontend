@@ -28,6 +28,12 @@
 	flex-direction: column;
 
 	.overlay {
+		padding: 0 16px;
+
+		> * {
+			text-align: center;
+		}
+
 		cursor: pointer;
 		position: absolute;
 		top: 0;
