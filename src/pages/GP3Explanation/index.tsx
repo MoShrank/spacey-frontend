@@ -19,7 +19,8 @@ const GPT3Explanation = () => {
 					style={{ display: "inline-block" }}
 					href="https://openai.com"
 					target="_blank"
-					rel="noopener noreferrer">
+					rel="noopener noreferrer"
+				>
 					openai&apos;s GPT3 model
 				</a>
 				, to generate cards. We provide GPT3 your text, some additional context and

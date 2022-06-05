@@ -24,6 +24,7 @@
 	margin-right: auto;
 	padding-left: vars.$page-gap;
 	padding-right: vars.$page-gap;
+	overflow: auto;
 }
 
 .full {
@@ -46,5 +47,5 @@
 	max-width: vars.$content-area-width;
 	width: 100%;
 	position: relative;
-	overflow: auto;
+	overflow: inherit;
 }

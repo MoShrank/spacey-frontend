@@ -31,6 +31,7 @@ const NewCard = () => {
 		question: "",
 		answer: "",
 		deckID: deckID,
+		id: `${Math.random()}`,
 	});
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,6 +41,7 @@ const NewCard = () => {
 				question: "",
 				answer: "",
 				deckID: deckID,
+				id: `${Math.random()}`,
 			});
 			Notificator.push({
 				type: "INFO",
@@ -52,20 +54,17 @@ const NewCard = () => {
 
 	if (!deck) return <Navigate to="404" />;
 
-	const handleQuestionInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		e.preventDefault();
-
+	const handleQuestionInput = (value: string) => {
 		setCard({
 			...card,
-			question: e.target.value,
+			question: value,
 		});
 	};
 
-	const handleAnswerInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		e.preventDefault();
+	const handleAnswerInput = (value: string) => {
 		setCard({
 			...card,
-			answer: e.target.value,
+			answer: value,
 		});
 	};
 

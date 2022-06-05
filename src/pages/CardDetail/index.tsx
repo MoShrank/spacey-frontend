@@ -39,6 +39,7 @@ const CardDetail = () => {
 	const [card, setCard] = useState({
 		question: deck?.cards[cardIdx].question ?? "",
 		answer: deck?.cards[cardIdx].answer ?? "",
+		id: deck?.cards[cardIdx].id ?? "",
 	});
 
 	const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -47,6 +48,7 @@ const CardDetail = () => {
 		setCard({
 			question: deck?.cards[cardIdx].question ?? "",
 			answer: deck?.cards[cardIdx].answer ?? "",
+			id: deck?.cards[cardIdx].id ?? "",
 		});
 	}, [cardIdx, deck, decks]);
 
@@ -76,19 +78,17 @@ const CardDetail = () => {
 		action({ ...card, deckID: deckID, id: cardID });
 	};
 
-	const handleQuestionInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		e.preventDefault();
+	const handleQuestionInput = (value: string) => {
 		setCard({
 			...card,
-			question: e.target.value,
+			question: value,
 		});
 	};
 
-	const handleAnswerInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		e.preventDefault();
+	const handleAnswerInput = (value: string) => {
 		setCard({
 			...card,
-			answer: e.target.value,
+			answer: value,
 		});
 	};
 
