@@ -1,6 +1,6 @@
-@use "../../styles/animations.scss";
-@use "../../styles/breakpoints.scss";
-@use "../../styles/styles.scss";
+@use "../../../styles/animations.scss";
+@use "../../../styles/breakpoints.scss";
+@use "../../../styles/styles.scss";
 
 .card_container {
 	@include breakpoints.s {

@@ -1,3 +1,12 @@
+export type color =
+	| "blue"
+	| "darkblue"
+	| "lightgray"
+	| "gray"
+	| "black"
+	| "white"
+	| "rederror";
+
 const colors = {
 	blue: "#417db5",
 	lightblue: "#e9f4ff",
@@ -6,6 +15,7 @@ const colors = {
 	darkblue: "#19344c",
 	darkgray: "#636363",
 	white: "#ffffff",
+	black: "#000000",
 };
 
 export default colors;

@@ -18,6 +18,7 @@ import {
 } from "api/deck";
 import { CardEventI, CardI, DeckI, LearningSessionI } from "types/deck";
 import { NoteI } from "types/note";
+import { isEmpty } from "util/editor";
 
 export const createDeckAction = async (deck: DeckI) => {
 	const { name } = deck;
@@ -106,7 +107,8 @@ export const getDeckAction = async (id: string) => {
 
 export const createCardAction = async (card: CardI) => {
 	const { question, answer } = card;
-	if (!question || !answer) throw Error("please fill in all required fields");
+	if (isEmpty(question) || isEmpty(answer))
+		throw Error("please fill in all required fields");
 
 	try {
 		const newDeck = await createCard(card);
@@ -127,7 +129,8 @@ export const createCardAction = async (card: CardI) => {
 
 export const updateCardAction = async (card: CardI) => {
 	const { question, answer } = card;
-	if (!question || !answer) throw Error("please fill in all required fields");
+	if (isEmpty(question) || isEmpty(answer))
+		throw Error("please fill in all required fields");
 
 	try {
 		const newCard = await updateCard(card);

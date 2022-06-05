@@ -1,5 +1,5 @@
 import Button from "components/Button";
-import CardListItem from "components/CardListItem";
+import CardListItem from "components/Card/CardListItem";
 import Error from "components/Error";
 import BottomContainer from "components/FormBottom";
 import ListContainer from "components/ListContainer";
