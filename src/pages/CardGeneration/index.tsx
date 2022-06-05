@@ -243,10 +243,10 @@ const CardGeneration = () => {
 				<ContentWidthConstraint>
 					<EditableCard
 						onSubmit={onSubmitEdit}
-						card={card}
+						card={{ id: `${card.idx}`, ...card }}
 						deck={deck}
-						onAnswerInput={e => setCard({ ...card, answer: e.target.value })}
-						onQuestionInput={e => setCard({ ...card, question: e.target.value })}
+						onAnswerInput={e => setCard({ ...card, answer: e })}
+						onQuestionInput={e => setCard({ ...card, question: e })}
 					>
 						{updateError && <Error>{updateError}</Error>}
 						<Spacer spacing={3} />

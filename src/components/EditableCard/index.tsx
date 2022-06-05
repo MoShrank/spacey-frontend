@@ -1,19 +1,20 @@
-import CardContainer from "components/CardContainer";
+import CardContainer from "components/Card/CardContainer";
+import CardEditor from "components/Card/CardEditor";
 import Form from "components/Form";
 import { DeckI } from "types/deck";
-
-import style from "./style.module.scss";
 
 interface EditableCardI {
 	children?: React.ReactNode;
 	card: {
 		question: string;
 		answer: string;
+		id?: string;
 	};
 	deck: DeckI;
-	onQuestionInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-	onAnswerInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+	onQuestionInput: (question: string) => void;
+	onAnswerInput: (answer: string) => void;
 	onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+	editable?: boolean;
 }
 
 const EditableCard = ({
@@ -23,22 +24,23 @@ const EditableCard = ({
 	onQuestionInput,
 	onAnswerInput,
 	onSubmit,
+	editable = true,
 }: EditableCardI) => {
 	return (
 		<>
 			<Form onSubmit={onSubmit}>
-				<CardContainer color={deck.color}>
-					<textarea
-						className={`${style.textarea} ${style.question}`}
-						value={card.question}
-						onChange={onQuestionInput}
-						placeholder="question"
-					/>
-					<textarea
-						className={`${style.textarea} ${style.answer}`}
-						value={card.answer}
-						onChange={onAnswerInput}
-						placeholder="answer"
+				<CardContainer
+					style={{ marginTop: editable ? "38px" : 0 }}
+					color={deck.color}
+				>
+					<CardEditor
+						key={card.id}
+						toolbarColor={deck.color}
+						question={card.question}
+						setQuestion={onQuestionInput}
+						answer={card.answer}
+						setAnswer={onAnswerInput}
+						readOnly={!editable}
 					/>
 				</CardContainer>
 				{children}

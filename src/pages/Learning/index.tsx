@@ -8,7 +8,8 @@ import { answerCardAction } from "actions/deck";
 import { ReactComponent as BadAnswer } from "assets/icons/badButton.svg";
 import { ReactComponent as GoodAnswer } from "assets/icons/goodButton.svg";
 import Button from "components/Button";
-import CardContainer from "components/CardContainer";
+import CardContainer from "components/Card/CardContainer";
+import CardEditor from "components/Card/CardEditor";
 import BottomContainer from "components/FormBottom";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
@@ -144,7 +145,7 @@ const Learning = () => {
 			break;
 		case pageStates.LEARNING:
 			Component = (
-				<div className={style.learning_container}>
+				<>
 					<ProgressIndicator
 						total={learningCards.totalLearningCards}
 						progress={
@@ -152,18 +153,21 @@ const Learning = () => {
 						}
 					/>
 					<Spacer spacing={2} />
-					<CardContainer color={deck.color}>
-						<Text color="black" className={style.card_text}>
-							{curCard.question}
-						</Text>
-						<Text color="grey" onClick={onShowAnswer} className={style.card_text}>
-							{showAnswer
-								? curCard.answer
-								: "Click here or use the button to show answer"}
-						</Text>
+					<CardContainer disableTopBoarder={false} color={deck.color}>
+						<CardEditor
+							key={curCard.id}
+							toolbarColor={deck.color}
+							readOnly={true}
+							question={curCard.question}
+							answer={curCard.answer}
+							hideAnswer={!showAnswer}
+							onClickShowAnswer={onShowAnswer}
+							setQuestion={() => undefined}
+							setAnswer={() => undefined}
+						/>
 					</CardContainer>
-					<Spacer spacing={6} />
-					<BottomContainer>
+					<Spacer spacing={2} />
+					<BottomContainer className={style.bottom_container}>
 						{showAnswer ? (
 							<div className={style.answer_container}>
 								<div>
@@ -188,8 +192,7 @@ const Learning = () => {
 							</>
 						)}
 					</BottomContainer>
-					<Spacer spacing={1} />
-				</div>
+				</>
 			);
 			break;
 		case pageStates.FINISHED:
@@ -208,9 +211,11 @@ const Learning = () => {
 	return (
 		<Modal>
 			<ModalLayout onClose={() => navigate(`/decks/${deckID}`)}>
-				<Text className={style.align_left}>{deck.name}</Text>
-				<Spacer spacing={1} />
-				{Component}
+				<div className={style.learning_container}>
+					<Text className={style.align_left}>{deck.name}</Text>
+					<Spacer spacing={1} />
+					{Component}
+				</div>
 			</ModalLayout>
 		</Modal>
 	);

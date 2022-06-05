@@ -1,0 +1,12 @@
+@use "../../../styles/breakpoints.scss";
+
+.preview {
+	font-family: Berlin Sans FB;
+	overflow: hidden;
+	white-space: nowrap;
+
+	@include breakpoints.s {
+		white-space: normal;
+		max-height: 100%;
+	}
+}
