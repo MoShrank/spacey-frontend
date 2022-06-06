@@ -42,6 +42,7 @@ interface CardReviewI {
 	onClickAddCards: () => void;
 	loading: boolean;
 	error: string;
+	cardColor: string;
 }
 
 export const CardReview = ({
@@ -51,9 +52,10 @@ export const CardReview = ({
 	onClickAddCards,
 	loading,
 	error,
+	cardColor,
 }: CardReviewI) => (
 	<>
-		<CardList onClickCard={onClickCard} cards={cards} color="#FFEC87" />
+		<CardList onClickCard={onClickCard} cards={cards} color={cardColor} />
 		<Spacer spacing={2} />
 		{error && <Error>{error}</Error>}
 		<BottomContainer>

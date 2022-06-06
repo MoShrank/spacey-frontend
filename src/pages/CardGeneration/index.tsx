@@ -199,6 +199,7 @@ const CardGeneration = () => {
 		case pageStates.REVIEW:
 			Component = (
 				<CardReview
+					cardColor={deck.color}
 					cards={exiNote.cards}
 					onClose={onClose}
 					onClickCard={onClickCard}
