@@ -82,7 +82,7 @@ const NewCard = () => {
 					<BottomContainer>
 						{error && <Error>{error}</Error>}
 						<Spacer spacing={4} />
-						<Button loading={createCardLoading}>Create card</Button>
+						<Button loading={createCardLoading}>Create Card</Button>
 						<SimpleButton as={Link} to={`/decks/${deck.id}`}>
 							Cancel
 						</SimpleButton>

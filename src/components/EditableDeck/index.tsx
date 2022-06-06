@@ -29,7 +29,7 @@ const deckEq = (
 
 interface EditableDeckProps {
 	submitAction: (deck: DeckI) => Promise<(curState: Array<DeckI>) => DeckI[]>;
-	buttonName: "Create deck" | "Save changes";
+	buttonName: "Create Deck" | "Save Changes";
 	formTitle: "Create Deck" | "Edit Deck";
 	deckPrefill?: DeckI;
 	children?: React.ReactNode;

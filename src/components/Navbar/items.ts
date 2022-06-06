@@ -10,7 +10,7 @@ export interface menuItemsI {
 
 export const menuItems: menuItemsI[] = [
 	{
-		label: "Logout",
+		label: "Log out",
 		Icon: LogoutIcon,
 		to: "/logout",
 		needsLogin: true,

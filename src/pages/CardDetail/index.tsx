@@ -124,7 +124,7 @@ const CardDetail = () => {
 						<DeleteDialog onDelete={handleDelete}>Delete this card</DeleteDialog>
 						<Spacer spacing={3} />
 						<Button disabled={buttonDisabled} loading={editDeckLoading}>
-							Save changes
+							Save Changes
 						</Button>
 						<SimpleButton as={Link} to={`/decks/${deck.id}`}>
 							Cancel

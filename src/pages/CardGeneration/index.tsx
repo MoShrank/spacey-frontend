@@ -221,7 +221,7 @@ const CardGeneration = () => {
 					>
 						{updateError && <Error>{updateError}</Error>}
 						<Spacer spacing={3} />
-						<DeleteDialog onDelete={handleDelete}>Delete card</DeleteDialog>
+						<DeleteDialog onDelete={handleDelete}>Delete Card</DeleteDialog>
 						<Spacer spacing={3} />
 						<Swiper handleNext={handleNext} handlePrev={handlePrev}>
 							card {card.idx + 1} of {exiNote.cards.length}
@@ -229,7 +229,7 @@ const CardGeneration = () => {
 						<Spacer spacing={3} />
 						<BottomContainer>
 							<Button loading={updateLoading} disabled={!cardDifferent}>
-								Save card
+								Save Card
 							</Button>
 							<SimpleButton as="button" onClick={onCloseEdit}>
 								Cancel

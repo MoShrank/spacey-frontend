@@ -32,7 +32,7 @@ const EditDeck = () => {
 			<ModalLayout onClose={() => navigate(`/decks/${deckID}`)}>
 				<EditableDeck
 					submitAction={updateDeckAction}
-					buttonName="Save changes"
+					buttonName="Save Changes"
 					formTitle="Edit Deck"
 					deckPrefill={deck}
 					redirectOnSubmit={`/decks/${deckID}`}

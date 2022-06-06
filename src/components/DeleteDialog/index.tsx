@@ -22,7 +22,7 @@ const DeleteDialog = ({ onDelete, children }: DeleteDialogProps) => {
 			className={style.delete_dialog_container}
 		>
 			<TrashIcon />
-			<Text color="lightgrey">{show ? "Tap again to delete" : children}</Text>
+			<Text color="lightgrey">{show ? "Tag Again to Delete" : children}</Text>
 		</div>
 	);
 };

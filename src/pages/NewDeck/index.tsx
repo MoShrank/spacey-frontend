@@ -12,7 +12,7 @@ const NewDeck = () => {
 			<ModalLayout onClose={() => navigate("/")}>
 				<EditableDeck
 					submitAction={createDeckAction}
-					buttonName="Create deck"
+					buttonName="Create Deck"
 					formTitle="Create Deck"
 				/>
 			</ModalLayout>

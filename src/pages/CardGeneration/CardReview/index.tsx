@@ -59,7 +59,7 @@ export const CardReview = ({
 		<BottomContainer>
 			<PagePadding>
 				<Button loading={loading} onClick={onClickAddCards}>
-					Add cards to deck
+					Add Cards to Deck
 				</Button>
 				<SimpleButton as="button" onClick={onClose}>
 					Cancel

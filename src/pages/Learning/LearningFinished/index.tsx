@@ -34,7 +34,7 @@ const LearningFinished = ({ deck }: LearningFinishedI) => {
 			</div>
 			<BottomContainer>
 				<Link to={`/decks/${deck.id}`}>
-					<Button>Return to deck</Button>
+					<Button>Come back tomorrow</Button>
 				</Link>
 			</BottomContainer>
 		</div>

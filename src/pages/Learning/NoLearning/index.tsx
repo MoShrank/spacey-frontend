@@ -19,7 +19,7 @@ const NoLearning = ({ deck }: NoLearningI) => {
 			<Header kind="h2">You already finished learning this deck today</Header>
 			<Text>come back tomorrow for more </Text>
 			<Link to={`/decks/${deck.id}`}>
-				<Button>Return to deck</Button>
+				<Button>Return to Deck</Button>
 			</Link>
 		</div>
 	);
