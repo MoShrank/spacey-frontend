@@ -13,10 +13,15 @@
 	flex-grow: 1;
 	height: 1px;
 	width: 100%;
-	background-color: colors.$darkblue;
+	background-color: colors.$lightgray;
 
 	&.done {
 		height: 2px;
+		background-color: colors.$darkblue;
+	}
+
+	@include breakpoints.s {
+		background-color: colors.$darkblue;
 	}
 }
 
@@ -73,21 +78,24 @@
 	width: 20px;
 	min-width: 20px;
 	height: 20px;
-	border: 2px solid;
+	border-style: solid;
 	border-radius: 50%;
 
 	&.done {
 		border-color: colors.$darkblue;
+		border-width: 2px;
 		background-color: colors.$darkblue;
 	}
 
 	&.current {
 		border-color: colors.$darkblue;
+		border-width: 2px;
 		background-color: white;
 	}
 
 	&.todo {
 		border-color: colors.$lightgray;
 		background-color: white;
+		border-width: 1px;
 	}
 }
