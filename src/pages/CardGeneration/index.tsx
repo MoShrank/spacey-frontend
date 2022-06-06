@@ -178,6 +178,7 @@ const CardGeneration = () => {
 			Component = (
 				<>
 					<Loader size="large">
+						<Spacer spacing={2} />
 						<Text color="grey">Your cards are being generated</Text>
 					</Loader>
 				</>
