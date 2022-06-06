@@ -49,19 +49,19 @@ interface ProgressIndicatorI {
 }
 
 const STATES = {
-	0: "Enter Text",
-	1: "Generating Cards",
-	2: "Review Cards",
+	1: "Enter Text",
+	2: "Generating Cards",
+	3: "Review Cards",
 };
 
 const ProgressIndicator = ({ currentState }: ProgressIndicatorI) => {
 	return (
 		<div className={style.container}>
-			<Step number={0} title={STATES[0]} state={getState(0, currentState)}></Step>
-			<Line done={currentState > 0} />
 			<Step number={1} title={STATES[1]} state={getState(1, currentState)}></Step>
 			<Line done={currentState > 1} />
 			<Step number={2} title={STATES[2]} state={getState(2, currentState)}></Step>
+			<Line done={currentState > 2} />
+			<Step number={3} title={STATES[3]} state={getState(3, currentState)}></Step>
 		</div>
 	);
 };

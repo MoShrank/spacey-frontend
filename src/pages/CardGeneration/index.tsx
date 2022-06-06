@@ -40,10 +40,10 @@ enum pageStates {
 }
 
 const pageStateOrder = {
-	[pageStates.GENERATE]: 0,
-	[pageStates.LOADING]: 1,
-	[pageStates.REVIEW]: 2,
-	[pageStates.EDIT]: 2,
+	[pageStates.GENERATE]: 1,
+	[pageStates.LOADING]: 2,
+	[pageStates.REVIEW]: 3,
+	[pageStates.EDIT]: 3,
 };
 
 const CardGeneration = () => {
@@ -243,7 +243,7 @@ const CardGeneration = () => {
 
 	const matches = useMediaQuery("(max-width: 500px)");
 
-	let PageHeader = (
+	const PageHeader = (
 		<>
 			<Text className={style.align_left}>{deck.name}</Text>
 			<Spacer spacing={matches ? 2 : 4} />
@@ -251,10 +251,6 @@ const CardGeneration = () => {
 			<Spacer spacing={matches ? 4 : 8} />
 		</>
 	);
-
-	if (pageState === pageStates.REVIEW) {
-		PageHeader = <PagePadding>{PageHeader}</PagePadding>;
-	}
 
 	return (
 		<Modal>
