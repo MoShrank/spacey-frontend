@@ -12,7 +12,6 @@
 	flex-direction: column;
 
 	align-self: center;
-	gap: 16px;
 
 	display: flex;
 	align-items: center;
@@ -20,8 +19,9 @@
 	height: 100%;
 
 	@include breakpoints.s {
-		flex-direction: row;
-		flex-wrap: wrap;
+		display: grid;
+		justify-content: center;
+		align-items: flex-start;
 		align-content: flex-start;
 	}
 }

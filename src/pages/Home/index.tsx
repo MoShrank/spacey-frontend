@@ -26,7 +26,7 @@ const Home = () => {
 			</PagePadding>
 			<Spacer spacing={2} />
 			{decks && decks.length ? (
-				<ListContainer spacing={3}>
+				<ListContainer rowSpacing={3} columnSpacing={2} childWidth={224}>
 					{decks.map((deck: DeckI) => (
 						<Deck key={deck.id} deck={deck} />
 					))}

@@ -140,7 +140,7 @@ const DeckDetail = () => {
 				<Spacer spacing={1} />
 			</PagePadding>
 			{deck.cards.length ? (
-				<ListContainer spacing={2}>
+				<ListContainer>
 					{deck.cards.map(card => (
 						<CardListItem
 							as={Link}
