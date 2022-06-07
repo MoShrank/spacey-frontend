@@ -240,8 +240,8 @@ const App = () => {
 					<Route path="imprint" element={<Imprint />} />
 					<Route path="tos" element={<TOS />} />
 					<Route path="privacy" element={<Privacy />} />
-					<Route path="*" element={<Error404 />} />
 				</Route>
+				<Route path="*" element={<Error404 />} />
 			</Routes>
 		</>
 	);

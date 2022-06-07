@@ -1,21 +1,36 @@
-import CosmosPic from "assets/img/cosmos.svg";
+import { ReactComponent as CosmosPic } from "assets/img/cosmos.svg";
 import Button from "components/Button";
+import BottomContainer from "components/FormBottom";
 import Header from "components/Header";
+import Layout from "components/Layout";
+import ScalingSVG from "components/ScalingSVG";
+import Spacer from "components/Spacer";
 import Text from "components/Text";
 import { Link } from "react-router-dom";
 
-import "./style.scss";
+import style from "./style.module.scss";
 
 const Error404 = () => {
 	return (
-		<div className="error_page_container">
-			<img src={CosmosPic} alt="404" />
-			<Header kind="h2">Oops, something is not right</Header>
-			<Text color="darkblue">Seems like you went too far out of space.</Text>
-			<Link to="/">
-				<Button>Return to home</Button>
-			</Link>
-		</div>
+		<Layout>
+			<div className={style.error_page_container}>
+				<ScalingSVG icon={CosmosPic} />
+				<Spacer spacing={4} />
+				<Header className={style.center} kind="h2">
+					Oops, something is not right
+				</Header>
+				<Spacer spacing={2} />
+				<Text className={style.center} color="darkblue">
+					Seems like you went too far out of space.
+				</Text>
+				<Spacer spacing={2} />
+				<BottomContainer>
+					<Link to="/">
+						<Button>Return to Home</Button>
+					</Link>
+				</BottomContainer>
+			</div>
+		</Layout>
 	);
 };
 

@@ -193,7 +193,12 @@ const Learning = () => {
 			);
 			break;
 		case pageStates.FINISHED:
-			Component = <LearningFinished deck={deck} />;
+			Component = (
+				<LearningFinished
+					deck={deck}
+					totalNoCards={learningCards.totalLearningCards}
+				/>
+			);
 			break;
 		case pageStates.LEARNED:
 			Component = <NoLearning deck={deck} />;

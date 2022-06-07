@@ -3,6 +3,7 @@ import Button from "components/Button";
 import BottomContainer from "components/FormBottom";
 import Header from "components/Header";
 import MemoryStabilityIndicator from "components/MemoryStabilityIndicator";
+import ScalingSVG from "components/ScalingSVG";
 import Text from "components/Text";
 import { Link } from "react-router-dom";
 import { DeckI } from "types/deck";
@@ -11,15 +12,16 @@ import style from "./style.module.scss";
 
 interface LearningFinishedI {
 	deck: DeckI;
+	totalNoCards: number;
 }
 
-const LearningFinished = ({ deck }: LearningFinishedI) => {
+const LearningFinished = ({ deck, totalNoCards }: LearningFinishedI) => {
 	return (
 		<div className={style.container}>
-			<LogoIcon />
+			<ScalingSVG icon={LogoIcon} />
 			<Header kind="h2">You finished learning</Header>
 			<Header kind="h2" color="secondary">
-				{deck.totalLearningCards} {deck.totalLearningCards === 1 ? "card" : "cards"}
+				{totalNoCards} {totalNoCards === 1 ? "card" : "cards"}
 			</Header>
 			<div className={style.indicator_text_container}>
 				<Header kind="h3">This deck is now on fire!</Header>
