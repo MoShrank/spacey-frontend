@@ -99,6 +99,8 @@ const useInitData = () => {
 
 		if (isLoggedIn) {
 			store.emit("user", getUserDataAction);
+		} else {
+			setLoading(false);
 		}
 	}, [isLoggedIn]);
 
