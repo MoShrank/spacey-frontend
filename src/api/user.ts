@@ -20,6 +20,13 @@ export const logout = async (): Promise<void> => {
 
 export const fetchUserData = async (): Promise<UserI | null> => {
 	const data = (await API.GET("user")) as UserI;
-
 	return data;
+};
+
+export const sendVerificationEmail = async (): Promise<void> => {
+	await API.GET("user/validate", {});
+};
+
+export const verifyEmail = async (token: string): Promise<void> => {
+	await API.POST("user/validate", { token });
 };
