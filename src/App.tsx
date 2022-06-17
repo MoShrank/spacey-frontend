@@ -28,7 +28,7 @@ import VerifyEmail from "pages/VerifyEmail";
 import VerifyingEmail from "pages/VerifyingEmail";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import { store } from "store/store";
 import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
@@ -91,7 +91,6 @@ const useInitData = () => {
 	const [loading, setLoading] = useState(true);
 	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
 	const [user] = useGlobalState<UserI>("user");
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		const loggedIn = getLoggedInState();
@@ -114,7 +113,6 @@ const useInitData = () => {
 
 				Promise.allSettled(requests).then(() => setLoading(false));
 			} else {
-				navigate("/verify-email");
 				setLoading(false);
 			}
 		}
