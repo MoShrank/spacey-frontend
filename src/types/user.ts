@@ -4,4 +4,6 @@ export interface UserI {
 	name?: string;
 	password?: string;
 	betaUser?: boolean;
+	emailValidated?: boolean;
+	lastValidationEmailSentTs?: number;
 }

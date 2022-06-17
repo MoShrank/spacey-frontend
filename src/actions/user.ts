@@ -38,6 +38,7 @@ export const getUserDataAction = async () => {
 				name: data.name,
 				email: data.email,
 				betaUser: data.betaUser,
+				emailValidated: data.emailValidated,
 			};
 		};
 	} catch (_) {

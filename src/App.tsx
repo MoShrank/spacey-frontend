@@ -24,13 +24,16 @@ import NewDeck from "pages/NewDeck";
 import Privacy from "pages/Privacy";
 import SignUp from "pages/SignUp";
 import TOS from "pages/TOS";
+import VerifyEmail from "pages/VerifyEmail";
+import VerifyingEmail from "pages/VerifyingEmail";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import { store } from "store/store";
 import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 import { NoteI } from "types/note";
+import { UserI } from "types/user";
 import {
 	createHasSeenCookie,
 	getHasSeenCookie,
@@ -84,13 +87,44 @@ const Layout = () => {
 	);
 };
 
+const useInitData = () => {
+	const [loading, setLoading] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
+	const [user] = useGlobalState<UserI>("user");
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		const loggedIn = getLoggedInState();
+		setIsLoggedIn(loggedIn);
+
+		if (isLoggedIn) {
+			store.emit("user", getUserDataAction);
+		}
+	}, [isLoggedIn]);
+
+	useEffect(() => {
+		if (user.id) {
+			if (user?.emailValidated) {
+				const requests = [
+					store.emit("notes", getNotesAction),
+					store.emit("decks", getDecksAction),
+				];
+
+				Promise.allSettled(requests).then(() => setLoading(false));
+			} else {
+				navigate("/verify-email");
+				setLoading(false);
+			}
+		}
+	}, [user]);
+
+	return [loading, user];
+};
+
 const App = () => {
 	const [notifications, setNotifications] = useState<NotificatorI[]>([]);
 
-	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
 	const [hasSeenCookie, setHasSeenCookie] = useGlobalState("hasSeenCookie");
-
-	const [loading, setLoading] = useState(true);
 
 	const pushNotification = async (newNotification: NotificatorI) => {
 		setNotifications([...notifications, newNotification]);
@@ -101,23 +135,7 @@ const App = () => {
 		() => Notificator.unsubcribe();
 	}, [notifications]);
 
-	useEffect(() => {
-		const loggedIn = getLoggedInState();
-
-		if (loggedIn) {
-			const requests = [
-				store.emit("notes", getNotesAction),
-				store.emit("decks", getDecksAction),
-				store.emit("user", getUserDataAction),
-			];
-
-			Promise.allSettled(requests).then(() => setLoading(false));
-		} else {
-			setLoading(false);
-		}
-
-		setIsLoggedIn(loggedIn);
-	}, [isLoggedIn]);
+	const [loading] = useInitData();
 
 	if (loading) return <Loader size="large" />;
 
@@ -209,6 +227,22 @@ const App = () => {
 					element={
 						<RequireAuth>
 							<Learning />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="verify-email"
+					element={
+						<RequireAuth needsEmailVerification={false}>
+							<VerifyEmail />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="verifying"
+					element={
+						<RequireAuth needsEmailVerification={false}>
+							<VerifyingEmail />
 						</RequireAuth>
 					}
 				/>
