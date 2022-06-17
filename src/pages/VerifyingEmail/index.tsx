@@ -9,7 +9,7 @@ import { UserI } from "types/user";
 const VerifyingEmail = () => {
 	const [searchParams] = useSearchParams();
 	const token = searchParams.get("token");
-	const [user] = useGlobalState<UserI>("user");
+	const [user, setUser] = useGlobalState<UserI>("user");
 
 	const navigate = useNavigate();
 
@@ -31,6 +31,7 @@ const VerifyingEmail = () => {
 		else {
 			verifyEmail(token)
 				.then(() => {
+					setUser({ ...user, emailValidated: true });
 					navigate("/");
 				})
 				.catch(() => {
