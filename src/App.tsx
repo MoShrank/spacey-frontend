@@ -250,7 +250,7 @@ const App = () => {
 					<Route
 						path="/logout"
 						element={
-							<RequireAuth>
+							<RequireAuth needsEmailVerification={false}>
 								<Logout />
 							</RequireAuth>
 						}

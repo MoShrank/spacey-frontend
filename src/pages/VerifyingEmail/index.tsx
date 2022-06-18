@@ -1,15 +1,16 @@
+import { getUserDataAction } from "actions/user";
 import { verifyEmail } from "api/user";
 import Loader from "components/Loader";
 import Notificator from "events/notification";
 import { useEffect } from "react";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import { useGlobalState } from "store/store";
+import { store, useGlobalState } from "store/store";
 import { UserI } from "types/user";
 
 const VerifyingEmail = () => {
 	const [searchParams] = useSearchParams();
 	const token = searchParams.get("token");
-	const [user, setUser] = useGlobalState<UserI>("user");
+	const [user] = useGlobalState<UserI>("user");
 
 	const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ const VerifyingEmail = () => {
 		else {
 			verifyEmail(token)
 				.then(() => {
-					setUser({ ...user, emailValidated: true });
+					store.emit("user", getUserDataAction);
 					navigate("/");
 				})
 				.catch(() => {
