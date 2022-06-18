@@ -106,10 +106,11 @@ const useInitData = () => {
 	useEffect(() => {
 		if (user.id) {
 			if (user?.emailValidated) {
-				const requests = [
-					store.emit("notes", getNotesAction),
-					store.emit("decks", getDecksAction),
-				];
+				const requests = [store.emit("decks", getDecksAction)];
+
+				if (user.betaUser) {
+					requests.push(store.emit("notes", getNotesAction));
+				}
 
 				Promise.allSettled(requests).then(() => setLoading(false));
 			} else {
