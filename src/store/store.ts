@@ -42,6 +42,8 @@ class Store {
 		}
 
 		this.setState(key, newState);
+
+		return newState;
 	}
 
 	newKey<T>(key: string, value: T) {

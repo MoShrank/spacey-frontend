@@ -97,27 +97,23 @@ const useInitData = () => {
 		setIsLoggedIn(loggedIn);
 
 		if (isLoggedIn) {
-			store.emit("user", getUserDataAction);
+			store.emit("user", getUserDataAction).then(user => {
+				if (user?.emailValidated) {
+					const requests = [store.emit("decks", getDecksAction)];
+
+					if (user.betaUser) {
+						requests.push(store.emit("notes", getNotesAction));
+					}
+
+					Promise.allSettled(requests).then(() => setLoading(false));
+				} else {
+					setLoading(false);
+				}
+			});
 		} else {
 			setLoading(false);
 		}
 	}, [isLoggedIn]);
-
-	useEffect(() => {
-		if (user.id) {
-			if (user?.emailValidated) {
-				const requests = [store.emit("decks", getDecksAction)];
-
-				if (user.betaUser) {
-					requests.push(store.emit("notes", getNotesAction));
-				}
-
-				Promise.allSettled(requests).then(() => setLoading(false));
-			} else {
-				setLoading(false);
-			}
-		}
-	}, [user]);
 
 	return [loading, user];
 };

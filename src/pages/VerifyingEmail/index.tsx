@@ -1,20 +1,17 @@
-import { getUserDataAction } from "actions/user";
 import { verifyEmail } from "api/user";
 import Loader from "components/Loader";
 import Notificator from "events/notification";
 import { useEffect } from "react";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import { store, useGlobalState } from "store/store";
+import { useGlobalState } from "store/store";
 import { UserI } from "types/user";
 
 const VerifyingEmail = () => {
 	const [searchParams] = useSearchParams();
 	const token = searchParams.get("token");
-	const [user] = useGlobalState<UserI>("user");
+	const [user, setUser] = useGlobalState<UserI>("user");
 
 	const navigate = useNavigate();
-
-	if (user.emailValidated) return <Navigate to="/" />;
 
 	useEffect(() => {
 		const tokenInvalid = () => {
@@ -32,7 +29,7 @@ const VerifyingEmail = () => {
 		else {
 			verifyEmail(token)
 				.then(() => {
-					store.emit("user", getUserDataAction);
+					setUser({ ...user, emailValidated: true });
 					navigate("/");
 				})
 				.catch(() => {
@@ -40,6 +37,8 @@ const VerifyingEmail = () => {
 				});
 		}
 	}, []);
+
+	if (user.emailValidated) return <Navigate to="/" />;
 
 	return <Loader size="large" />;
 };
