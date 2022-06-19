@@ -1,18 +1,18 @@
 import { logout } from "api/user";
 import Loader from "components/Loader";
+import { initialState, useStore } from "hooks/useStore";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGlobalState } from "store/store";
-import { store } from "store/store";
 
 const Logout = () => {
 	const navigate = useNavigate();
-	const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
+	const setIsLoggedIn = useStore(state => state.setIsLoggedIn);
+	const dispatch = useStore(state => state.dispatch);
 
 	useEffect(() => {
 		logout().then(() => {
-			setIsLoggedIn(false);
-			store.clearState();
+			setIsLoggedIn();
+			dispatch({ ...initialState, isLoggedIn: false });
 			navigate("/login");
 		});
 	}, []);

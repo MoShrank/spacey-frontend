@@ -4,11 +4,11 @@ import Button from "components/Button";
 import Header from "components/Header";
 import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
-import useAction from "hooks/useAction";
+import useActionZ from "hooks/useActionZ";
+import useStore from "hooks/useStore";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useGlobalState } from "store/store";
 
 import "./style.scss";
 
@@ -17,8 +17,9 @@ const Login = () => {
 	const from =
 		(location.state as { from: { pathname: string } })?.from?.pathname || "/";
 
-	const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
-	const [loading, error, action] = useAction("user", loginAction);
+	const setIsLoggedIn = useStore(state => state.setIsLoggedIn);
+
+	const [loading, error, action] = useActionZ(state => state.user, loginAction);
 
 	const [credentials, setCredentials] = useState({
 		email: "",
@@ -31,7 +32,7 @@ const Login = () => {
 		e.preventDefault();
 
 		action(credentials.email.trim(), credentials.password).then(() => {
-			setIsLoggedIn(true);
+			setIsLoggedIn();
 			navigate(from);
 		});
 	};

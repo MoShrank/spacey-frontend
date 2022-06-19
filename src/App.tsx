@@ -8,6 +8,8 @@ import RedirectAuth from "components/RedirectAuth";
 import RequireAuth from "components/RequireAuth";
 import RequireBeta from "components/RequireBeta";
 import Notificator, { NotificatorI } from "events/notification";
+import useAction from "hooks/useActionZ";
+import { useStore } from "hooks/useStore";
 import Error404 from "pages/404";
 import CardDetail from "pages/CardDetail";
 import CardGeneration from "pages/CardGeneration";
@@ -29,54 +31,12 @@ import VerifyingEmail from "pages/VerifyingEmail";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import { store } from "store/store";
-import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 import { NoteI } from "types/note";
 import { UserI } from "types/user";
-import {
-	createHasSeenCookie,
-	getHasSeenCookie,
-	getLoggedInState,
-} from "util/user";
+import { createHasSeenCookie } from "util/user";
 
 import "./App.scss";
-
-type State = {
-	isLoggedIn: boolean;
-	hasSeenCookie: boolean;
-	user: {
-		id: string;
-		name: string;
-		email: string;
-		betaUser: string;
-	};
-	decks: Array<DeckI>;
-	notes: Record<string, NoteI>;
-	config: {
-		colors: Array<string>;
-	};
-	globalError: boolean;
-};
-
-const initialState: State = {
-	isLoggedIn: getLoggedInState(),
-	hasSeenCookie: getHasSeenCookie(),
-	user: {
-		id: "",
-		name: "",
-		email: "",
-		betaUser: "",
-	},
-	notes: {},
-	decks: [],
-	config: {
-		colors: [],
-	},
-	globalError: false,
-};
-
-store.init(initialState);
 
 const Layout = () => {
 	return (
@@ -89,39 +49,62 @@ const Layout = () => {
 
 const useInitData = () => {
 	const [loading, setLoading] = useState(true);
-	const [isLoggedIn, setIsLoggedIn] = useGlobalState("isLoggedIn");
-	const [user] = useGlobalState<UserI>("user");
+	const isLoggedIn = useStore(state => state.isLoggedIn);
+
+	const [, , fetchUserAction] = useAction<UserI | null | undefined>(
+		state => state.user,
+		getUserDataAction,
+	);
+	const [, , fetchDecksAction] = useAction<DeckI[]>(
+		state => state.decks,
+		getDecksAction,
+	);
+	const [, , fetchNotesAction] = useAction<Record<string, NoteI>>(
+		state => state.notes,
+		getNotesAction,
+	);
+
+	const { decks, notes } = useStore();
 
 	useEffect(() => {
-		const loggedIn = getLoggedInState();
-		setIsLoggedIn(loggedIn);
+		const initData = async () => {
+			if (isLoggedIn) {
+				setLoading(true);
+				const user = await fetchUserAction();
 
-		if (isLoggedIn) {
-			store.emit("user", getUserDataAction).then(user => {
+				const promises = [];
+
 				if (user?.emailValidated) {
-					const requests = [store.emit("decks", getDecksAction)];
-
-					if (user.betaUser) {
-						requests.push(store.emit("notes", getNotesAction));
+					if (decks?.length) {
+						fetchDecksAction();
+					} else {
+						promises.push(fetchDecksAction());
 					}
-
-					Promise.allSettled(requests).then(() => setLoading(false));
-				} else {
-					setLoading(false);
 				}
-			});
-		} else {
+				if (user?.betaUser) {
+					if (Object.values(notes).length) {
+						fetchNotesAction();
+					} else {
+						promises.push(fetchNotesAction());
+					}
+				}
+				await Promise.all(promises);
+			}
 			setLoading(false);
-		}
+		};
+
+		initData();
 	}, [isLoggedIn]);
 
-	return [loading, user];
+	return loading;
 };
 
 const App = () => {
 	const [notifications, setNotifications] = useState<NotificatorI[]>([]);
-
-	const [hasSeenCookie, setHasSeenCookie] = useGlobalState("hasSeenCookie");
+	const { hasSeenCookie, setHasSeenCookie } = useStore(state => ({
+		hasSeenCookie: state.hasSeenCookie,
+		setHasSeenCookie: state.setHasSeenCookie,
+	}));
 
 	const pushNotification = async (newNotification: NotificatorI) => {
 		setNotifications([...notifications, newNotification]);
@@ -132,7 +115,7 @@ const App = () => {
 		() => Notificator.unsubcribe();
 	}, [notifications]);
 
-	const [loading] = useInitData();
+	const loading = useInitData();
 
 	if (loading) return <Loader size="large" />;
 
@@ -147,8 +130,8 @@ const App = () => {
 			{!hasSeenCookie && (
 				<CookieBanner
 					onClick={() => {
-						setHasSeenCookie(true);
 						createHasSeenCookie();
+						setHasSeenCookie();
 					}}
 				/>
 			)}

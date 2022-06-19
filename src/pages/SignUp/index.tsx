@@ -6,9 +6,9 @@ import Header from "components/Header";
 import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
 import Text from "components/Text";
+import useStore from "hooks/useStore";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useGlobalState } from "store/store";
 import { ValidationError } from "util/error";
 
 import style from "./style.module.scss";
@@ -27,8 +27,8 @@ const SignUp = () => {
 
 	const [disabled, setDisabled] = useState(false);
 
-	const [, setUser] = useGlobalState("user");
-	const [, setIsLoggedIn] = useGlobalState("isLoggedIn");
+	const setIsLoggedIn = useStore(state => state.setIsLoggedIn);
+	const setUser = useStore(state => state.setUser);
 
 	const navigate = useNavigate();
 
@@ -77,7 +77,7 @@ const SignUp = () => {
 		try {
 			const user = await signup({ email: email.trim(), password, name });
 			if (user) {
-				setIsLoggedIn(true);
+				setIsLoggedIn();
 				setUser(user);
 				navigate("/");
 			}
@@ -89,8 +89,8 @@ const SignUp = () => {
 			} else {
 				setEmailError("email already exists");
 			}
+			setDisabled(false);
 		}
-		setDisabled(false);
 	};
 
 	const legalTextColor = {

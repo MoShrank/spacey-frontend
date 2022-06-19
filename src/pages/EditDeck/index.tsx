@@ -1,31 +1,28 @@
 import { deleteDeck, updateDeckAction } from "actions/deck";
-import { getDecksAction } from "actions/deck";
 import DeleteDialog from "components/DeleteDialog";
 import EditableDeck from "components/EditableDeck";
-import Loader from "components/Loader";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
 import Spacer from "components/Spacer";
-import useAPIFetch from "hooks/useAPIFetch";
-import useAction from "hooks/useAction";
+import useActionZ from "hooks/useActionZ";
+import useStore from "hooks/useStore";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { DeckI } from "types/deck";
 
 const EditDeck = () => {
 	const { deckID } = useParams();
-	const [loading, , decks] = useAPIFetch("decks", getDecksAction);
-	const [, , call] = useAction("decks", deleteDeck);
+	const deck = useStore(state =>
+		state.decks.find((d: DeckI) => d.id === deckID),
+	);
+	const [, , deleteDeckAction] = useActionZ(state => state.decks, deleteDeck);
 
 	const navigate = useNavigate();
 
-	const deck = decks.find((d: DeckI) => d.id === deckID);
+	if (!deck) return <Navigate to="/404" />;
 
 	const handleDelete = () => {
-		call(deck?.id).then(() => navigate("/"));
+		deleteDeckAction(deck.id).then(() => navigate("/"));
 	};
-
-	if (loading) return <Loader size="large" />;
-	if (!deck) return <Navigate to="/404" />;
 
 	return (
 		<Modal>
@@ -35,8 +32,7 @@ const EditDeck = () => {
 					buttonName="Save Changes"
 					formTitle="Edit Deck"
 					deckPrefill={deck}
-					redirectOnSubmit={`/decks/${deckID}`}
-				>
+					redirectOnSubmit={`/decks/${deckID}`}>
 					<DeleteDialog onDelete={handleDelete}>Delete this Deck</DeleteDialog>
 					<Spacer spacing={2} />
 				</EditableDeck>

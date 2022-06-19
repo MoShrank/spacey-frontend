@@ -8,22 +8,20 @@ import ModalLayout from "components/ModalLayout";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Notificator from "events/notification";
-import useAction from "hooks/useAction";
+import useActionZ from "hooks/useActionZ";
+import useStore from "hooks/useStore";
 import { useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useGlobalState } from "store/store";
-import { DeckI } from "types/deck";
 
 const NewCard = () => {
-	const [createCardLoading, error, action] = useAction(
-		"decks",
+	const { deckID } = useParams();
+	const deck = useStore(state => state.decks.find(({ id }) => id === deckID));
+
+	const [createCardLoading, error, action] = useActionZ(
+		state => state.decks,
 		createCardAction,
 	);
-	const [decks] = useGlobalState<DeckI[]>("decks");
-
-	const { deckID } = useParams();
-	const deck = decks.find(({ id }) => id === deckID);
 
 	const navigate = useNavigate();
 
