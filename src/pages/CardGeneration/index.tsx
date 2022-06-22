@@ -29,6 +29,7 @@ import { next, prev } from "util/array";
 
 import CardGenerationInput from "./CardGenerationInput";
 import { CardReview } from "./CardReview";
+import Hint from "./Hint";
 import ProgressIndicator from "./ProgressIndicator";
 import style from "./style.module.scss";
 
@@ -37,13 +38,17 @@ enum pageStates {
 	LOADING = "loading",
 	REVIEW = "review",
 	EDIT = "edit",
+	NO_CARDS = "noCards",
+	CARDS_DELETED = "cardsDeleted",
 }
 
 const pageStateOrder = {
 	[pageStates.GENERATE]: 1,
 	[pageStates.LOADING]: 2,
+	[pageStates.NO_CARDS]: 2,
 	[pageStates.REVIEW]: 3,
 	[pageStates.EDIT]: 3,
+	[pageStates.CARDS_DELETED]: 3,
 };
 
 const CardGeneration = () => {
@@ -83,7 +88,10 @@ const CardGeneration = () => {
 	);
 
 	let initialPageState;
+
 	if (generatedLoading) initialPageState = pageStates.LOADING;
+	else if (exiNote.cards.length === 0)
+		initialPageState = pageStates.CARDS_DELETED;
 	else if (exiNote) initialPageState = pageStates.REVIEW;
 	else initialPageState = pageStates.GENERATE;
 
@@ -167,7 +175,13 @@ const CardGeneration = () => {
 			...notes,
 			[deckID]: { ...exiNote, cards: newCards },
 		});
-		setPageState(pageStates.REVIEW);
+
+		if (newCards.length > 0) setPageState(pageStates.REVIEW);
+		else {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			setPageState(pageStates.CARDS_DELETED);
+		}
+
 		setCard({ question: "", answer: "", idx: -1 });
 	};
 
@@ -194,6 +208,19 @@ const CardGeneration = () => {
 					note={note}
 					error={generateError}
 				/>
+			);
+			break;
+
+		case pageStates.NO_CARDS:
+			Component = (
+				<ContentWidthConstraint>
+					<Hint
+						msg="Unfortunately no cards could be generated."
+						hint="Please enter another text."
+					/>
+					<Button>Go Back</Button>
+					<SimpleButton as="button">Cancel</SimpleButton>
+				</ContentWidthConstraint>
 			);
 			break;
 
@@ -238,6 +265,24 @@ const CardGeneration = () => {
 							</SimpleButton>
 						</BottomContainer>
 					</EditableCard>
+				</ContentWidthConstraint>
+			);
+			break;
+
+		case pageStates.CARDS_DELETED:
+			Component = (
+				<ContentWidthConstraint>
+					<Hint
+						msg="Seems like all cards were deleted."
+						hint="Please enter a text or regenerate the cards."
+					/>
+					<SimpleButton as="button">Regenerate Cards</SimpleButton>{" "}
+					{/* TODO get original cards from beginning? */}
+					<Button>Enter Text</Button>{" "}
+					{/* TODO delete note here and in backend and set pagestate to generate */}
+					<SimpleButton as="a" href={`/decks/${deckID}`}>
+						Cancel
+					</SimpleButton>
 				</ContentWidthConstraint>
 			);
 			break;
