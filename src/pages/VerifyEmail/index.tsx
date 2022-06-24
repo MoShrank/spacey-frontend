@@ -39,7 +39,7 @@ const VerifyEmail = () => {
 			</div>
 
 			<Button disabled={disableButton} onClick={sendEmail}>
-				Resend Email
+				Resend E-mail
 			</Button>
 		</Layout>
 	);
