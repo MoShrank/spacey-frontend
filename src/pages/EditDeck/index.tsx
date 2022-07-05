@@ -4,7 +4,7 @@ import EditableDeck from "components/EditableDeck";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
 import Spacer from "components/Spacer";
-import useActionZ from "hooks/useActionZ";
+import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { DeckI } from "types/deck";
@@ -32,7 +32,8 @@ const EditDeck = () => {
 					buttonName="Save Changes"
 					formTitle="Edit Deck"
 					deckPrefill={deck}
-					redirectOnSubmit={`/decks/${deckID}`}>
+					redirectOnSubmit={`/decks/${deckID}`}
+				>
 					<DeleteDialog onDelete={handleDelete}>Delete this Deck</DeleteDialog>
 					<Spacer spacing={2} />
 				</EditableDeck>

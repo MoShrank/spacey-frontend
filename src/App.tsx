@@ -8,7 +8,7 @@ import RedirectAuth from "components/RedirectAuth";
 import RequireAuth from "components/RequireAuth";
 import RequireBeta from "components/RequireBeta";
 import Notificator, { NotificatorI } from "events/notification";
-import useAction from "hooks/useActionZ";
+import useAction from "hooks/useAction";
 import { useStore } from "hooks/useStore";
 import Error404 from "pages/404";
 import CardDetail from "pages/CardDetail";

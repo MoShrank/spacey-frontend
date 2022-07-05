@@ -9,7 +9,7 @@ import ModalLayout from "components/ModalLayout";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Swiper from "components/Swiper";
-import useActionZ from "hooks/useActionZ";
+import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";

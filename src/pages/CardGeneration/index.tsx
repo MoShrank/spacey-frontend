@@ -17,7 +17,7 @@ import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Swiper from "components/Swiper";
 import Text from "components/Text";
-import useActionZ from "hooks/useActionZ";
+import useActionZ from "hooks/useAction";
 import useMediaQuery from "hooks/useMediaQuery";
 import useStore from "hooks/useStore";
 import React, { useState } from "react";

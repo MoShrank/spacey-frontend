@@ -8,7 +8,7 @@ import ModalLayout from "components/ModalLayout";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Notificator from "events/notification";
-import useActionZ from "hooks/useActionZ";
+import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
 import { useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";

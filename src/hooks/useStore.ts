@@ -57,7 +57,17 @@ export const useStore = create<ZustandStateI>()(
 			setUser: user => set(state => ({ ...state, user })),
 			...initialState,
 		}),
-		{ name: "spacey", getStorage: () => localStorage },
+		{
+			name: "spacey",
+			version: 1,
+			getStorage: () => localStorage,
+			partialize: state =>
+				Object.fromEntries(
+					Object.entries(state).filter(
+						([key]) => !["isLoggedIn", "globalError"].includes(key),
+					),
+				),
+		},
 	),
 );
 

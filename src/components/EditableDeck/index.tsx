@@ -8,7 +8,7 @@ import TextArea from "components/Input/TextArea";
 import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
-import useActionZ from "hooks/useActionZ";
+import useActionZ from "hooks/useAction";
 import useDispatch from "hooks/useDispatch";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";

@@ -4,7 +4,7 @@ import Button from "components/Button";
 import Header from "components/Header";
 import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
-import useActionZ from "hooks/useActionZ";
+import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
