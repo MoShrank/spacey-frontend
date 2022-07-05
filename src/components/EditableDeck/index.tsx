@@ -8,8 +8,8 @@ import TextArea from "components/Input/TextArea";
 import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
-import useAPIFetch from "hooks/useAPIFetch";
-import useAction from "hooks/useAction";
+import useActionZ from "hooks/useAction";
+import useDispatch from "hooks/useDispatch";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { DeckI } from "types/deck";
@@ -28,7 +28,9 @@ const deckEq = (
 };
 
 interface EditableDeckProps {
-	submitAction: (deck: DeckI) => Promise<(curState: Array<DeckI>) => DeckI[]>;
+	submitAction: (
+		deck: DeckI,
+	) => Promise<(curState: Array<DeckI>) => Record<string, DeckI[]>>;
 	buttonName: "Create Deck" | "Save Changes";
 	formTitle: "Create Deck" | "Edit Deck";
 	deckPrefill?: DeckI;
@@ -44,8 +46,12 @@ const EditableDeck = ({
 	children,
 	redirectOnSubmit,
 }: EditableDeckProps) => {
-	const [loading, error, action] = useAction("decks", submitAction);
-	const [, , config] = useAPIFetch("config", getConfig);
+	const [loading, error, action] = useActionZ(
+		state => state.decks,
+		submitAction,
+	);
+
+	const [, , config] = useDispatch(state => state.config, getConfig);
 
 	const navigate = useNavigate();
 

@@ -27,7 +27,7 @@ interface CardGenerationInputI {
 	onClose: (event: React.MouseEvent<HTMLElement>) => void;
 	setNote: (note: string) => void;
 	note: string;
-	error: string;
+	error: string | undefined;
 	onSubmit: (e: React.MouseEvent<HTMLElement>) => void;
 }
 

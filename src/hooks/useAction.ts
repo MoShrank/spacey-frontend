@@ -1,35 +1,38 @@
+import { ZustandStateI, useStore } from "hooks/useStore";
 import { useState } from "react";
-import { store } from "store/store";
-
-/*
-currently only accepts actions as api calls
-*/
 
 const useAction = <T>(
-	globalStateKey: string,
+	stateSelector: (state: ZustandStateI) => T,
 	// eslint-disable-next-line
-	action: (...args: any[]) => Promise<(state: T) => T>,
-	loadingDef?: boolean,
-): [boolean, string, (...args: unknown[]) => Promise<unknown>] => {
-	const [loading, setLoading] = useState(!!loadingDef);
-	const [error, setError] = useState("");
+	fn: (...args: any[]) => Promise<(state: T) => Record<string, T>>,
+): [
+	boolean,
+	string | undefined,
+	(...args: unknown[]) => Promise<T | undefined>,
+] => {
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<undefined | string>(undefined);
+	const state = useStore();
+	const dispatch = state.dispatch;
 
-	const call = async (...args: unknown[]) => {
+	const action = async (...args: unknown[]) => {
 		setLoading(true);
-		setError("");
 
 		try {
-			const update = await action(...args);
-			await store.emit<T>(globalStateKey, update);
-			setLoading(false);
+			const res = await fn(...args);
+			const data = res(stateSelector(state));
+
+			dispatch(data);
+
+			return stateSelector(data as unknown as ZustandStateI);
 		} catch (e) {
 			setError((e as Error).message);
+		} finally {
 			setLoading(false);
-			throw e as Error;
 		}
 	};
 
-	return [loading, error, call];
+	return [loading, error, action];
 };
 
 export default useAction;

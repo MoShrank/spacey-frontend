@@ -1,22 +1,18 @@
 import {
 	addGeneratedCards,
 	createCard,
-	createCardEvent,
 	createDeck,
-	createLearningSession,
 	deleteCard,
 	deleteDeck as deleteDeckCall,
 	fetchAvgRecallProbabilities,
 	fetchDecks,
 	fetchNotes,
-	finishLearningSession,
 	generateCards,
-	getLearningCards,
 	updateCard,
 	updateDeck,
 	updateGeneratedCards,
 } from "api/deck";
-import { CardEventI, CardI, DeckI, LearningSessionI } from "types/deck";
+import { CardI, DeckI } from "types/deck";
 import { NoteI } from "types/note";
 import { isEmpty } from "util/editor";
 
@@ -27,7 +23,7 @@ export const createDeckAction = async (deck: DeckI) => {
 	try {
 		const newDeck = await createDeck(deck);
 		return (curState: Array<DeckI>) => {
-			return [...curState, newDeck];
+			return { decks: [...curState, newDeck] };
 		};
 	} catch (e) {
 		throw Error("please fill in all required fields");
@@ -43,7 +39,7 @@ export const updateDeckAction = async (deck: DeckI) => {
 			const updatedDecks = curState.map(d =>
 				d.id === deck.id ? { ...d, ...deck } : d,
 			);
-			return [...updatedDecks];
+			return { decks: [...updatedDecks] };
 		};
 	} catch (e) {
 		throw Error("please fill in all required fields");
@@ -54,7 +50,7 @@ export const deleteDeck = async (id: string) => {
 	try {
 		await deleteDeckCall(id);
 		return (curState: Array<DeckI>) => {
-			return curState.filter((deck: DeckI) => deck.id !== id);
+			return { decks: curState.filter((deck: DeckI) => deck.id !== id) };
 		};
 	} catch (e) {
 		throw Error("Could not delete deck.");
@@ -86,7 +82,7 @@ export const getDecksAction = async () => {
 		*/
 
 		return () => {
-			return decks;
+			return { decks: decks };
 		};
 	} catch (e) {
 		throw e as Error;
@@ -120,7 +116,7 @@ export const createCardAction = async (card: CardI) => {
 			// only does a shallow compare
 			deck.cards = [...deck.cards, newDeck];
 
-			return [...curState];
+			return { decks: [...curState] };
 		};
 	} catch (e) {
 		throw Error((e as Error).message);
@@ -143,7 +139,7 @@ export const updateCardAction = async (card: CardI) => {
 			);
 			deck.cards = [...newCards];
 
-			return [...curState];
+			return { decks: [...curState] };
 		};
 	} catch (e) {
 		throw Error((e as Error).message);
@@ -160,87 +156,11 @@ export const deleteCardAction = async (deckID: string, cardID: string) => {
 			const newCards = deck.cards.filter((card: CardI) => card.id !== cardID);
 			deck.cards = [...newCards];
 
-			return [...curState];
+			return { decks: [...curState] };
 		};
 	} catch (e) {
 		throw Error((e as Error).message);
 	}
-};
-
-export const getLearningCardsAction = async (
-	deckID: string,
-	cardIDs: string[],
-) => {
-	try {
-		const learningCards = await getLearningCards(deckID, cardIDs);
-		return (curState: DeckI) => {
-			return {
-				...curState,
-				learningOrder: learningCards,
-				totalLearningCards: learningCards.length,
-			};
-		};
-	} catch (e) {
-		throw Error((e as Error).message);
-	}
-};
-
-export const createLearningSessionAction = async (deckID: string) => {
-	try {
-		const learningSession = await createLearningSession(deckID);
-
-		return () => {
-			return learningSession;
-		};
-	} catch (e) {
-		throw Error((e as Error).message);
-	}
-};
-
-export const finishLearningSessionAction = async (
-	learningSession: LearningSessionI,
-) => {
-	try {
-		await finishLearningSession(learningSession);
-
-		return () => {
-			return undefined;
-		};
-	} catch (e) {
-		throw Error((e as Error).message);
-	}
-};
-
-export const answerCardAction = async (cardEvent: CardEventI) => {
-	try {
-		await createCardEvent(cardEvent);
-
-		return (curState: DeckI) => {
-			const curLearningCard = curState.learningOrder[0];
-			let newCards = curState.learningOrder.slice(1);
-
-			if (!cardEvent.correct) {
-				newCards = [...newCards, curLearningCard];
-			}
-
-			return { ...curState, learningOrder: newCards };
-		};
-	} catch (e) {
-		throw Error((e as Error).message);
-	}
-};
-
-export const setRecallProbability = (deckID: string, probability: number) => {
-	return (curState: Array<DeckI>) => {
-		const newDecks = curState.map((deck: DeckI) => {
-			if (deck.id === deckID) {
-				deck.averageRecallProbability = probability;
-			}
-			return deck;
-		});
-
-		return [...newDecks];
-	};
 };
 
 export const generateCardsAction = async (deckID: string, noteText: string) => {
@@ -250,7 +170,7 @@ export const generateCardsAction = async (deckID: string, noteText: string) => {
 
 	return (curState: Record<string, NoteI>) => {
 		const newNotes = { ...curState, [deckID]: note };
-		return newNotes;
+		return { notes: newNotes };
 	};
 };
 
@@ -258,7 +178,7 @@ export const getNotesAction = async () => {
 	const notes = await fetchNotes();
 
 	return () => {
-		return notes;
+		return { notes: notes };
 	};
 };
 
@@ -284,11 +204,11 @@ export const updateGeneratedCardsAction = async (
 
 	await updateGeneratedCards(noteID, newCards);
 
-	return (curState: Record<string, NoteI>): Record<string, NoteI> => {
+	return (curState: Record<string, NoteI>) => {
 		const oldNote = curState[deckID];
 
 		const newNotes = { ...curState, [deckID]: { ...oldNote, cards: newCards } };
-		return newNotes;
+		return { notes: newNotes };
 	};
 };
 
@@ -304,6 +224,6 @@ export const addGeneratedCardsAction = async (
 
 		deck.cards = [...deck.cards, ...cards];
 
-		return [...curState];
+		return { decks: [...curState] };
 	};
 };

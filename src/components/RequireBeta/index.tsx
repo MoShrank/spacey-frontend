@@ -1,11 +1,10 @@
+import useStore from "hooks/useStore";
 import { Navigate } from "react-router-dom";
-import { useGlobalState } from "store/store";
-import { UserI } from "types/user";
 
 const RequireBeta = ({ children }: { children: JSX.Element }) => {
-	const [user] = useGlobalState<UserI>("user");
+	const user = useStore(state => state.user);
 
-	if (!user.betaUser) {
+	if (!user?.betaUser) {
 		return <Navigate to="/" />;
 	}
 

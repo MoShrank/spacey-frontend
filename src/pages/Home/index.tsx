@@ -7,12 +7,12 @@ import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
 import PagePadding from "components/PagePadding";
 import Spacer from "components/Spacer";
+import useStore from "hooks/useStore";
 import { Link } from "react-router-dom";
-import { useGlobalState } from "store/store";
 import { DeckI } from "types/deck";
 
 const Home = () => {
-	const [decks] = useGlobalState<DeckI[]>("decks");
+	const decks = useStore(state => state.decks);
 
 	return (
 		<Layout width="full">

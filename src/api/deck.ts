@@ -106,7 +106,7 @@ export const generateCards = async (deckID: string, note: string) => {
 };
 
 export const fetchNotes = async () => {
-	return (await API.GET("notes")) as NoteI;
+	return (await API.GET("notes")) as Record<string, NoteI>;
 };
 
 export const updateGeneratedCards = async (

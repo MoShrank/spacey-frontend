@@ -1,6 +1,5 @@
+import useStore from "hooks/useStore";
 import { Navigate, useLocation } from "react-router-dom";
-import { useGlobalState } from "store/store";
-import { UserI } from "types/user";
 
 const RequireAuth = ({
 	children,
@@ -9,16 +8,17 @@ const RequireAuth = ({
 	children: JSX.Element;
 	needsEmailVerification?: boolean;
 }) => {
-	const [isLoggedIn] = useGlobalState("isLoggedIn");
+	const isLoggedIn = useStore(state => state.isLoggedIn);
+	const user = useStore(state => state.user);
+
 	const location = useLocation();
-	const [user] = useGlobalState<UserI>("user");
 
 	if (!isLoggedIn) {
 		return <Navigate to="/login" state={{ from: location }} replace />;
 	}
 
 	if (needsEmailVerification) {
-		if (!user.emailValidated) {
+		if (!user?.emailValidated) {
 			return <Navigate to="/verify-email" state={{ from: location }} />;
 		}
 	}

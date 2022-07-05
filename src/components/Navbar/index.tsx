@@ -1,12 +1,12 @@
+import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
-import { useGlobalState } from "store/store";
 
 import DesktopNavbar from "./DesktopNavbar";
 import MobileNavbar from "./MobileNavbar";
 import style from "./style.module.scss";
 
 const Navbar = () => {
-	const [isLoggedIn] = useGlobalState<string>("isLoggedIn");
+	const isLoggedIn = useStore(state => state.isLoggedIn);
 	const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 500);
 
 	const Nav = isDesktop ? DesktopNavbar : MobileNavbar;

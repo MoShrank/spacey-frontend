@@ -41,7 +41,7 @@ interface CardReviewI {
 	onClickCard: (id: number) => void;
 	onClickAddCards: () => void;
 	loading: boolean;
-	error: string;
+	error: string | undefined;
 	cardColor: string;
 }
 
