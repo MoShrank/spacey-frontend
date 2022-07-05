@@ -5,7 +5,7 @@ export const getConfig = async () => {
 		const config = await fetchConfig();
 
 		return () => {
-			return config;
+			return { config };
 		};
 	} catch (e) {
 		throw e as Error;

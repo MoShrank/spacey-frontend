@@ -1,17 +1,16 @@
-import { deleteCardAction, getDecksAction } from "actions/deck";
+import { deleteCardAction } from "actions/deck";
 import { updateCardAction } from "actions/deck";
 import Button from "components/Button";
 import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
 import BottomContainer from "components/FormBottom";
-import Loader from "components/Loader";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Swiper from "components/Swiper";
-import useAPIFetch from "hooks/useAPIFetch";
-import useAction from "hooks/useAction";
+import useActionZ from "hooks/useAction";
+import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { CardI, DeckI } from "types/deck";
@@ -26,12 +25,15 @@ const cardEq = (
 
 const CardDetail = () => {
 	const { deckID, cardID } = useParams();
-	const [loading, , decks] = useAPIFetch("decks", getDecksAction);
-	const [editDeckLoading, editDeckError, action] = useAction(
-		"decks",
+	const decks = useStore(state => state.decks);
+	const [editDeckLoading, editDeckError, action] = useActionZ(
+		state => state.decks,
 		updateCardAction,
 	);
-	const [, , deleteCardCall] = useAction("decks", deleteCardAction);
+	const [, , deleteCardCall] = useActionZ(
+		state => state.decks,
+		deleteCardAction,
+	);
 	const deck = decks.find((d: DeckI) => d.id === deckID);
 	const cardIdx =
 		deck?.cards.findIndex((card: CardI) => card.id === cardID) ?? 0;
@@ -58,7 +60,6 @@ const CardDetail = () => {
 
 	const navigate = useNavigate();
 
-	if (loading) return <Loader size="large" />;
 	if (!deck) return <Navigate to="/404" />;
 
 	const handlePrev = () => {

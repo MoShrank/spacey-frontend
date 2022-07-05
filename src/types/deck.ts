@@ -27,6 +27,7 @@ export interface DeckI {
 	color: string;
 	cards: CardI[];
 	learningOrder: LearningCardI[];
+	totalLearningCards: number;
 	lastLearned: Date;
 	averageRecallProbability: number;
 }

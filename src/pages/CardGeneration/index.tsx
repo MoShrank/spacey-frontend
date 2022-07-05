@@ -17,14 +17,12 @@ import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Swiper from "components/Swiper";
 import Text from "components/Text";
-import useAction from "hooks/useAction";
+import useActionZ from "hooks/useAction";
 import useMediaQuery from "hooks/useMediaQuery";
+import useStore from "hooks/useStore";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGlobalState } from "store/store";
-import { DeckI } from "types/deck";
-import { NoteI } from "types/note";
 import { next, prev } from "util/array";
 
 import CardGenerationInput from "./CardGenerationInput";
@@ -53,14 +51,13 @@ const pageStateOrder = {
 
 const CardGeneration = () => {
 	const { deckID } = useParams();
-	const [decks] = useGlobalState<DeckI[]>("decks");
-	const deck = decks.find(d => d.id === deckID);
+	const deck = useStore(state => state.decks.find(d => d.id === deckID));
 
 	if (!deckID || !deck) return <Navigate to="404" />;
 
 	const [note, setNote] = useState("");
 
-	const [notes, setNotes] = useGlobalState<Record<string, NoteI>>("notes");
+	const [notes, setNotes] = useStore(state => [state.notes, state.setNotes]);
 	const exiNote = notes[deckID];
 	const [card, setCard] = useState({ question: "", answer: "", idx: -1 });
 
@@ -74,16 +71,16 @@ const CardGeneration = () => {
 
 	const navigate = useNavigate();
 
-	const [generatedLoading, generateError, generateCardsCall] = useAction(
-		"notes",
+	const [generatedLoading, generateError, generateCardsCall] = useActionZ(
+		state => state.notes,
 		generateCardsAction,
 	);
-	const [addLoading, addError, addGeneratedCardsCall] = useAction(
-		"decks",
+	const [addLoading, addError, addGeneratedCardsCall] = useActionZ(
+		state => state.decks,
 		addGeneratedCardsAction,
 	);
-	const [updateLoading, updateError, updateCards] = useAction(
-		"notes",
+	const [updateLoading, updateError, updateCards] = useActionZ(
+		state => state.notes,
 		updateGeneratedCardsAction,
 	);
 

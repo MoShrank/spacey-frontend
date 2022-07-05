@@ -21,14 +21,12 @@ import SecondaryButton from "components/SecondaryButton";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
 import useOnClickOutside from "hooks/useClickOutside";
+import useStore from "hooks/useStore";
 import React, { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import { useGlobalState } from "store/store";
 import colors from "styles/colors";
-import { DeckI } from "types/deck";
-import { UserI } from "types/user";
 
 import style from "./style.module.scss";
 
@@ -62,8 +60,8 @@ const DeckDetail = () => {
 	const [createPopupOpen, setCreatePopupOpen] = useState(false);
 	const [infoOpen, setInfoOpen] = useState(false);
 
-	const [user] = useGlobalState<UserI>("user");
-	const [decks] = useGlobalState<DeckI[]>("decks");
+	const user = useStore(state => state.user);
+	const decks = useStore(state => state.decks);
 
 	const infoRef = useRef<HTMLDivElement>(null);
 	const popupRef = useRef<HTMLDivElement>(null);
@@ -129,7 +127,7 @@ const DeckDetail = () => {
 							<PopupItem
 								title="Generate"
 								url="card/generate"
-								unauthorized={!user.betaUser}
+								unauthorized={!user?.betaUser}
 								Icon={<GenerateIcon />}
 							/>
 						</Popup>

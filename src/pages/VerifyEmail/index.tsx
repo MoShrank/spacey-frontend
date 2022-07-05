@@ -4,15 +4,14 @@ import Header from "components/Header";
 import Layout from "components/Layout";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
+import useStore from "hooks/useStore";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useGlobalState } from "store/store";
-import { UserI } from "types/user";
 
 import style from "./style.module.scss";
 
 const VerifyEmail = () => {
-	const [user] = useGlobalState<UserI>("user");
+	const user = useStore(state => state.user);
 	const [disableButton, setDisableButton] = useState(false);
 
 	if (user.emailValidated) return <Navigate to="/" />;

@@ -1,10 +1,8 @@
 import {
-	createLearningSessionAction,
-	finishLearningSessionAction,
-	getLearningCardsAction,
-	setRecallProbability,
-} from "actions/deck";
-import { answerCardAction } from "actions/deck";
+	createCardEvent,
+	createLearningSession,
+	getLearningCards,
+} from "api/deck";
 import { ReactComponent as BadAnswer } from "assets/icons/badButton.svg";
 import { ReactComponent as GoodAnswer } from "assets/icons/goodButton.svg";
 import Button from "components/Button";
@@ -18,15 +16,12 @@ import ProgressIndicator from "components/ProgressIndicator";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
-import useAPIFetch from "hooks/useAPIFetch";
-import useAction from "hooks/useAction";
-import { useEffect } from "react";
+import useStore from "hooks/useStore";
+import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
-import { store, useGlobalState } from "store/store";
-import { CardI } from "types/deck";
-import { DeckI } from "types/deck";
+import { CardI, DeckI, LearningCardI, LearningSessionI } from "types/deck";
 
 import LearningFinished from "./LearningFinished";
 import NoLearning from "./NoLearning";
@@ -43,41 +38,18 @@ enum pageStates {
 	LEARNED = "learned",
 }
 
+const getCard = (deck: DeckI, cardID: string) => {
+	const card = deck.cards.find(card => card.id === cardID);
+	if (!card) {
+		return null;
+	}
+	return card;
+};
+
 const Learning = () => {
 	const { deckID } = useParams();
-	const [decks] = useGlobalState<DeckI[]>("decks");
-	const deck = decks.find(d => d.id === deckID);
+	const deck = useStore(state => state.decks.find(d => d.id === deckID));
 	if (!deckID || !deck) return <Navigate to="404" />;
-
-	const [learningCardsLoading, , learningCards] = useAPIFetch(
-		"deck",
-		getLearningCardsAction,
-		[deckID, deck.cards.map(card => card.id)],
-	);
-
-	const [learningSessionLoading, , learningSession] = useAPIFetch(
-		"learningSession",
-		createLearningSessionAction,
-		[deckID],
-	);
-
-	let initialPageState;
-
-	if (learningCardsLoading || learningSessionLoading)
-		initialPageState = pageStates.LOADING;
-	else if (learningCards.learningOrder.length === 0)
-		initialPageState = pageStates.LEARNED;
-	else initialPageState = pageStates.LEARNING;
-
-	const [pageState, setPageState] = useState(initialPageState);
-
-	const [showAnswer, setShowAnswer] = useState(false);
-	const [, , answerCard] = useAction("deck", answerCardAction);
-
-	const [, , finishedLearningSession] = useAction(
-		"learningSession",
-		finishLearningSessionAction,
-	);
 
 	const [curCard, setCurCard] = useState<CardI>({
 		question: "",
@@ -85,57 +57,105 @@ const Learning = () => {
 		id: "",
 		deckID: "",
 	});
-	const [startedAt, setStartedAt] = useState<Date | undefined>(new Date());
+	const [startedAt, setStartedAt] = useState<Date | undefined>(undefined);
 	const [finishedAt, setFinishedAt] = useState<Date | undefined>(undefined);
 
-	const navigate = useNavigate();
+	const [learningCards, setLearningCards] = useState<
+		LearningCardI[] | undefined
+	>(undefined);
+
+	const [numberLearningCards, setNumberLearningCards] = useState(0);
+
+	const [pageState, setPageState] = useState<pageStates>(pageStates.LOADING);
 
 	useEffect(() => {
-		if (learningCards) {
-			//case: no cards in learning session
-			if (learningCards.totalLearningCards <= 0) {
+		const fetch = async () => {
+			const cards = await getLearningCards(
+				deckID,
+				deck.cards.map(card => card.id),
+			);
+			setLearningCards(cards);
+			setNumberLearningCards(cards.length);
+			setStartedAt(new Date());
+
+			if (cards.length === 0) {
 				setPageState(pageStates.LEARNED);
+				return;
+			} else {
+				setPageState(pageStates.LEARNING);
 			}
-			//case: no cards left from learning session = learning finished
-			else if (
-				learningCards.totalLearningCards > 0 &&
-				learningCards.learningOrder.length === 0
-			) {
-				finishedLearningSession(learningSession).then(() => {
-					store.emit("decks", setRecallProbability(deckID, 1));
-					setPageState(pageStates.FINISHED);
-				});
+
+			const card = getCard(deck, cards[0].cardID);
+
+			//TODO throw proper error
+			if (!card) throw Error("Could not find card!");
+			setCurCard(card);
+		};
+
+		fetch();
+	}, []);
+
+	const [learningSession, setLearningSession] = useState<
+		LearningSessionI | undefined
+	>(undefined);
+
+	useEffect(() => {
+		const fetch = async () => {
+			const session = await createLearningSession(deckID);
+			setLearningSession(session);
+		};
+
+		fetch();
+	}, []);
+
+	const [showAnswer, setShowAnswer] = useState(false);
+
+	const onAnswer = useCallback(
+		async (correct: boolean) => {
+			if (!learningSession || !startedAt || !finishedAt || !learningCards) {
+				return;
 			}
-			// case: cards left in learning session
-			else {
-				const card = deck.cards.find(
-					card => card.id === learningCards.learningOrder[0].cardID,
-				);
-				if (card) {
-					setCurCard(card);
-					setPageState(pageStates.LEARNING);
-				}
+
+			const event = {
+				deckID,
+				cardID: curCard.id,
+				learningSessionID: learningSession.id,
+				startedAt: startedAt,
+				finishedAt: finishedAt,
+				correct,
+			};
+
+			createCardEvent(event);
+
+			const curLearningCard = learningCards[0];
+			const newLearningCards = learningCards.slice(1);
+
+			if (!correct) {
+				newLearningCards.push(curLearningCard);
+			} else if (learningCards.length == 1) {
+				/* answer was correct and we have no cards left */
+				setPageState(pageStates.FINISHED);
+				return;
 			}
-		}
-	}, [learningCards]);
+
+			setLearningCards(newLearningCards);
+
+			const card = getCard(deck, newLearningCards[0].cardID);
+			if (!card) throw Error("Could not find card!");
+			setCurCard(card);
+			setShowAnswer(false);
+			setStartedAt(new Date());
+			setFinishedAt(undefined);
+		},
+		[deckID, curCard.id, learningSession?.id, startedAt, finishedAt],
+	);
 
 	const onShowAnswer = () => {
 		setShowAnswer(true);
 		setFinishedAt(new Date());
 	};
 
-	const onAnswer = (correct: boolean) => {
-		answerCard({
-			deckID,
-			cardID: curCard.id,
-			learningSessionID: learningSession.id,
-			startedAt: startedAt,
-			finishedAt: finishedAt,
-			correct,
-		});
-		setShowAnswer(false);
-		setStartedAt(new Date());
-	};
+	const navigate = useNavigate();
 
 	let Component = null;
 
@@ -147,10 +167,8 @@ const Learning = () => {
 			Component = (
 				<>
 					<ProgressIndicator
-						total={learningCards.totalLearningCards}
-						progress={
-							learningCards.totalLearningCards - learningCards.learningOrder.length
-						}
+						total={numberLearningCards || 0}
+						progress={learningCards ? numberLearningCards - learningCards.length : 0}
 					/>
 					<Spacer spacing={2} />
 					<CardContainer disableTopBoarder={false} color={deck.color}>
@@ -197,10 +215,7 @@ const Learning = () => {
 			break;
 		case pageStates.FINISHED:
 			Component = (
-				<LearningFinished
-					deck={deck}
-					totalNoCards={learningCards.totalLearningCards}
-				/>
+				<LearningFinished deck={deck} totalNoCards={numberLearningCards || 0} />
 			);
 			break;
 		case pageStates.LEARNED:

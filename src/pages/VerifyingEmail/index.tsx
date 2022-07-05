@@ -1,15 +1,14 @@
 import { verifyEmail } from "api/user";
 import Loader from "components/Loader";
 import Notificator from "events/notification";
+import useStore from "hooks/useStore";
 import { useEffect } from "react";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
-import { useGlobalState } from "store/store";
-import { UserI } from "types/user";
 
 const VerifyingEmail = () => {
 	const [searchParams] = useSearchParams();
 	const token = searchParams.get("token");
-	const [user, setUser] = useGlobalState<UserI>("user");
+	const [user, setUser] = useStore(state => [state.user, state.setUser]);
 
 	const navigate = useNavigate();
 

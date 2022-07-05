@@ -12,10 +12,12 @@ export const loginAction = async (email: string, password: string) => {
 
 		return (curState: UserI) => {
 			return {
-				...curState,
-				email: email,
-				id: user?.id,
-				betaUser: user?.betaUser,
+				user: {
+					...curState,
+					email: email,
+					id: user?.id,
+					betaUser: user?.betaUser,
+				},
 			};
 		};
 	} catch (_) {
@@ -31,14 +33,15 @@ export const getUserDataAction = async () => {
 			throw Error("invalid user data.");
 		}
 
-		return (curState: UserI) => {
+		return () => {
 			return {
-				...curState,
-				id: data.id,
-				name: data.name,
-				email: data.email,
-				betaUser: data.betaUser,
-				emailValidated: data.emailValidated,
+				user: {
+					id: data.id,
+					name: data.name,
+					email: data.email,
+					betaUser: data.betaUser,
+					emailValidated: data.emailValidated,
+				},
 			};
 		};
 	} catch (_) {
