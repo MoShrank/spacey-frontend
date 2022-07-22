@@ -166,7 +166,7 @@ export const deleteCardAction = async (deckID: string, cardID: string) => {
 export const generateCardsAction = async (deckID: string, noteText: string) => {
 	if (!noteText) throw new Error("please fill in all required fields");
 
-	const note = await generateCards(deckID, noteText);
+	const note = { ...(await generateCards(deckID, noteText)), cards: [] };
 
 	return (curState: Record<string, NoteI>) => {
 		const newNotes = { ...curState, [deckID]: note };

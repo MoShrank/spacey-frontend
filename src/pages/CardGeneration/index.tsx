@@ -23,6 +23,7 @@ import useStore from "hooks/useStore";
 import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { next, prev } from "util/array";
 
 import CardGenerationInput from "./CardGenerationInput";
@@ -87,7 +88,7 @@ const CardGeneration = () => {
 	let initialPageState;
 
 	if (generatedLoading) initialPageState = pageStates.LOADING;
-	else if (exiNote.cards.length === 0)
+	else if (exiNote?.cards?.length === 0)
 		initialPageState = pageStates.CARDS_DELETED;
 	else if (exiNote) initialPageState = pageStates.REVIEW;
 	else initialPageState = pageStates.GENERATE;
@@ -99,8 +100,11 @@ const CardGeneration = () => {
 
 		try {
 			setPageState(pageStates.LOADING);
-			await generateCardsCall(deckID, note);
-			setPageState(pageStates.REVIEW);
+			const newNotes = await generateCardsCall(deckID, note);
+			if (!newNotes) throw "No cards generated";
+			const cards = newNotes[deckID].cards;
+			if (cards.length === 0) setPageState(pageStates.NO_CARDS);
+			else setPageState(pageStates.REVIEW);
 		} catch (e) {
 			setPageState(pageStates.GENERATE);
 		}
@@ -277,7 +281,7 @@ const CardGeneration = () => {
 					{/* TODO get original cards from beginning? */}
 					<Button>Enter Text</Button>{" "}
 					{/* TODO delete note here and in backend and set pagestate to generate */}
-					<SimpleButton as="a" href={`/decks/${deckID}`}>
+					<SimpleButton as={Link} to={`/decks/${deckID}`}>
 						Cancel
 					</SimpleButton>
 				</ContentWidthConstraint>
