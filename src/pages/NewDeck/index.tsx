@@ -14,6 +14,7 @@ const NewDeck = () => {
 					submitAction={createDeckAction}
 					buttonName="Create Deck"
 					formTitle="Create Deck"
+					redirectOnSubmit="/"
 				/>
 			</ModalLayout>
 		</Modal>

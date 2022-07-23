@@ -27,6 +27,7 @@ const useAction = <T>(
 			return stateSelector(data as unknown as ZustandStateI);
 		} catch (e) {
 			setError((e as Error).message);
+			throw e;
 		} finally {
 			setLoading(false);
 		}

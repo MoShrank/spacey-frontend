@@ -35,7 +35,7 @@ interface EditableDeckProps {
 	formTitle: "Create Deck" | "Edit Deck";
 	deckPrefill?: DeckI;
 	children?: React.ReactNode;
-	redirectOnSubmit?: string;
+	redirectOnSubmit: string;
 }
 
 const EditableDeck = ({
@@ -68,7 +68,7 @@ const EditableDeck = ({
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		action(deck).then(() => navigate(redirectOnSubmit as string));
+		action(deck).then(() => navigate(redirectOnSubmit));
 	};
 
 	const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
