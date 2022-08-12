@@ -24,6 +24,7 @@ import Logout from "pages/Logout";
 import NewCard from "pages/NewCard";
 import NewDeck from "pages/NewDeck";
 import Privacy from "pages/Privacy";
+import Settings from "pages/Settings";
 import SignUp from "pages/SignUp";
 import TOS from "pages/TOS";
 import VerifyEmail from "pages/VerifyEmail";
@@ -226,6 +227,15 @@ const App = () => {
 						</RequireAuth>
 					}
 				/>
+				<Route
+					path="settings"
+					element={
+						<RequireAuth needsEmailVerification={false}>
+							<Settings />
+						</RequireAuth>
+					}
+				/>
+
 				<Route path="/" element={<Layout />}>
 					<Route
 						path="/logout"
@@ -254,7 +264,6 @@ const App = () => {
 					<Route path="imprint" element={<Imprint />} />
 					<Route path="tos" element={<TOS />} />
 					<Route path="privacy" element={<Privacy />} />
-					<Route path="settings" element={null} />
 				</Route>
 				<Route path="*" element={<Error404 />} />
 			</Routes>
