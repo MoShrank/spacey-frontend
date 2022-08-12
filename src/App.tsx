@@ -254,6 +254,7 @@ const App = () => {
 					<Route path="imprint" element={<Imprint />} />
 					<Route path="tos" element={<TOS />} />
 					<Route path="privacy" element={<Privacy />} />
+					<Route path="settings" element={null} />
 				</Route>
 				<Route path="*" element={<Error404 />} />
 			</Routes>

@@ -11,9 +11,11 @@ const DesktopNavbar = () => {
 			<Link to="/" className={style.svg}>
 				<DesktopLogo />
 			</Link>
-			{menuItems.map(item => (
-				<Item key={item.label} {...item} />
-			))}
+			<div className={style.items}>
+				{menuItems.map(item => (
+					<Item key={item.label} {...item} />
+				))}
+			</div>
 		</>
 	);
 };
