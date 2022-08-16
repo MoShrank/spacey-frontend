@@ -343,9 +343,11 @@ const CardEditor = ({
 			</Slate>
 
 			{hideAnswer ? (
-				<Text color="grey" className={style.text} onClick={onClickShowAnswer}>
-					Click here or use the button to show answer
-				</Text>
+				<div className={style.text_container} onClick={onClickShowAnswer}>
+					<Text color="grey" className={style.text}>
+						Click here or use the button to show answer
+					</Text>
+				</div>
 			) : (
 				<Slate editor={editorTwo} value={answerParsed} onChange={answerChange}>
 					<Editable
