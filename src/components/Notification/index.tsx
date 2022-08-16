@@ -85,7 +85,7 @@ const Notification = ({
 		return () => {
 			controller.abort();
 		};
-	}, [ref.current, notifications]);
+	}, [notifications]);
 
 	const ContentComponent = notificationTypeComponents[type];
 
