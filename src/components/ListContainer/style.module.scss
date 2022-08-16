@@ -9,10 +9,9 @@
 	max-width: vars.$content-area-width;
 	padding: 8px vars.$page-gap;
 
+	flex: 1;
 	flex-direction: column;
-
 	align-self: center;
-
 	display: flex;
 	align-items: center;
 	width: 100%;
