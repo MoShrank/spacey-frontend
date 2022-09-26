@@ -1,4 +1,5 @@
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
+import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
 import React from "react";
 
 export interface menuItemsI {
@@ -11,7 +12,7 @@ export interface menuItemsI {
 export const menuItems: menuItemsI[] = [
 	{
 		label: "Settings",
-		Icon: LogoutIcon,
+		Icon: SettingsIcon,
 		to: "/settings",
 		needsLogin: true,
 	},

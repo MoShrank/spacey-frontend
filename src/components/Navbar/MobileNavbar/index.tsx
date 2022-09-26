@@ -1,4 +1,4 @@
-import { ReactComponent as MenuIcon } from "assets/icons/accountIcon.svg";
+import { ReactComponent as MenuIcon } from "assets/icons/account.svg";
 import { ReactComponent as HomeIcon } from "assets/img/logo_simple.svg";
 import Modal from "components/Modal";
 import AccountMenu from "components/Navbar/AccountMenu";
