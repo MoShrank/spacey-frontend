@@ -1,6 +1,7 @@
 import { DeckI, LearningSessionI } from "types/deck";
 import { NoteI } from "types/note";
 import { UserI } from "types/user";
+import { WebEntryI } from "types/web_entry";
 import { getHasSeenCookie, getLoggedInState } from "util/user";
 import create from "zustand";
 import { persist } from "zustand/middleware";
@@ -10,6 +11,7 @@ interface StateData {
 	hasSeenCookie: boolean;
 	user: UserI;
 	decks: DeckI[];
+	webContent: WebEntryI[];
 	notes: Record<string, NoteI>;
 	config: {
 		colors: string[];
@@ -37,6 +39,7 @@ export const initialState: StateData = {
 	},
 	notes: {},
 	decks: [],
+	webContent: [],
 	config: {
 		colors: [],
 	},

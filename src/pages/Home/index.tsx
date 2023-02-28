@@ -13,6 +13,7 @@ import { DeckI } from "types/deck";
 
 const Home = () => {
 	const decks = useStore(state => state.decks);
+	const webEntries = useStore(state => state.webContent);
 
 	return (
 		<Layout width="full">
