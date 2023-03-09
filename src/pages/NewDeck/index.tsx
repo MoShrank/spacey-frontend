@@ -3,12 +3,11 @@ import EditableDeck from "components/EditableDeck";
 import EditableWebContent from "components/EditableWebContent/EditableWebContent";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 enum InputTypes {
 	DECK = "deck",
-	WEB_CONTENT = "web-content",
+	WEB_CONTENT = "url",
 }
 
 const TypeComponentMapping = {
@@ -25,20 +24,17 @@ const TypeComponentMapping = {
 
 const NewDeck = () => {
 	const navigate = useNavigate();
-	const [selectedInputType, setSelectedInput] = useState<InputTypes>(
-		InputTypes.DECK,
-	);
+
+	let type = new URLSearchParams(window.location.search).get("type");
+
+	if (!type) type = InputTypes.DECK;
+	else if (!Object.values(InputTypes).includes(type as InputTypes))
+		type = InputTypes.DECK;
 
 	return (
 		<Modal>
 			<ModalLayout onClose={() => navigate("/")}>
-				<select
-					value={selectedInputType}
-					onChange={e => setSelectedInput(e.target.value as InputTypes)}>
-					<option value={InputTypes.DECK}>Deck</option>
-					<option value={InputTypes.WEB_CONTENT}>Web Content</option>
-				</select>
-				{TypeComponentMapping[selectedInputType]}
+				{TypeComponentMapping[type as InputTypes]}
 			</ModalLayout>
 		</Modal>
 	);

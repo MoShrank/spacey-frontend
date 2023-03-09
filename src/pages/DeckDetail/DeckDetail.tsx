@@ -23,9 +23,7 @@ import Text from "components/Text";
 import useOnClickOutside from "hooks/useClickOutside";
 import useStore from "hooks/useStore";
 import React, { useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import colors from "styles/colors";
 
 import style from "./style.module.scss";
@@ -42,15 +40,15 @@ interface PopupItemI {
 
 const PopupItem = ({ Icon, title, url, unauthorized }: PopupItemI) => {
 	return (
-		<div className={unauthorized ? style.unauthorized : ""}>
-			<Link to={url} className={unauthorized ? style.disabled : ""}>
-				<div className={style.popup_item}>
-					{unauthorized && <div className={style.beta}>beta</div>}
-					{Icon}
-					<Text>{title}</Text>
-				</div>
-			</Link>
-		</div>
+		<Link
+			to={url}
+			className={`${style.popup_item} ${unauthorized ? style.unauthorized : ""} ${
+				unauthorized ? style.disabled : ""
+			}`}>
+			{unauthorized && <div className={style.beta}>beta</div>}
+			{Icon}
+			<Text>{title}</Text>
+		</Link>
 	);
 };
 
@@ -109,8 +107,7 @@ const DeckDetail = () => {
 					<MemoryStabilityIndicator
 						probability={deck.averageRecallProbability}
 						styles={{ width: "24px", height: "24px" }}
-						fill={"darkblue"}
-					></MemoryStabilityIndicator>
+						fill={"darkblue"}></MemoryStabilityIndicator>
 				</div>
 				<Spacer spacing={2} />
 				<Line />

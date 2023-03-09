@@ -1,0 +1,56 @@
+@use "../../styles/vars.scss";
+@use "../../styles/colors.scss";
+
+.create_card_popup_container {
+	position: absolute;
+	width: 171px;
+
+	right: 0;
+	top: 50px;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+
+	background-color: white;
+	border: 0.5px solid #8c8c8c;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 20px;
+	z-index: vars.$popup;
+
+	& > :first-child {
+		border-top-right-radius: 20px;
+		border-top-left-radius: 20px;
+		padding-top: 12px;
+	}
+
+	& > :last-child {
+		border-bottom-right-radius: 20px;
+		border-bottom-left-radius: 20px;
+		padding-bottom: 16px;
+	}
+}
+
+.popup_item {
+	position: relative;
+	svg {
+		margin-right: 8px;
+	}
+
+	padding: {
+		top: 8px;
+		bottom: 8px;
+		left: 16px;
+		right: 16px;
+	}
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+
+	&:hover {
+		background-color: colors.$hovergray;
+	}
+}
