@@ -1,5 +1,6 @@
 import { getDecksAction, getNotesAction } from "actions/deck";
 import { getUserDataAction } from "actions/user";
+import { getWebContentAction } from "actions/webContent";
 import CookieBanner from "components/CookieBanner";
 import Loader from "components/Loader";
 import Navbar from "components/Navbar";
@@ -29,12 +30,12 @@ import SignUp from "pages/SignUp";
 import TOS from "pages/TOS";
 import VerifyEmail from "pages/VerifyEmail";
 import VerifyingEmail from "pages/VerifyingEmail";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import { DeckI } from "types/deck";
 import { NoteI } from "types/note";
 import { UserI } from "types/user";
+import { WebEntryI } from "types/web_entry";
 import { createHasSeenCookie } from "util/user";
 
 import "./App.scss";
@@ -65,6 +66,11 @@ const useInitData = () => {
 		getNotesAction,
 	);
 
+	const [, , fetchWebContentAction] = useAction<WebEntryI[]>(
+		state => state.webContent,
+		getWebContentAction,
+	);
+
 	const { decks, notes } = useStore();
 
 	useEffect(() => {
@@ -78,6 +84,7 @@ const useInitData = () => {
 				if (user?.emailValidated) {
 					if (decks?.length) {
 						fetchDecksAction();
+						fetchWebContentAction();
 					} else {
 						promises.push(fetchDecksAction());
 					}

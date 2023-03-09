@@ -30,6 +30,7 @@ export interface DeckI {
 	totalLearningCards: number;
 	lastLearned: Date;
 	averageRecallProbability: number;
+	created_at: Date;
 }
 
 export interface LearningSessionI {
