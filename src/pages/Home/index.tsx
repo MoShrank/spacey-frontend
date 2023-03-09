@@ -1,5 +1,6 @@
 import { ReactComponent as ArticleIcon } from "assets/icons/article.svg";
 import { ReactComponent as CardDeckIcon } from "assets/icons/card_deck.svg";
+import ArticleCard from "components/ArticleCard";
 import ContentTitle from "components/ContentTitle";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
@@ -16,6 +17,7 @@ import useStore from "hooks/useStore";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { DeckI } from "types/deck";
+import { WebEntryI } from "types/web_entry";
 
 import style from "./style.module.scss";
 
@@ -38,6 +40,16 @@ const Home = () => {
 
 	const [createPopupOpen, setCreatePopupOpen] = useState(false);
 	const popupRef = useRef<HTMLDivElement>(null);
+
+	const listItems = [
+		...decks.map(deck => ({ type: "deck", data: deck })),
+		...webEntries.map(webEntry => ({ type: "webEntry", data: webEntry })),
+	];
+	listItems.sort((a, b) => {
+		if (a.data.created_at > b.data.created_at) return -1;
+		if (a.data.created_at < b.data.created_at) return 1;
+		return 0;
+	});
 
 	useOnClickOutside(popupRef, () => setCreatePopupOpen(false));
 
@@ -65,9 +77,17 @@ const Home = () => {
 			<Spacer spacing={2} />
 			{decks && decks.length ? (
 				<ListContainer rowSpacing={3} columnSpacing={2} childWidth={224}>
-					{decks.map((deck: DeckI) => (
-						<Deck key={deck.id} deck={deck} />
-					))}
+					{listItems.map((item, idx) => {
+						return item.type === "deck" ? (
+							<Deck key={idx} deck={item.data as DeckI} />
+						) : (
+							<ArticleCard
+								key={idx}
+								name={(item.data as WebEntryI).name}
+								to={(item.data as WebEntryI).url}
+							/>
+						);
+					})}
 				</ListContainer>
 			) : (
 				<Hint>No decks yet. Click the plus button to add a deck.</Hint>

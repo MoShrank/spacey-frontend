@@ -2,6 +2,7 @@ import API from "api/api";
 import { WebEntryI } from "types/web_entry";
 
 interface CreateWebEntryI {
+	name: string;
 	url: string;
 	summarise: boolean;
 }

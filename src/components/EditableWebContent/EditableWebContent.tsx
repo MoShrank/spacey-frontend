@@ -1,3 +1,4 @@
+import { createWebContentAction } from "actions/webContent";
 import Button from "components/Button";
 import Checkbox from "components/Checkbox";
 import Form from "components/Form";
@@ -6,24 +7,29 @@ import Header from "components/Header";
 import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
+import useActionZ from "hooks/useAction";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./style.scss";
 
-//interface EditableWebContentI {}
-
 const EditableWebContent = () => {
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | undefined>(undefined);
+	const navigate = useNavigate();
+
 	const [data, setData] = useState({
 		name: "",
 		url: "",
 		summarise: true,
 	});
 
-	const handleSubmit = () => {
-		console.log("submit");
+	const [loading, error, action] = useActionZ(
+		state => state.webContent,
+		createWebContentAction,
+	);
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		action(data.name, data.url, data.summarise).then(() => navigate("/"));
 	};
 
 	return (
@@ -51,7 +57,8 @@ const EditableWebContent = () => {
 			<Spacer spacing={3} />
 			<Checkbox
 				checked={data.summarise}
-				onChange={() => setData({ ...data, summarise: !data.summarise })}>
+				onChange={() => setData({ ...data, summarise: !data.summarise })}
+			>
 				Summarise Website
 			</Checkbox>
 			<Spacer spacing={3} />

@@ -2,6 +2,7 @@ import { createWebEntry, getWebEntries } from "api/webContent";
 import { WebEntryI } from "types/web_entry";
 
 export const createWebContentAction = async (
+	name: string,
 	url: string,
 	summarise: boolean,
 ) => {
@@ -9,7 +10,7 @@ export const createWebContentAction = async (
 	url = urlConverted.toString();
 
 	try {
-		const newEntry = await createWebEntry({ url, summarise });
+		const newEntry = await createWebEntry({ url, summarise, name });
 		return (curState: Array<WebEntryI>) => {
 			return { webContent: [...curState, newEntry] };
 		};
