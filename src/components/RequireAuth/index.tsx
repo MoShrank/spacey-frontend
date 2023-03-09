@@ -12,14 +12,15 @@ const RequireAuth = ({
 	const user = useStore(state => state.user);
 
 	const location = useLocation();
+	const pathName = location.pathname;
 
 	if (!isLoggedIn) {
-		return <Navigate to="/login" state={{ from: location }} replace />;
+		return <Navigate to="/login" state={{ from: pathName }} replace />;
 	}
 
 	if (needsEmailVerification) {
 		if (!user?.emailValidated) {
-			return <Navigate to="/verify-email" state={{ from: location }} />;
+			return <Navigate to="/verify-email" state={{ from: pathName }} />;
 		}
 	}
 

@@ -7,15 +7,13 @@ import SimpleButton from "components/SimpleButton";
 import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import "./style.scss";
 
 const Login = () => {
 	const location = useLocation();
-	const from =
-		(location.state as { from: { pathname: string } })?.from?.pathname || "/";
+	const fromPath = (location.state as { from: string })?.from || "/";
 
 	const setIsLoggedIn = useStore(state => state.setIsLoggedIn);
 
@@ -33,7 +31,7 @@ const Login = () => {
 
 		action(credentials.email.trim(), credentials.password).then(() => {
 			setIsLoggedIn();
-			navigate(from);
+			navigate(fromPath);
 		});
 	};
 

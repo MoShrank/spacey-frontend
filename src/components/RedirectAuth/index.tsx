@@ -1,10 +1,13 @@
 import { useStore } from "hooks/useStore";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const RedirectAuth = ({ children }: { children: JSX.Element }) => {
 	const isLoggedIn = useStore(state => state.isLoggedIn);
 
-	if (isLoggedIn) {
+	const location = useLocation();
+	const fromPath = (location.state as { from: string })?.from || "/";
+
+	if (isLoggedIn && fromPath == "/") {
 		return <Navigate to="/" />;
 	}
 
