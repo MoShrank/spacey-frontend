@@ -31,7 +31,7 @@ interface CardGenerationInputI {
 	onSubmit: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-const MAX_NOTE_LENGTH = 1000;
+const MAX_NOTE_LENGTH = 3500;
 
 const CardGenerationInput = ({
 	onClose,
