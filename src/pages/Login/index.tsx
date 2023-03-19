@@ -13,7 +13,11 @@ import "./style.scss";
 
 const Login = () => {
 	const location = useLocation();
-	const fromPath = (location.state as { from: string })?.from || "/";
+	const { from } = (location.state as { from: { pathname: string } }) || {
+		from: { pathname: "/" },
+	};
+
+	console.log(from);
 
 	const setIsLoggedIn = useStore(state => state.setIsLoggedIn);
 
@@ -31,7 +35,7 @@ const Login = () => {
 
 		action(credentials.email.trim(), credentials.password).then(() => {
 			setIsLoggedIn();
-			navigate(fromPath);
+			navigate(from);
 		});
 	};
 
