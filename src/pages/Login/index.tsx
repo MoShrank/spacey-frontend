@@ -17,8 +17,6 @@ const Login = () => {
 		from: { pathname: "/" },
 	};
 
-	console.log(from);
-
 	const setIsLoggedIn = useStore(state => state.setIsLoggedIn);
 
 	const [loading, error, action] = useActionZ(state => state.user, loginAction);
