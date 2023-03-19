@@ -1,4 +1,3 @@
-import Logout from "components/Logout";
 import Navbar from "components/Navbar";
 import RedirectAuth from "components/RedirectAuth";
 import RequireAuth from "components/RequireAuth";
@@ -13,6 +12,7 @@ import Home from "pages/Home";
 import Imprint from "pages/Imprint";
 import Learning from "pages/Learning";
 import Login from "pages/Login";
+import Logout from "pages/Logout";
 import NewCard from "pages/NewCard";
 import NewDeck from "pages/NewDeck";
 import Privacy from "pages/Privacy";
