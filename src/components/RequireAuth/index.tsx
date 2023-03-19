@@ -19,8 +19,8 @@ const RequireAuth = ({
 	}
 
 	if (needsEmailVerification) {
-		if (!user?.emailValidated) {
-			return <Navigate to="/verify-email" state={{ from: pathName }} />;
+		if (!user.emailValidated) {
+			return <Navigate to="/verify-email" state={{ from: pathName }} replace />;
 		}
 	}
 
