@@ -13,7 +13,7 @@ import {
 	updateGeneratedCards,
 } from "api/deck";
 import { CardI, DeckI } from "types/deck";
-import { NoteI } from "types/note";
+import { GeneratedCard, NoteI } from "types/note";
 import { isEmpty } from "util/editor";
 
 export const createDeckAction = async (deck: DeckI) => {
@@ -185,17 +185,18 @@ export const getNotesAction = async () => {
 export const updateGeneratedCardsAction = async (
 	noteID: string,
 	deckID: string,
-	cards: { question: string; answer: string }[],
-	newCard: { question: string; answer: string; idx: number },
+	cards: GeneratedCard[],
+	newCard: GeneratedCard,
+	cardIdx: number,
 ) => {
-	let newCards: { question: string; answer: string }[] = [];
+	let newCards: GeneratedCard[] = [];
 
 	if (newCard !== undefined) {
 		const { question, answer } = newCard;
 		if (!question || !answer) throw Error("please fill in all required fields");
 
 		newCards = cards.map((c, idx) => {
-			if (idx === newCard.idx) c = newCard;
+			if (idx === cardIdx) c = newCard;
 			return c;
 		});
 	} else {

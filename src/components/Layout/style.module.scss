@@ -27,8 +27,12 @@
 	overflow: auto;
 }
 
+.extended_full {
+	max-width: vars.$content-area-width * 1.2 !important;
+}
+
 .full {
-	max-width: vars.$content-area-width;
+	max-width: vars.$content-area-width !important;
 }
 
 .normal {

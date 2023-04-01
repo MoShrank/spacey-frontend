@@ -5,7 +5,7 @@ import {
 	LearningCardI,
 	LearningSessionI,
 } from "types/deck";
-import { NoteI } from "types/note";
+import { GeneratedCard, NoteI } from "types/note";
 import { getTimeFormatted } from "util/time";
 
 import API from "./api";
@@ -111,7 +111,7 @@ export const fetchNotes = async () => {
 
 export const updateGeneratedCards = async (
 	noteID: string,
-	cards: { question: string; answer: string }[],
+	cards: GeneratedCard[],
 ) => {
 	return (await API.PUT(`notes/${noteID}`, { cards })) as NoteI;
 };

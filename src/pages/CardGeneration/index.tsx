@@ -21,14 +21,12 @@ import useActionZ from "hooks/useAction";
 import useMediaQuery from "hooks/useMediaQuery";
 import useStore from "hooks/useStore";
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { next, prev } from "util/array";
 
 import CardGenerationInput from "./CardGenerationInput";
 import { CardReview } from "./CardReview";
 import ProgressIndicator from "./ProgressIndicator";
-import style from "./style.module.scss";
 
 enum pageStates {
 	GENERATE = "generate",
@@ -44,6 +42,16 @@ const pageStateOrder = {
 	[pageStates.EDIT]: 3,
 };
 
+const emptyCard = {
+	card: {
+		question: "",
+		answer: "",
+		source_start_index: 0,
+		source_end_index: 0,
+	},
+	idx: -1,
+};
+
 const CardGeneration = () => {
 	const { deckID } = useParams();
 	const deck = useStore(state => state.decks.find(d => d.id === deckID));
@@ -54,14 +62,14 @@ const CardGeneration = () => {
 
 	const [notes, setNotes] = useStore(state => [state.notes, state.setNotes]);
 	const exiNote = notes[deckID];
-	const [card, setCard] = useState({ question: "", answer: "", idx: -1 });
+	const [card, setCard] = useState(emptyCard);
 
 	let cardDifferent;
 	if (exiNote && card.idx !== -1) {
 		const originalCard = exiNote.cards[card.idx];
 		cardDifferent =
-			originalCard.question !== card.question ||
-			originalCard.answer !== card.answer;
+			originalCard.question !== card.card.question ||
+			originalCard.answer !== card.card.answer;
 	}
 
 	const navigate = useNavigate();
@@ -99,7 +107,7 @@ const CardGeneration = () => {
 	};
 
 	const onClickCard = (id: number) => {
-		setCard({ ...exiNote.cards[id], idx: id });
+		setCard({ card: { ...exiNote.cards[id] }, idx: id });
 		setPageState(pageStates.EDIT);
 	};
 
@@ -107,7 +115,7 @@ const CardGeneration = () => {
 		e.preventDefault();
 
 		const newCards = exiNote.cards.map((c, idx) => {
-			if (idx === card.idx) c = card;
+			if (idx === card.idx) c = card.card;
 			return c;
 		});
 
@@ -118,7 +126,7 @@ const CardGeneration = () => {
 				[deckID]: { ...exiNote, cards: newCards },
 			});
 			setPageState(pageStates.REVIEW);
-			setCard({ question: "", answer: "", idx: -1 });
+			setCard(emptyCard);
 		} catch (e) {
 			/* tslint:disable:no-empty */
 		}
@@ -146,12 +154,12 @@ const CardGeneration = () => {
 
 	const handleNext = () => {
 		const nextIdx = next(exiNote.cards, card.idx);
-		setCard({ ...exiNote.cards[nextIdx], idx: nextIdx });
+		setCard({ card: { ...exiNote.cards[nextIdx] }, idx: nextIdx });
 	};
 
 	const handlePrev = () => {
 		const prevIdx = prev(exiNote.cards, card.idx);
-		setCard({ ...exiNote.cards[prevIdx], idx: prevIdx });
+		setCard({ card: { ...exiNote.cards[prevIdx] }, idx: prevIdx });
 	};
 
 	const handleDelete = () => {
@@ -165,8 +173,10 @@ const CardGeneration = () => {
 			[deckID]: { ...exiNote, cards: newCards },
 		});
 		setPageState(pageStates.REVIEW);
-		setCard({ question: "", answer: "", idx: -1 });
+		setCard(emptyCard);
 	};
+
+	const isMobile = useMediaQuery("(max-width: 500px)");
 
 	let Component = <Navigate to="/404" />;
 
@@ -199,11 +209,13 @@ const CardGeneration = () => {
 				<CardReview
 					cardColor={deck.color}
 					cards={exiNote.cards}
+					text={exiNote.text}
 					onClose={onClose}
 					onClickCard={onClickCard}
 					onClickAddCards={onClickAddCards}
 					loading={addLoading}
 					error={addError}
+					isMobile={isMobile}
 				/>
 			);
 			break;
@@ -213,10 +225,14 @@ const CardGeneration = () => {
 				<ContentWidthConstraint>
 					<EditableCard
 						onSubmit={onSubmitEdit}
-						card={{ id: `${card.idx}`, ...card }}
+						card={{ id: `${card.idx}`, ...card.card }}
 						deck={deck}
-						onAnswerInput={e => setCard({ ...card, answer: e })}
-						onQuestionInput={e => setCard({ ...card, question: e })}
+						onAnswerInput={e =>
+							setCard({ ...card, card: { ...card.card, answer: e } })
+						}
+						onQuestionInput={e =>
+							setCard({ ...card, card: { ...card.card, question: e } })
+						}
 					>
 						{updateError && <Error>{updateError}</Error>}
 						<Spacer spacing={3} />
@@ -240,21 +256,17 @@ const CardGeneration = () => {
 			break;
 	}
 
-	const matches = useMediaQuery("(max-width: 500px)");
-
 	const PageHeader = (
 		<>
-			<Text className={style.align_left}>{deck.name}</Text>
-			<Spacer spacing={matches ? 2 : 4} />
 			<ProgressIndicator currentState={pageStateOrder[pageState]} />
-			<Spacer spacing={matches ? 4 : 8} />
+			<Spacer spacing={isMobile ? 4 : 8} />
 		</>
 	);
 
 	return (
 		<Modal>
 			<ModalLayout
-				width={"full"}
+				width="extendedFull"
 				onClose={pageState === pageStates.EDIT ? onCloseEdit : onClose}
 			>
 				<PagePadding>{PageHeader}</PagePadding>

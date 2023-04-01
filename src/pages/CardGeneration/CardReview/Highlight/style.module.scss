@@ -1,0 +1,32 @@
+@use "../../../../styles/colors.scss";
+
+.context_menu_container {
+	position: fixed;
+	background-color: white;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 8px;
+	overflow: hidden;
+	border-collapse: collapse;
+	border: 1px solid #ccc;
+}
+
+.context_menu_item {
+	height: 40px;
+	width: 40px;
+	flex: 1;
+	min-height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 6px;
+	align-self: stretch;
+
+	cursor: pointer;
+	&:hover {
+		background-color: colors.$hovergray;
+	}
+}

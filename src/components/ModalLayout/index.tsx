@@ -1,5 +1,5 @@
 import { ReactComponent as CancelIcon } from "assets/icons/exit.svg";
-import Layout from "components/Layout";
+import Layout, { widthOptions } from "components/Layout";
 import ResponsiveIcon from "components/ResponsiveIcon";
 
 import style from "./style.module.scss";
@@ -11,7 +11,7 @@ const ModalLayout = ({
 }: {
 	children: React.ReactNode;
 	onClose: () => void;
-	width?: "normal" | "full";
+	width?: widthOptions;
 }) => (
 	<div className={style.popup_layout}>
 		<Layout width={width} navbar={false}>
