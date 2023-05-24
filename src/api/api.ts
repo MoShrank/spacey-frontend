@@ -62,7 +62,7 @@ class API {
 		}
 
 		if (res.status >= 500) {
-			Notificator.push(PopupError.TIMEOUT_ERROR);
+			Notificator.push(PopupError.INTERNAL_SERVER_ERROR);
 			throw new Error(resBody.message || resBody.error);
 		}
 

@@ -1,5 +1,21 @@
 @use "../../../../styles/colors.scss";
 
+.default {
+	background-color: rgba(255, 255, 0, 0.197);
+	text-decoration: underline;
+	text-decoration-color: rgb(255, 255, 0);
+}
+
+.card_selected {
+	background-color: #d37600;
+	text-decoration: underline;
+}
+
+.text_selected {
+	background-color: #00ff00;
+	text-decoration: underline;
+}
+
 .context_menu_container {
 	position: fixed;
 	background-color: white;

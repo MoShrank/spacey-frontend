@@ -29,10 +29,10 @@ const VerticalLine: React.FC<IVerticalLineProps> = ({
 
 type HighlightTypes = "default" | "cardSelected" | "textSelected";
 
-const colorMapping = {
-	default: "#FFFF00",
-	cardSelected: "#D37600",
-	textSelected: "#00FF00",
+const styleHighlighMapping = {
+	default: style.default,
+	cardSelected: style.card_selected,
+	textSelected: style.text_selected,
 };
 
 interface Section {
@@ -90,10 +90,7 @@ const HighlightedText = ({ children, highlightSections }: HighlightI) => {
 			);
 		}
 		highlightedText.push(
-			<span
-				key={section.start}
-				style={{ backgroundColor: colorMapping[section.type] }}
-			>
+			<span key={section.start} className={styleHighlighMapping[section.type]}>
 				{children.slice(section.start, section.end)}
 			</span>,
 		);
