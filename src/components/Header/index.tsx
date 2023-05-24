@@ -5,6 +5,7 @@ interface HeaderProps {
 	color?: "primary" | "secondary" | "black";
 	children: React.ReactNode;
 	className?: string;
+	align?: "left" | "center" | "right";
 }
 
 const colorMapping = {
@@ -13,12 +14,18 @@ const colorMapping = {
 	black: "#000",
 };
 
-const Header = ({ children, kind, color, className }: HeaderProps) => {
+const Header = ({
+	children,
+	kind,
+	color,
+	className,
+	align = "left",
+}: HeaderProps) => {
 	let header = null;
 
 	color = color || "primary";
 
-	const headerStyle = { color: colorMapping[color] };
+	const headerStyle = { color: colorMapping[color], alignSelf: align };
 
 	if (kind === "h1") {
 		header = (

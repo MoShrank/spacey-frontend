@@ -75,17 +75,13 @@ const Home = () => {
 				</ContentTitle>
 			</PagePadding>
 			<Spacer spacing={2} />
-			{decks && decks.length ? (
+			{listItems.length ? (
 				<ListContainer rowSpacing={3} columnSpacing={2} childWidth={224}>
 					{listItems.map((item, idx) => {
 						return item.type === "deck" ? (
 							<Deck key={idx} deck={item.data as DeckI} />
 						) : (
-							<ArticleCard
-								key={idx}
-								name={(item.data as WebEntryI).name}
-								to={(item.data as WebEntryI).url}
-							/>
+							<ArticleCard key={idx} webEntry={item.data as WebEntryI} />
 						);
 					})}
 				</ListContainer>

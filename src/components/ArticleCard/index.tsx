@@ -1,24 +1,20 @@
 import Header from "components/Header";
+import { Link } from "react-router-dom";
+import { WebEntryI } from "types/web_entry";
 
 import style from "./style.module.scss";
 
 interface ArticleCardI {
-	name: string;
-	to: string;
+	webEntry: WebEntryI;
 }
 
-const ArticleCard = ({ name, to }: ArticleCardI) => {
+const ArticleCard = ({ webEntry }: ArticleCardI) => {
 	return (
-		<a
-			target="_blank"
-			rel="noopener noreferrer"
-			href={to}
-			className={style.article_container}
-		>
+		<Link to={`/article/${webEntry.id}`} className={style.article_container}>
 			<Header className={style.article_name} kind="h3">
-				{name}
+				{webEntry.name}
 			</Header>
-		</a>
+		</Link>
 	);
 };
 

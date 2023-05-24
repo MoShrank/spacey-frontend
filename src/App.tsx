@@ -39,7 +39,7 @@ const useInitData = () => {
 		getWebContentAction,
 	);
 
-	const { decks, notes } = useStore();
+	const { notes } = useStore();
 
 	useEffect(() => {
 		const initData = async () => {
@@ -50,12 +50,8 @@ const useInitData = () => {
 				const promises = [];
 
 				if (user?.emailValidated) {
-					if (decks?.length) {
-						fetchDecksAction();
-						fetchWebContentAction();
-					} else {
-						promises.push(fetchDecksAction());
-					}
+					promises.push(fetchDecksAction());
+					promises.push(fetchWebContentAction());
 				}
 				if (user?.betaUser) {
 					if (Object.values(notes).length) {
