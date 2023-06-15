@@ -10,9 +10,13 @@ interface CreateWebEntryI {
 export const createWebEntry = async (
 	webEntry: CreateWebEntryI,
 ): Promise<WebEntryI> => {
-	return (await API.POST("web-content/post", webEntry)) as WebEntryI;
+	return (await API.POST("post", webEntry)) as WebEntryI;
 };
 
 export const getWebEntries = async (): Promise<WebEntryI[]> => {
-	return (await API.GET("web-content/post")) as WebEntryI[];
+	return (await API.GET("post")) as WebEntryI[];
+};
+
+export const deleteWebEntry = async (id: string): Promise<void> => {
+	await API.DELETE(`post/${id}`);
 };
