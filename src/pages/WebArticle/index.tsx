@@ -32,29 +32,6 @@ interface QAConverstationI {
 	chat: QAChatI[];
 }
 
-const fakeData = {
-	chat: [
-		{
-			question: {
-				string: "What is it about?",
-			},
-			answer: {
-				string:
-					"The article discusses the potential of weeds to address food security in an uncertain climate. It highlights examples where weeds have provided genetic resources for crop resilience, such as wild grape rootstock saving the European wine industry from collapse and weedy rice lines providing disease resistance to modern rice. Weeds are characterized by rapid growth, high seed production, environmental plasticity, and genetic variability, making them highly adaptable. The article suggests that by utilizing weedy, wild germplasm, plant breeding can maintain food security in the face of climate change and increasing CO2 levels. Diversity is seen as key to feeding a growing global population. The article discusses the potential of weeds to address food security in an uncertain climate. It highlights examples where weeds have provided genetic resources for crop resilience, such as wild grape rootstock saving the European wine industry from collapse and weedy rice lines providing disease resistance to modern rice. Weeds are characterized by rapid growth, high seed production, environmental plasticity, and genetic variability, making them highly adaptable. The article suggests that by utilizing weedy, wild germplasm, plant breeding can maintain food security in the face of climate change and increasing CO2 levels. Diversity is seen as key to feeding a growing global population.",
-			},
-		},
-		{
-			question: {
-				string: "What is it?",
-			},
-			answer: {
-				string:
-					"The article discusses the potential of weeds to address food security in an uncertain climate. It highlights examples where weeds have provided genetic resources for crop resilience, such",
-			},
-		},
-	],
-};
-
 interface ConversationI {
 	conversation: QAConverstationI;
 	loading: boolean;
@@ -96,7 +73,9 @@ const Conversation = ({ conversation, loading }: ConversationI) => {
 };
 
 const QA = ({ articleID }: QAI): JSX.Element => {
-	const [conversation, setConversation] = useState<QAConverstationI>(fakeData);
+	const [conversation, setConversation] = useState<QAConverstationI>({
+		chat: [],
+	});
 	const [question, setQuestion] = useState<string>("");
 	const [answer, setAnswer] = useState<string>("");
 	const [error, setError] = useState<string>("");
