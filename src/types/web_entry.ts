@@ -5,3 +5,8 @@ export interface WebEntryI {
 	summary: string;
 	created_at: Date;
 }
+
+export interface WebEntryAnswerI {
+	answer: string;
+	documents: string[];
+}

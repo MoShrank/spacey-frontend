@@ -1,5 +1,5 @@
 import API from "api/api";
-import { WebEntryI } from "types/web_entry";
+import { WebEntryAnswerI, WebEntryI } from "types/web_entry";
 
 interface CreateWebEntryI {
 	name: string;
@@ -19,4 +19,11 @@ export const getWebEntries = async (): Promise<WebEntryI[]> => {
 
 export const deleteWebEntry = async (id: string): Promise<void> => {
 	await API.DELETE(`post/${id}`);
+};
+
+export const getAnswerFromArticle = async (
+	id: string,
+	question: string,
+): Promise<WebEntryAnswerI> => {
+	return (await API.GET(`post/${id}/answer`, { question })) as WebEntryAnswerI;
 };
