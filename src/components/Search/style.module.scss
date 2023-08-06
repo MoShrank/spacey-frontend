@@ -1,0 +1,24 @@
+@use "../../styles/colors.scss";
+
+.search_container {
+	width: 300px;
+	max-width: 300px;
+}
+
+.result_container {
+	width: inherit;
+	background-color: colors.$lightblue;
+	position: absolute;
+}
+
+.result_container .item:not(:last-child) {
+	border-bottom: 1px solid colors.$lightgray;
+}
+
+.item {
+	padding: 8px;
+
+	&:hover {
+		background-color: colors.$hovergray;
+	}
+}

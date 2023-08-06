@@ -27,3 +27,7 @@ export const getAnswerFromArticle = async (
 ): Promise<WebEntryAnswerI> => {
 	return (await API.GET(`post/${id}/answer`, { question })) as WebEntryAnswerI;
 };
+
+export const searchWebEntries = async (query: string): Promise<WebEntryI[]> => {
+	return (await API.GET("post/search", { query })) as WebEntryI[];
+};

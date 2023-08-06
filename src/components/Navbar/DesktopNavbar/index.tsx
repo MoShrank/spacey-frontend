@@ -1,4 +1,5 @@
 import { ReactComponent as DesktopLogo } from "assets/img/desktop_logo.svg";
+import Search from "components/Search";
 import { Link } from "react-router-dom";
 
 import Item from "../Item";
@@ -11,6 +12,7 @@ const DesktopNavbar = () => {
 			<Link to="/" className={style.svg}>
 				<DesktopLogo />
 			</Link>
+			<Search />
 			<div className={style.items}>
 				{menuItems.map(item => (
 					<Item key={item.label} {...item} />
