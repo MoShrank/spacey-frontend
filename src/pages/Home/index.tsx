@@ -38,6 +38,8 @@ const Home = () => {
 	const decks = useStore(state => state.decks);
 	const webEntries = useStore(state => state.webContent);
 
+	const searchResults = useStore(state => state.searchResults);
+
 	const [createPopupOpen, setCreatePopupOpen] = useState(false);
 	const popupRef = useRef<HTMLDivElement>(null);
 
@@ -52,6 +54,32 @@ const Home = () => {
 	});
 
 	useOnClickOutside(popupRef, () => setCreatePopupOpen(false));
+
+	let ListItems = null;
+
+	console.log(searchResults);
+
+	if (searchResults.length) {
+		ListItems = (
+			<>
+				{searchResults.map((item: WebEntryI, idx) => (
+					<ArticleCard key={idx} webEntry={item} />
+				))}
+			</>
+		);
+	} else {
+		ListItems = (
+			<>
+				{listItems.map((item, idx) => {
+					return item.type === "deck" ? (
+						<Deck key={idx} deck={item.data as DeckI} />
+					) : (
+						<ArticleCard key={idx} webEntry={item.data as WebEntryI} />
+					);
+				})}
+			</>
+		);
+	}
 
 	return (
 		<Layout width="full">
@@ -77,13 +105,7 @@ const Home = () => {
 			<Spacer spacing={2} />
 			{listItems.length ? (
 				<ListContainer rowSpacing={3} columnSpacing={2} childWidth={224}>
-					{listItems.map((item, idx) => {
-						return item.type === "deck" ? (
-							<Deck key={idx} deck={item.data as DeckI} />
-						) : (
-							<ArticleCard key={idx} webEntry={item.data as WebEntryI} />
-						);
-					})}
+					{ListItems}
 				</ListContainer>
 			) : (
 				<Hint>No decks yet. Click the plus button to add a deck.</Hint>

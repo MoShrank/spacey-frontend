@@ -12,6 +12,7 @@ interface StateData {
 	user: UserI;
 	decks: DeckI[];
 	webContent: WebEntryI[];
+	searchResults: WebEntryI[];
 	notes: Record<string, NoteI>;
 	config: {
 		colors: string[];
@@ -29,6 +30,7 @@ export interface ZustandStateI extends StateData {
 	setHasSeenCookie: () => void;
 	setUser: (user: UserI) => void;
 	setNotes: (notes: Record<string, NoteI>) => void;
+	resetSearchResults: () => void;
 }
 
 export const initialState: StateData = {
@@ -40,6 +42,7 @@ export const initialState: StateData = {
 	notes: {},
 	decks: [],
 	webContent: [],
+	searchResults: [],
 	config: {
 		colors: [],
 	},
@@ -58,6 +61,7 @@ export const useStore = create<ZustandStateI>()(
 			setNotes: notes => set(state => ({ ...state, notes: notes })),
 			dispatch: args => set(args as ZustandStateI),
 			setUser: user => set(state => ({ ...state, user })),
+			resetSearchResults: () => set(state => ({ ...state, searchResults: [] })),
 			...initialState,
 		}),
 		{
@@ -67,7 +71,7 @@ export const useStore = create<ZustandStateI>()(
 			partialize: state =>
 				Object.fromEntries(
 					Object.entries(state).filter(
-						([key]) => !["isLoggedIn", "globalError"].includes(key),
+						([key]) => !["isLoggedIn", "globalError", "searchResults"].includes(key),
 					),
 				),
 		},

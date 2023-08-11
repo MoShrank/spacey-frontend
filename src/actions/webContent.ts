@@ -1,4 +1,9 @@
-import { createWebEntry, deleteWebEntry, getWebEntries } from "api/webContent";
+import {
+	createWebEntry,
+	deleteWebEntry,
+	getWebEntries,
+	searchWebEntries,
+} from "api/webContent";
 import { WebEntryI } from "types/web_entry";
 
 export const createWebContentAction = async (
@@ -38,5 +43,18 @@ export const deleteWebContentAction = async (id: string) => {
 		};
 	} catch (e) {
 		throw Error("Error deleting entry.");
+	}
+};
+
+export const searchWebContentAction = async (query: string) => {
+	try {
+		const searchResults = await searchWebEntries(query);
+		return () => {
+			return {
+				searchResults: searchResults,
+			};
+		};
+	} catch (e) {
+		throw Error("Error searching web content.");
 	}
 };
