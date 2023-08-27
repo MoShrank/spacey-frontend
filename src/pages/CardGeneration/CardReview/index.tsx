@@ -94,7 +94,7 @@ export const CardReview = ({
 		generateCardCall(noteID, {
 			source_start_index: start,
 			source_end_index: end,
-			generateCardText,
+			text: generateCardText,
 			deckID,
 		});
 	};
