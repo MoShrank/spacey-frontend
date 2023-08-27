@@ -58,6 +58,8 @@ const HighlightedText = ({
 	highlightSections,
 	onGenerateCard,
 }: HighlightI) => {
+	const [selectedText, setSelectedText] = useState("");
+
 	// Sort sections by starting index and color priority
 	highlightSections.sort((a, b) => {
 		if (a.start === b.start) {
@@ -115,10 +117,12 @@ const HighlightedText = ({
 	});
 
 	const onContextMenu = (e: React.MouseEvent) => {
-		if (window.getSelection()?.toString()) {
+		const selection = window.getSelection()?.toString();
+		if (selection) {
 			e.preventDefault();
 			e.stopPropagation();
 
+			setSelectedText(selection);
 			setContextMenuPosition({ x: e.clientX, y: e.clientY });
 			setIsContextMenuOpen(true);
 		}
@@ -130,10 +134,8 @@ const HighlightedText = ({
 
 	const handleGenerateCard = () => {
 		// find start and end index of selected text
-		const selection = window.getSelection();
-		if (!selection) return;
+		if (!selectedText) return;
 
-		const selectedText = selection.toString();
 		const selectedTextLength = selectedText.length;
 		const selectedTextStartIndex = children.indexOf(selectedText);
 		const selectedTextEndIndex = selectedTextStartIndex + selectedTextLength;
