@@ -89,10 +89,12 @@ export const CardReview = ({
 	};
 
 	const onGenerateCard = (start: number, end: number) => {
+		const generateCardText = text.slice(start, end);
+
 		generateCardCall(noteID, {
 			source_start_index: start,
 			source_end_index: end,
-			text,
+			generateCardText,
 			deckID,
 		});
 	};
