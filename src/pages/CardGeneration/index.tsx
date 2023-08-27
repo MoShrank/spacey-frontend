@@ -216,6 +216,8 @@ const CardGeneration = () => {
 					loading={addLoading}
 					error={addError}
 					isMobile={isMobile}
+					noteID={exiNote.id}
+					deckID={deckID}
 				/>
 			);
 			break;

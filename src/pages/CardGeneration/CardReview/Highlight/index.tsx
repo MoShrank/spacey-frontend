@@ -44,6 +44,7 @@ interface Section {
 interface HighlightI {
 	highlightSections: Section[];
 	children: string;
+	onGenerateCard: (start: number, end: number) => void;
 }
 
 const colorPriority = {
@@ -52,7 +53,11 @@ const colorPriority = {
 	textSelected: 1,
 };
 
-const HighlightedText = ({ children, highlightSections }: HighlightI) => {
+const HighlightedText = ({
+	children,
+	highlightSections,
+	onGenerateCard,
+}: HighlightI) => {
 	// Sort sections by starting index and color priority
 	highlightSections.sort((a, b) => {
 		if (a.start === b.start) {
@@ -124,7 +129,16 @@ const HighlightedText = ({ children, highlightSections }: HighlightI) => {
 	};
 
 	const handleGenerateCard = () => {
-		// code to generate card
+		// find start and end index of selected text
+		const selection = window.getSelection();
+		if (!selection) return;
+
+		const selectedText = selection.toString();
+		const selectedTextLength = selectedText.length;
+		const selectedTextStartIndex = children.indexOf(selectedText);
+		const selectedTextEndIndex = selectedTextStartIndex + selectedTextLength;
+
+		onGenerateCard(selectedTextStartIndex, selectedTextEndIndex);
 		handleCloseContextMenu();
 	};
 

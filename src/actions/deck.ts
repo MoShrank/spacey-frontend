@@ -7,6 +7,7 @@ import {
 	fetchAvgRecallProbabilities,
 	fetchDecks,
 	fetchNotes,
+	generateCard,
 	generateCards,
 	updateCard,
 	updateDeck,
@@ -226,5 +227,31 @@ export const addGeneratedCardsAction = async (
 		deck.cards = [...deck.cards, ...cards];
 
 		return { decks: [...curState] };
+	};
+};
+
+export const generateCardAction = async (
+	note_id: string,
+	source: {
+		text: string;
+		deckID: string;
+		source_start_index: number;
+		source_end_index: number;
+	},
+) => {
+	const result = await generateCard(note_id, {
+		...source,
+		deck_id: source.deckID,
+	});
+	return (curState: Record<string, NoteI>) => {
+		const oldNote = curState[source.deckID];
+
+		const newCards = [result.card, ...oldNote.cards];
+
+		const newNotes = {
+			...curState,
+			[source.deckID]: { ...oldNote, cards: newCards },
+		};
+		return { notes: newNotes };
 	};
 };

@@ -121,3 +121,19 @@ export const addGeneratedCards = async (noteID: string, deckID: string) => {
 		cards: CardI[];
 	};
 };
+
+interface GenerateCardRequest {
+	text: string;
+	deck_id: string;
+	source_start_index: number;
+	source_end_index: number;
+}
+
+export const generateCard = async (
+	note_id: string,
+	source: GenerateCardRequest,
+) => {
+	return (await API.POST(`notes/${note_id}/card`, source)) as {
+		card: GeneratedCard;
+	};
+};
