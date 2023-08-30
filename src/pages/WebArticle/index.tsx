@@ -14,8 +14,6 @@ import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import colors from "styles/colors";
 
-// import the TextInput component
-
 interface QAI {
 	articleID: string;
 }

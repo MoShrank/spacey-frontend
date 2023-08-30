@@ -2,9 +2,7 @@ import API from "api/api";
 import { WebEntryAnswerI, WebEntryI } from "types/web_entry";
 
 interface CreateWebEntryI {
-	name: string;
 	url: string;
-	summarise: boolean;
 }
 
 export const createWebEntry = async (

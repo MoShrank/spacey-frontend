@@ -6,16 +6,12 @@ import {
 } from "api/webContent";
 import { WebEntryI } from "types/web_entry";
 
-export const createWebContentAction = async (
-	name: string,
-	url: string,
-	summarise: boolean,
-) => {
+export const createWebContentAction = async (url: string) => {
 	const urlConverted = new URL(url);
 	url = urlConverted.toString();
 
 	try {
-		const newEntry = await createWebEntry({ url, summarise, name });
+		const newEntry = await createWebEntry({ url });
 		return (curState: Array<WebEntryI>) => {
 			return { webContent: [...curState, newEntry] };
 		};

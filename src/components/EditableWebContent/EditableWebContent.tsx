@@ -1,6 +1,5 @@
 import { createWebContentAction } from "actions/webContent";
 import Button from "components/Button";
-import Checkbox from "components/Checkbox";
 import Form from "components/Form";
 import BottomContainer from "components/FormBottom";
 import Header from "components/Header";
@@ -17,9 +16,7 @@ const EditableWebContent = () => {
 	const navigate = useNavigate();
 
 	const [data, setData] = useState({
-		name: "",
 		url: "",
-		summarise: true,
 	});
 
 	const [loading, error, action] = useActionZ(
@@ -29,7 +26,7 @@ const EditableWebContent = () => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		action(data.name, data.url, data.summarise).then(() => navigate("/"));
+		action(data.url).then(() => navigate("/"));
 	};
 
 	return (
@@ -39,28 +36,12 @@ const EditableWebContent = () => {
 			</Header>
 			<Spacer spacing={3} />
 			<TextInput
-				type="text"
-				placeholder="name"
-				value={data.name}
-				error={error}
-				maxLength={30}
-				onChange={e => setData({ ...data, name: e.target.value })}
-			/>
-			<Spacer spacing={3} />
-			<TextInput
 				type="url"
 				placeholder="url"
 				value={data.url}
 				error={error}
 				onChange={e => setData({ ...data, url: e.target.value })}
 			/>
-			<Spacer spacing={3} />
-			<Checkbox
-				checked={data.summarise}
-				onChange={() => setData({ ...data, summarise: !data.summarise })}
-			>
-				Summarise Website
-			</Checkbox>
 			<Spacer spacing={3} />
 			<BottomContainer>
 				{error && <p className="error">{error}</p>}
