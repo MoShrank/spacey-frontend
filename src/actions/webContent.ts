@@ -7,9 +7,6 @@ import {
 import { WebEntryI } from "types/web_entry";
 
 export const createWebContentAction = async (url: string) => {
-	const urlConverted = new URL(url);
-	url = urlConverted.toString();
-
 	try {
 		const newEntry = await createWebEntry({ url });
 		return (curState: Array<WebEntryI>) => {
