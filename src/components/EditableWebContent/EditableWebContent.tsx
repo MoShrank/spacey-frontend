@@ -32,12 +32,12 @@ const EditableWebContent = () => {
 	return (
 		<Form onSubmit={handleSubmit}>
 			<Header kind="h2" color="primary">
-				New Website
+				New Content
 			</Header>
 			<Spacer spacing={3} />
 			<TextInput
-				type="url"
-				placeholder="url"
+				type="text"
+				placeholder="url or doi"
 				value={data.url}
 				error={error}
 				onChange={e => setData({ ...data, url: e.target.value })}
