@@ -1,7 +1,5 @@
-import { Editor, Element as SlateElement, Transforms } from "slate";
+import { Editor, Node, Element as SlateElement, Transforms } from "slate";
 import { ReactEditor } from "slate-react";
-
-import { CustomElement } from "../types";
 
 export const isMathBlockActive = (editor: Editor) => {
 	const [match] = Editor.nodes(editor, {
@@ -11,16 +9,17 @@ export const isMathBlockActive = (editor: Editor) => {
 	return !!match;
 };
 
-export const convertMathToText = (editor: Editor, mathNode: CustomElement) => {
+export const convertMathToText = (editor: Editor, mathNode: Node) => {
 	const path = ReactEditor.findPath(editor, mathNode);
-	const newText = mathNode.children[0].text; // Assuming LaTeX is stored in `content`
+	/*eslint-disable */
+	// @ts-ignore
+	const newText = mathNode.children[0].text;
 
-	// Replace the math block with a text block containing the LaTeX string
 	Transforms.removeNodes(editor, { at: path });
 	Transforms.insertNodes(
 		editor,
 		{
-			type: "paragraph", // or your default block type
+			type: "paragraph",
 			children: [{ text: newText }],
 		},
 		{ at: path },
