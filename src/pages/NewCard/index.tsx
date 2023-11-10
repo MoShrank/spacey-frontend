@@ -11,8 +11,7 @@ import Notificator from "events/notification";
 import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
 import { useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 
 const NewCard = () => {
 	const { deckID } = useParams();
@@ -70,6 +69,7 @@ const NewCard = () => {
 		<Modal>
 			<ModalLayout onClose={() => navigate(`/decks/${deck.id}`)}>
 				<EditableCard
+					key={card.id}
 					deck={deck}
 					onSubmit={handleSubmit}
 					card={card}

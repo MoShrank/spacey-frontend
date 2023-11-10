@@ -1,4 +1,5 @@
 import AppRoutes from "AppRoutes";
+import MathJaxContext from "better-react-mathjax/MathJaxContext";
 import CookieBanner from "components/CookieBanner";
 import Loader from "components/Loader";
 import Notification from "components/Notification";
@@ -31,7 +32,7 @@ const App = () => {
 	if (loading) return <Loader size="large" />;
 
 	return (
-		<>
+		<MathJaxContext>
 			{!!notifications.length && (
 				<Notification
 					updateNotifications={setNotifications}
@@ -47,7 +48,7 @@ const App = () => {
 				/>
 			)}
 			<AppRoutes />
-		</>
+		</MathJaxContext>
 	);
 };
 

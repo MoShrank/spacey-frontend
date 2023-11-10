@@ -57,8 +57,6 @@ const Home = () => {
 
 	let ListItems = null;
 
-	console.log(searchResults);
-
 	if (searchResults.length) {
 		ListItems = (
 			<>

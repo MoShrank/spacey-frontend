@@ -33,7 +33,6 @@ const Search = () => {
 
 			setTimer(newTimer);
 		} else {
-			console.log("resetting");
 			resetSearchResults();
 		}
 

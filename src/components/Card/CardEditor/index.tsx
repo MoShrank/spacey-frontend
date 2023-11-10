@@ -5,12 +5,15 @@ import { ReactComponent as BoldIcon } from "assets/icons/format_bold.svg";
 import { ReactComponent as ItalicIcon } from "assets/icons/format_italic.svg";
 import { ReactComponent as ListBulletedIcon } from "assets/icons/format_list_bulleted.svg";
 import { ReactComponent as UnderlinedIcon } from "assets/icons/format_underlined.svg";
+import { ReactComponent as LatexLogo } from "assets/icons/latex_logo.svg";
 import Text from "components/Text";
 import { useCallback, useMemo, useState } from "react";
 import {
 	BaseEditor,
 	Descendant,
 	Editor,
+	Path,
+	Range,
 	Element as SlateElement,
 	Transforms,
 	createEditor,
@@ -19,20 +22,10 @@ import { Editable, ReactEditor, Slate, withReact } from "slate-react";
 import { combineStyles } from "util/css";
 import { deserialize } from "util/editor";
 
+import MathElement from "./MathElement";
+import { convertMathToText, isMathBlockActive } from "./MathElement/helper";
 import style from "./style.module.scss";
-
-type CustomElement = {
-	type: string;
-	children: CustomText[];
-	align?: "left" | "center" | "right" | "justify";
-};
-type CustomText = {
-	text: string;
-	bold?: boolean;
-	italic?: boolean;
-	underline?: boolean;
-	code?: boolean;
-};
+import { CustomElement, CustomText } from "./types";
 
 declare module "slate" {
 	interface CustomTypes {
@@ -187,6 +180,43 @@ interface TextEditorI {
 	onClickShowAnswer?: () => void;
 }
 
+const insertNewBlockBelowMath = (editor: Editor) => {
+	if (!editor.selection) return;
+
+	const [node, path] = Editor.node(editor, editor.selection, { depth: 1 });
+
+	if (!path) return;
+
+	const newPath = Path.next(path);
+
+	Transforms.insertNodes(
+		editor,
+		{
+			type: "paragraph", // or the default type of your block
+			children: [{ text: "" }],
+		},
+		{ at: newPath },
+	);
+	Transforms.select(editor, newPath);
+};
+
+const handleDelete = (event: any, editor: Editor) => {
+	const { selection } = editor;
+	if (selection && Range.isCollapsed(selection)) {
+		const [match] = Editor.nodes(editor, {
+			at: Editor.before(editor, selection, { unit: "block" }),
+			/*eslint-disable */
+			// @ts-ignore
+			match: n => n.type === "math",
+		});
+
+		if (match) {
+			event.preventDefault(); // Prevent the default delete behavior
+			convertMathToText(editor, match[0]); // Your function to convert math block to text
+		}
+	}
+};
+
 const CardEditor = ({
 	question,
 	answer,
@@ -197,16 +227,28 @@ const CardEditor = ({
 	hideAnswer = false,
 	onClickShowAnswer,
 }: TextEditorI) => {
-	const renderElement = useCallback(props => <Element {...props} />, []);
-	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
-	const editorOne = useMemo(() => withReact(createEditor()), []);
-	const editorTwo = useMemo(() => withReact(createEditor()), []);
-
 	const [activeEditor, setActiveEditor] = useState<number | undefined>(
 		undefined,
 	);
 
+	const editorOne = useMemo(() => withReact(createEditor()), []);
+	const editorTwo = useMemo(() => withReact(createEditor()), []);
+
 	const editor = activeEditor == 0 ? editorOne : editorTwo;
+
+	editorOne.isVoid = (element: any) => {
+		return element.type === "math" ? true : false;
+	};
+
+	editorTwo.isVoid = (element: any) => {
+		return element.type === "math" ? true : false;
+	};
+
+	const renderElement = useCallback(
+		props => <Element {...props} editor={editor} />,
+		[editor],
+	);
+	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 
 	const questionParsed = deserialize(question);
 	const answerParsed = deserialize(answer);
@@ -266,6 +308,7 @@ const CardEditor = ({
 					"right",
 					TEXT_ALIGN_TYPES.includes("right") ? "align" : "type",
 				),
+				math: isBlockActive(editor, "math", "type"),
 			},
 		};
 	};
@@ -275,6 +318,17 @@ const CardEditor = ({
 	const setEditor = (editor: number | undefined) => {
 		setActiveEditor(editor);
 		setActiveItems(getActiveItems());
+	};
+
+	const handleKeyDown = (event: any, editor: any) => {
+		if (event.key === "Enter" && isMathBlockActive(editor)) {
+			event.preventDefault();
+			event.stopPropagation();
+			insertNewBlockBelowMath(editor);
+		}
+		if (event.key === "Backspace") {
+			handleDelete(event, editor);
+		}
 	};
 
 	return (
@@ -325,20 +379,30 @@ const CardEditor = ({
 							Icon={AlignRightIcon}
 						/>
 					</span>
+					<BlockButton
+						isActive={activeItems.blocks.math}
+						editor={editor}
+						format="math"
+						Icon={LatexLogo}
+					/>
 				</Toolbar>
 			)}
-			<Slate editor={editorOne} value={questionParsed} onChange={questionChange}>
+			<Slate
+				editor={editorOne}
+				initialValue={questionParsed}
+				onChange={questionChange}
+			>
 				<Editable
 					readOnly={readOnly}
 					onFocus={() => setEditor(0)}
-					onBlur={() => setEditor(undefined)}
+					//onBlur={() => setEditor(undefined)}
 					style={{ gridArea: "question" }}
 					renderElement={renderElement}
 					renderLeaf={renderLeaf}
 					placeholder="question"
-					className={combineStyles(style.input, style.question)}
 					id="question"
-					onKeyDown={e => e.stopPropagation()}
+					className={combineStyles(style.input, style.question)}
+					onKeyDown={e => handleKeyDown(e, editor)}
 				/>
 			</Slate>
 
@@ -349,17 +413,21 @@ const CardEditor = ({
 					</Text>
 				</div>
 			) : (
-				<Slate editor={editorTwo} value={answerParsed} onChange={answerChange}>
+				<Slate
+					editor={editorTwo}
+					initialValue={answerParsed}
+					onChange={answerChange}
+				>
 					<Editable
 						readOnly={readOnly}
 						onFocus={() => setEditor(1)}
-						onBlur={() => setEditor(undefined)}
+						//onBlur={() => setEditor(undefined)}
 						style={{ gridArea: "answer" }}
 						renderElement={renderElement}
 						renderLeaf={renderLeaf}
 						placeholder="answer"
 						className={combineStyles(style.input, style.answer)}
-						onKeyDown={e => e.stopPropagation()}
+						onKeyDown={e => handleKeyDown(e, editor)}
 					/>
 				</Slate>
 			)}
@@ -368,12 +436,13 @@ const CardEditor = ({
 };
 
 interface ElementI {
-	attributes: Object;
+	attributes: Record<string, unknown>;
 	children: React.ReactNode;
 	element: CustomElement;
+	editor: Editor;
 }
 
-const Element = ({ attributes, children, element }: ElementI) => {
+const Element = ({ attributes, children, element, editor }: ElementI) => {
 	const style = { textAlign: element.align || "left" };
 	switch (element.type) {
 		case "block-quote":
@@ -412,6 +481,12 @@ const Element = ({ attributes, children, element }: ElementI) => {
 					{children}
 				</ol>
 			);
+		case "math":
+			return (
+				<MathElement element={element} attributes={attributes}>
+					{children}
+				</MathElement>
+			);
 		default:
 			return (
 				<p style={style} {...attributes}>
@@ -422,7 +497,7 @@ const Element = ({ attributes, children, element }: ElementI) => {
 };
 
 interface LeafI {
-	attributes: Object;
+	attributes: Record<string, unknown>;
 	children: React.ReactNode;
 	leaf: CustomText;
 }
@@ -431,7 +506,6 @@ const Leaf = ({ attributes, children, leaf }: LeafI) => {
 	if (leaf.bold) {
 		children = <strong>{children}</strong>;
 	}
-
 	if (leaf.code) {
 		children = <code>{children}</code>;
 	}
