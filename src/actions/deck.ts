@@ -13,11 +13,11 @@ import {
 	updateDeck,
 	updateGeneratedCards,
 } from "api/deck";
-import { CardI, DeckI } from "types/deck";
+import { CardI, CreateDeckI, DeckI, UpdateDeckI } from "types/deck";
 import { GeneratedCard, NoteI } from "types/note";
 import { isEmpty } from "util/editor";
 
-export const createDeckAction = async (deck: DeckI) => {
+export const createDeckAction = async (deck: CreateDeckI) => {
 	const { name } = deck;
 	if (!name) throw Error("please fill in all required fields");
 
@@ -31,7 +31,7 @@ export const createDeckAction = async (deck: DeckI) => {
 	}
 };
 
-export const updateDeckAction = async (deck: DeckI) => {
+export const updateDeckAction = async (deck: UpdateDeckI) => {
 	const { name } = deck;
 	if (!name) throw Error("please fill in all required fields");
 	try {
@@ -187,12 +187,12 @@ export const updateGeneratedCardsAction = async (
 	noteID: string,
 	deckID: string,
 	cards: GeneratedCard[],
-	newCard: GeneratedCard,
-	cardIdx: number,
+	newCard?: GeneratedCard,
+	cardIdx?: number,
 ) => {
 	let newCards: GeneratedCard[] = [];
 
-	if (newCard !== undefined) {
+	if (newCard !== undefined && cardIdx !== undefined) {
 		const { question, answer } = newCard;
 		if (!question || !answer) throw Error("please fill in all required fields");
 

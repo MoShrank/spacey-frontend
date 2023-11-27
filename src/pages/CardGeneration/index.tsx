@@ -120,7 +120,7 @@ const CardGeneration = () => {
 		});
 
 		try {
-			await updateCards(exiNote.id, deckID, exiNote.cards, card);
+			await updateCards(exiNote.id, deckID, exiNote.cards, card.card, card.idx);
 			setNotes({
 				...notes,
 				[deckID]: { ...exiNote, cards: newCards },
@@ -128,6 +128,7 @@ const CardGeneration = () => {
 			setPageState(pageStates.REVIEW);
 			setCard(emptyCard);
 		} catch (e) {
+			// TODO error handling
 			/* tslint:disable:no-empty */
 		}
 	};

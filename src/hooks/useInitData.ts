@@ -5,29 +5,19 @@ import Notificator from "events/notification";
 import useAction from "hooks/useAction";
 import { useStore } from "hooks/useStore";
 import { useEffect, useState } from "react";
-import { DeckI } from "types/deck";
-import { NoteI } from "types/note";
-import { UserI } from "types/user";
-import { WebEntryI } from "types/web_entry";
 
 export const useInitData = () => {
 	const [loading, setLoading] = useState(true);
 	const isLoggedIn = useStore(state => state.isLoggedIn);
 
-	const [, , fetchUserAction] = useAction<UserI>(
+	const [, , fetchUserAction] = useAction(
 		state => state.user,
 		getUserDataAction,
 	);
-	const [, , fetchDecksAction] = useAction<DeckI[]>(
-		state => state.decks,
-		getDecksAction,
-	);
-	const [, , fetchNotesAction] = useAction<Record<string, NoteI>>(
-		state => state.notes,
-		getNotesAction,
-	);
+	const [, , fetchDecksAction] = useAction(state => state.decks, getDecksAction);
+	const [, , fetchNotesAction] = useAction(state => state.notes, getNotesAction);
 
-	const [, , fetchWebContentAction] = useAction<WebEntryI[]>(
+	const [, , fetchWebContentAction] = useAction(
 		state => state.webContent,
 		getWebContentAction,
 	);

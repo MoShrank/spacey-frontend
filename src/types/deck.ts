@@ -20,6 +20,16 @@ export interface CardEventI {
 	correct: boolean;
 }
 
+export interface CreateDeckI {
+	name: string;
+	description: string;
+	color: string;
+}
+
+export interface UpdateDeckI extends CreateDeckI {
+	id: string;
+}
+
 export interface DeckI {
 	id: string;
 	name: string;

@@ -24,6 +24,8 @@ const NewCard = () => {
 
 	const navigate = useNavigate();
 
+	if (!deckID || !deck) return <Navigate to="404" />;
+
 	const [card, setCard] = useState({
 		question: "",
 		answer: "",
@@ -48,8 +50,6 @@ const NewCard = () => {
 			});
 		});
 	};
-
-	if (!deck) return <Navigate to="404" />;
 
 	const handleQuestionInput = (value: string) => {
 		setCard({

@@ -1,5 +1,4 @@
-import { deleteCardAction } from "actions/deck";
-import { updateCardAction } from "actions/deck";
+import { deleteCardAction, updateCardAction } from "actions/deck";
 import Button from "components/Button";
 import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
@@ -60,7 +59,7 @@ const CardDetail = () => {
 
 	const navigate = useNavigate();
 
-	if (!deck) return <Navigate to="/404" />;
+	if (!deckID || !cardID || !deck) return <Navigate to="/404" />;
 
 	const handlePrev = () => {
 		const prevIdx = prev(deck.cards, cardIdx);

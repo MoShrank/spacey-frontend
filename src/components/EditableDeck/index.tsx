@@ -12,7 +12,7 @@ import useActionZ from "hooks/useAction";
 import useDispatch from "hooks/useDispatch";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { DeckI } from "types/deck";
+import { DeckI, UpdateDeckI } from "types/deck";
 
 import "./style.scss";
 
@@ -29,7 +29,7 @@ const deckEq = (
 
 interface EditableDeckProps {
 	submitAction: (
-		deck: DeckI,
+		deck: UpdateDeckI,
 	) => Promise<(curState: Array<DeckI>) => Record<string, DeckI[]>>;
 	buttonName: "Create Deck" | "Save Changes";
 	formTitle: "Create Deck" | "Edit Deck";
@@ -59,6 +59,10 @@ const EditableDeck = ({
 
 	const [deck, setDeck] = useState(
 		deckPrefill || {
+			// having an ID is a bad idea. Since deckPrefill is given when deck is edited while
+			// the object is used when a new deck is created. The id is there to not get a type
+			// error. Since its expected by the submitAction.
+			id: "",
 			name: "",
 			description: "",
 			color: config.colors[0],
