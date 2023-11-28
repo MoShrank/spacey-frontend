@@ -5,6 +5,7 @@ import style from "./style.module.scss";
 
 interface TextProps extends ComponentProps<"p"> {
 	children: React.ReactNode;
+	align?: "left" | "center" | "right";
 	color?: "darkblue" | "lightgrey" | "grey" | "black" | "white" | "red";
 }
 
@@ -21,15 +22,17 @@ const colors = {
 const Text = ({
 	children,
 	color,
+	align,
 	style: textStyle,
 	className,
 	...rest
 }: TextProps) => {
 	const colorStyle = color ? colors[color] : colors.darkblue;
+	const alignStyle = align ? align : "left";
 
 	return (
 		<p
-			style={{ color: colorStyle, ...textStyle }}
+			style={{ color: colorStyle, textAlign: alignStyle, ...textStyle }}
 			className={combineStyles(style.text, className)}
 			{...rest}
 		>

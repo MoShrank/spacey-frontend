@@ -1,0 +1,16 @@
+
+
+.text_divider {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	margin: 0px 24px;
+
+	&::before,
+	&::after {
+		content: "";
+		flex: 1;
+		border-bottom: 2px solid #000;
+		margin: 0px 10px;
+	}
+}

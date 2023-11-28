@@ -9,6 +9,12 @@ class API {
 		"Content-Type": "application/json",
 		Accept: "application/json",
 	});
+
+	private static _file_upload_headers: Headers = new Headers({
+		"Content-Type": "multipart/form-data",
+		Accept: "application/json",
+	});
+
 	private static _baseUrl: string = process.env.REACT_APP_BASE_URL
 		? process.env.REACT_APP_BASE_URL
 		: "http://localhost:80";
@@ -34,11 +40,15 @@ class API {
 		const urlObj = new URL(`${this._baseUrl}/${url}`);
 		urlObj.search = new URLSearchParams(queryParameters).toString();
 
+		const isFormData = body instanceof FormData;
+		const headers = isFormData ? this._file_upload_headers : this._headers;
+		const bodyObj = isFormData ? body : JSON.stringify(body);
+
 		try {
 			res = await fetch(urlObj.toString(), {
 				method: method,
-				headers: this._headers,
-				body: JSON.stringify(body),
+				headers: headers,
+				body: bodyObj,
 				credentials: "include",
 				signal: controller.signal,
 			});
