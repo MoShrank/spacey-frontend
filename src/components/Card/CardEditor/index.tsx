@@ -18,7 +18,14 @@ import {
 	Transforms,
 	createEditor,
 } from "slate";
-import { Editable, ReactEditor, Slate, withReact } from "slate-react";
+import {
+	Editable,
+	ReactEditor,
+	RenderElementProps,
+	RenderLeafProps,
+	Slate,
+	withReact,
+} from "slate-react";
 import { combineStyles } from "util/css";
 import { deserialize } from "util/editor";
 
@@ -245,10 +252,13 @@ const CardEditor = ({
 	};
 
 	const renderElement = useCallback(
-		props => <Element {...props} editor={editor} />,
+		(props: RenderElementProps) => <Element {...props} editor={editor} />,
 		[editor],
 	);
-	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
+	const renderLeaf = useCallback(
+		(props: RenderLeafProps) => <Leaf {...props} />,
+		[],
+	);
 
 	const questionParsed = deserialize(question);
 	const answerParsed = deserialize(answer);
