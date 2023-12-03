@@ -1,4 +1,4 @@
-import { getPDFs, uploadPDF } from "api/pdf";
+import { deletePDF, getPDFs, uploadPDF } from "api/pdf";
 import { PDFI } from "types/pdf";
 
 export const uploadPDFAction = async (pdf: File | null) => {
@@ -41,5 +41,16 @@ export const searchPDF = async (id: string, query: string) => {
 		};
 	} catch (e) {
 		throw Error("Error searching PDF.");
+	}
+};
+
+export const deletePDFAction = async (id: string) => {
+	try {
+		await deletePDF(id);
+		return (curState: Array<PDFI>) => {
+			return { pdfs: curState.filter(pdf => pdf.id !== id) };
+		};
+	} catch (e) {
+		throw Error("Error deleting PDF.");
 	}
 };

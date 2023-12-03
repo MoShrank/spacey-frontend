@@ -1,9 +1,12 @@
 import { uploadPDFAction } from "actions/pdf";
-import useActionZ from "hooks/useAction";
+import useAction from "hooks/useAction";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useUploadFile = () => {
-	const [loading, error, action] = useActionZ(
+	const navigate = useNavigate();
+
+	const [loading, error, action] = useAction(
 		state => state.pdfs,
 		uploadPDFAction,
 	);
@@ -18,7 +21,7 @@ export const useUploadFile = () => {
 
 	const handleUpload = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		action(selectedFile);
+		action(selectedFile).then(() => navigate("/"));
 	};
 
 	return [loading, error, handleFileChange, handleUpload, selectedFile] as const;

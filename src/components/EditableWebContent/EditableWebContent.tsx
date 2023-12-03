@@ -63,7 +63,7 @@ const EditableWebContent = () => {
 			<BottomContainer>
 				{(error || fileError) && <p className="error">{error || fileError}</p>}
 				<Button loading={loading || fileLoading} disabled={loading || fileLoading}>
-					Add Website
+					Add
 				</Button>
 				<SimpleButton as={Link} to={"/"}>
 					Cancel

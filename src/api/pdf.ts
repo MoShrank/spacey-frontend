@@ -15,3 +15,7 @@ export const searchPDF = async (
 ): Promise<PDFSearchResult[]> => {
 	return (await API.GET(`pdf/${id}/search`, { query })) as PDFSearchResult[];
 };
+
+export const deletePDF = async (id: string): Promise<void> => {
+	await API.DELETE(`pdf/${id}`);
+};
