@@ -1,3 +1,4 @@
+import { ReactComponent as ArrowIcon } from "assets/icons/arrow.svg";
 import { ReactComponent as ArticleIcon } from "assets/icons/article.svg";
 import { ReactComponent as CardDeckIcon } from "assets/icons/card_deck.svg";
 import ArticleCard from "components/ArticleCard";
@@ -8,6 +9,7 @@ import Header from "components/Header";
 import Hint from "components/Hint";
 import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
+import PDFCard from "components/PDFCard";
 import PagePadding from "components/PagePadding";
 import Popup from "components/Popup";
 import Spacer from "components/Spacer";
@@ -16,8 +18,6 @@ import useOnClickOutside from "hooks/useClickOutside";
 import useStore from "hooks/useStore";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { DeckI } from "types/deck";
-import { WebEntryI } from "types/web_entry";
 
 import style from "./style.module.scss";
 
@@ -34,50 +34,72 @@ const PopupItem = ({ Icon, title, url }: PopupItemI) => (
 	</Link>
 );
 
+interface ExtenderI {
+	title: string;
+	children: React.ReactNode[];
+}
+
+const Extender = ({ children, title }: ExtenderI) => {
+	const [isOpen, setIsOpen] = useState(true);
+	const arrow_class = isOpen ? style.arrow_open : style.arrow_closed;
+
+	if (!children.length) return null;
+
+	return (
+		<div className={style.extender_container}>
+			<PagePadding>
+				<div className={style.extender_header} onClick={() => setIsOpen(!isOpen)}>
+					<ArrowIcon className={arrow_class} />
+					<Text>{title}</Text>
+				</div>
+			</PagePadding>
+			{isOpen && (
+				<ListContainer rowSpacing={3} columnSpacing={2} childWidth={224}>
+					{children}
+				</ListContainer>
+			)}
+		</div>
+	);
+};
+
+interface ListI {
+	created_at: Date | string;
+}
+
+const sortListItems = (a: ListI, b: ListI) => {
+	if (a.created_at > b.created_at) return -1;
+	if (a.created_at < b.created_at) return 1;
+	return 0;
+};
+
 const Home = () => {
 	const decks = useStore(state => state.decks);
 	const webEntries = useStore(state => state.webContent);
+	const pdfs = useStore(state => state.pdfs);
 
 	const searchResults = useStore(state => state.searchResults);
 
 	const [createPopupOpen, setCreatePopupOpen] = useState(false);
 	const popupRef = useRef<HTMLDivElement>(null);
 
-	const listItems = [
-		...decks.map(deck => ({ type: "deck", data: deck })),
-		...webEntries.map(webEntry => ({ type: "webEntry", data: webEntry })),
-	];
-	listItems.sort((a, b) => {
-		if (a.data.created_at > b.data.created_at) return -1;
-		if (a.data.created_at < b.data.created_at) return 1;
-		return 0;
-	});
-
 	useOnClickOutside(popupRef, () => setCreatePopupOpen(false));
 
-	let ListItems = null;
+	const DeckListComponents = decks
+		.sort(sortListItems)
+		.map((deck, idx) => <Deck deck={deck} key={idx} />);
 
-	if (searchResults.length) {
-		ListItems = (
-			<>
-				{searchResults.map((item: WebEntryI, idx) => (
-					<ArticleCard key={idx} webEntry={item} />
-				))}
-			</>
-		);
-	} else {
-		ListItems = (
-			<>
-				{listItems.map((item, idx) => {
-					return item.type === "deck" ? (
-						<Deck key={idx} deck={item.data as DeckI} />
-					) : (
-						<ArticleCard key={idx} webEntry={item.data as WebEntryI} />
-					);
-				})}
-			</>
-		);
-	}
+	const WebEntryListComponents = (
+		searchResults.length ? searchResults : webEntries
+	)
+		.sort(sortListItems)
+		.map((webEntry, idx) => <ArticleCard webEntry={webEntry} key={idx} />);
+
+	const PDFComponents = pdfs
+		.sort(sortListItems)
+		.map((pdf, idx) => <PDFCard pdf={pdf} key={idx} />);
+
+	const showHint =
+		!DeckListComponents.length && !WebEntryListComponents.length && !pdfs.length;
 
 	return (
 		<Layout width="full">
@@ -101,13 +123,10 @@ const Home = () => {
 				</ContentTitle>
 			</PagePadding>
 			<Spacer spacing={2} />
-			{listItems.length ? (
-				<ListContainer rowSpacing={3} columnSpacing={2} childWidth={224}>
-					{ListItems}
-				</ListContainer>
-			) : (
-				<Hint>No decks yet. Click the plus button to add a deck.</Hint>
-			)}
+			<Extender title="Decks">{DeckListComponents}</Extender>
+			<Extender title="Articles">{WebEntryListComponents}</Extender>
+			<Extender title="PDFs">{PDFComponents}</Extender>
+			{showHint && <Hint>No decks yet. Click the plus button to add a deck.</Hint>}
 		</Layout>
 	);
 };

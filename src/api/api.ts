@@ -11,8 +11,8 @@ class API {
 	});
 
 	private static _file_upload_headers: Headers = new Headers({
-		"Content-Type": "multipart/form-data",
-		Accept: "application/json",
+		//"Content-Type": "multipart/form-data",
+		//Accept: "application/json",
 	});
 
 	private static _baseUrl: string = process.env.REACT_APP_BASE_URL

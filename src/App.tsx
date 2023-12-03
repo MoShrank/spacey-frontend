@@ -5,6 +5,7 @@ import Loader from "components/Loader";
 import Notification from "components/Notification";
 import Notificator, { NotificatorI } from "events/notification";
 import { useInitData } from "hooks/useInitData";
+import usePoolForPDFs from "hooks/usePoolForPDFs";
 import { useStore } from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { createHasSeenCookie } from "util/user";
@@ -28,6 +29,7 @@ const App = () => {
 	}, [notifications]);
 
 	const loading = useInitData();
+	usePoolForPDFs();
 
 	if (loading) return <Loader size="large" />;
 

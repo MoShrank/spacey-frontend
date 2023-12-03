@@ -32,6 +32,46 @@
 	}
 }
 
+.extender_container {
+	width: 100%;
+}
+
+.arrow_open {
+	transform: rotate(90deg);
+}
+
+.arrow_closed {
+	transform: rotate(270deg);
+}
+
+.extender_header {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	cursor: pointer;
+
+	svg {
+		width: 24px;
+		height: 24px;
+		margin-right: 8px;
+		margin-left: 8px;
+	}
+
+	&::before {
+		content: "";
+		flex: 0 1 40px;
+		border-bottom: 2px solid #000;
+		margin-right: 10px;
+	}
+
+	&::after {
+		content: "";
+		flex-grow: 1;
+		border-bottom: 2px solid #000;
+		margin-left: 10px;
+	}
+}
+
 .popup_item {
 	position: relative;
 	svg {

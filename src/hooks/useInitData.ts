@@ -1,4 +1,5 @@
 import { getDecksAction, getNotesAction } from "actions/deck";
+import { getPDFsAction } from "actions/pdf";
 import { getUserDataAction } from "actions/user";
 import { getWebContentAction } from "actions/webContent";
 import Notificator from "events/notification";
@@ -21,6 +22,8 @@ export const useInitData = () => {
 		state => state.webContent,
 		getWebContentAction,
 	);
+
+	const [, , fetchPDFsAction] = useAction(state => state.pdfs, getPDFsAction);
 
 	useEffect(() => {
 		const initData = async () => {
@@ -47,6 +50,7 @@ export const useInitData = () => {
 				if (user.emailValidated) {
 					promises.push(fetchDecksAction());
 					promises.push(fetchWebContentAction());
+					promises.push(fetchPDFsAction());
 				}
 				if (user.emailValidated && user.betaUser) {
 					promises.push(fetchNotesAction());
