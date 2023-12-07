@@ -16,6 +16,9 @@ const PDFDetail = () => {
 	const { pdfID } = useParams();
 
 	const pdfs = useStore(state => state.pdfs);
+	const navigate = useNavigate();
+
+	const [, , deletePDF] = useAction(state => state.pdfs, deletePDFAction);
 
 	if (!pdfID) {
 		return <Navigate to="/" />;
@@ -26,10 +29,6 @@ const PDFDetail = () => {
 	if (!pdf) {
 		return <Navigate to="/" />;
 	}
-
-	const navigate = useNavigate();
-
-	const [, , deletePDF] = useAction(state => state.pdfs, deletePDFAction);
 
 	const handleDelete = () => {
 		deletePDF(pdfID).then(() => navigate("/"));

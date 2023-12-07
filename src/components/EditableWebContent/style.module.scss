@@ -1,4 +1,4 @@
-
+@use "../../styles/colors.scss";
 
 .text_divider {
 	display: flex;
@@ -13,4 +13,26 @@
 		border-bottom: 2px solid #000;
 		margin: 0px 10px;
 	}
+}
+
+.file_input {
+	display: none;
+}
+
+.custom_file_upload {
+	border: 2px solid colors.$lightblue;
+	font-size: 0.9em;
+}
+
+.file_upload_container {
+	display: flex;
+	align-items: center;
+	padding: 0 24px;
+}
+
+.icon {
+	cursor: pointer;
+	right: 0;
+	//top: 50%; // Center vertically
+	//transform: translateY(-50%); // Adj
 }

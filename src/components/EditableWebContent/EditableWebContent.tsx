@@ -1,4 +1,5 @@
 import { createWebContentAction } from "actions/webContent";
+import { ReactComponent as CloseIcon } from "assets/icons/exit.svg";
 import Button from "components/Button";
 import Form from "components/Form";
 import BottomContainer from "components/FormBottom";
@@ -18,16 +19,25 @@ const EditableWebContent = () => {
 	const navigate = useNavigate();
 
 	const [
+		fileInputRef,
 		fileLoading,
 		fileError,
 		handleFileChange,
 		handleFileSubmit,
+		handleDeselect,
 		selectedFile,
 	] = useUploadFile();
 
 	const [data, setData] = useState({
 		url: "",
 	});
+
+	const handleCustomFileChangeButton = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+	) => {
+		e.preventDefault();
+		fileInputRef.current?.click();
+	};
 
 	const [loading, error, action] = useActionZ(
 		state => state.webContent,
@@ -58,7 +68,24 @@ const EditableWebContent = () => {
 				or
 			</Text>
 			<Spacer spacing={3} />
-			<input type="file" onChange={handleFileChange}></input>
+			<div className={style.file_upload_container}>
+				<input
+					className={style.file_input}
+					type="file"
+					accept="application/pdf"
+					ref={fileInputRef}
+					onChange={handleFileChange}
+				></input>
+				<Button
+					className={style.custom_file_upload}
+					onClick={handleCustomFileChangeButton}
+				>
+					{selectedFile?.name || "Choose File"}
+				</Button>
+				{selectedFile && (
+					<CloseIcon className={style.icon} onClick={handleDeselect} />
+				)}
+			</div>
 			<Spacer spacing={3} />
 			<BottomContainer>
 				{(error || fileError) && <p className="error">{error || fileError}</p>}

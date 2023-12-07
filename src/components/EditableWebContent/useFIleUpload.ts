@@ -1,10 +1,11 @@
 import { uploadPDFAction } from "actions/pdf";
 import useAction from "hooks/useAction";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const useUploadFile = () => {
 	const navigate = useNavigate();
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const [loading, error, action] = useAction(
 		state => state.pdfs,
@@ -24,5 +25,19 @@ export const useUploadFile = () => {
 		action(selectedFile).then(() => navigate("/"));
 	};
 
-	return [loading, error, handleFileChange, handleUpload, selectedFile] as const;
+	const handleDeselect = (e: React.MouseEvent<SVGElement>) => {
+		e.preventDefault();
+		fileInputRef.current?.value && (fileInputRef.current.value = "");
+		setSelectedFile(null);
+	};
+
+	return [
+		fileInputRef,
+		loading,
+		error,
+		handleFileChange,
+		handleUpload,
+		handleDeselect,
+		selectedFile,
+	] as const;
 };
