@@ -8,6 +8,9 @@ import useAction from "hooks/useAction";
 import useStore from "hooks/useStore";
 import Markdown from "react-markdown";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import rehypeMathjax from "rehype-mathjax/browser";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 
 const PDFDetail = () => {
 	const { pdfID } = useParams();
@@ -32,11 +35,11 @@ const PDFDetail = () => {
 		deletePDF(pdfID).then(() => navigate("/"));
 	};
 
-	/*const mdProps = {
-		remarkPlugins: [RemarkMathPlugin, remarkGfm],
+	const mdProps = {
+		remarkPlugins: [remarkMath, remarkGfm],
 		rehypePlugins: [rehypeMathjax],
 	};
-	*/
+
 	return (
 		<Layout>
 			<PagePadding>
@@ -45,7 +48,7 @@ const PDFDetail = () => {
 				</Header>
 				<Spacer spacing={2} />
 
-				<Markdown>{pdf.extracted_markdown}</Markdown>
+				<Markdown {...mdProps}>{pdf.extracted_markdown}</Markdown>
 				<Spacer spacing={2} />
 				<DeleteDialog onDelete={handleDelete}>Delete Article</DeleteDialog>
 			</PagePadding>
@@ -54,4 +57,3 @@ const PDFDetail = () => {
 };
 
 export default PDFDetail;
-//<MathJax>{`\\(${content}\\)`}</MathJax>;
