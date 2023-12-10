@@ -9,6 +9,7 @@ import useStore from "hooks/useStore";
 import Markdown from "react-markdown";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import rehypeMathjax from "rehype-mathjax/browser";
+import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 
@@ -36,7 +37,7 @@ const PDFDetail = () => {
 
 	const mdProps = {
 		remarkPlugins: [remarkMath, remarkGfm],
-		rehypePlugins: [rehypeMathjax],
+		rehypePlugins: [rehypeMathjax, rehypeRaw],
 	};
 
 	return (
