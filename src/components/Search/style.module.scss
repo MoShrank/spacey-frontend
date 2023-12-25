@@ -1,24 +1,119 @@
 @use "../../styles/colors.scss";
+@use "../../styles/animations.scss";
 
 .search_container {
-	width: 300px;
-	max-width: 300px;
+	z-index: 100000;
+	width: auto;
+	max-width: auto;
+	position: fixed;
+	right: 50px;
+	bottom: 10px;
 }
 
-.result_container {
-	width: inherit;
-	background-color: colors.$lightblue;
-	position: absolute;
-}
-
-.result_container .item:not(:last-child) {
-	border-bottom: 1px solid colors.$lightgray;
-}
-
-.item {
-	padding: 8px;
+.search_expandable {
+	width: 47px;
+	transition: width 0.3s ease;
 
 	&:hover {
-		background-color: colors.$hovergray;
+		width: 300px;
 	}
+}
+
+.search_expandable.expanded {
+	width: 300px;
+
+	label {
+		display: none !important;
+	}
+}
+
+.floating_button {
+	position: relative;
+	cursor: pointer;
+	height: 47px;
+	width: auto;
+	background: colors.$lightblue;
+	border-radius: 32px;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.query_results_container {
+	display: flex;
+	flex-direction: row;
+	overflow: auto;
+	padding: 12px 4px;
+	margin: 4px 0;
+
+	> *:not(:last-child) {
+		margin-right: 8px;
+	}
+}
+
+.query_result_item_container {
+	display: flex;
+	padding: 4px 8px;
+	border: 1px solid colors.$darkblue;
+	border-radius: 8px;
+	cursor: pointer;
+	width: fit-content;
+	align-items: center;
+	justify-content: center;
+
+	@include animations.scale_hover;
+}
+
+.messages_container {
+	overflow: auto;
+	max-height: calc(100vh - 20px);
+
+	border: 1px solid black;
+	background-color: colors.$lightblue;
+	padding: 8px;
+	border-top-right-radius: 20px;
+	border-top-left-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+
+	.messages_head {
+		cursor: pointer;
+		margin-left: auto;
+		display: flex;
+	}
+
+	.message_gpt {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: center;
+		line-height: 1.1;
+		margin-bottom: 8px;
+	}
+
+	.message_user {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
+		line-height: 1.1;
+		margin-bottom: 8px;
+
+		svg {
+			height: 26px;
+			width: 26px;
+			border: 1px solid colors.$darkblue;
+			padding: 3px;
+			border-radius: 50%;
+			margin-left: 4px;
+		}
+	}
+}
+
+.input {
+	border-top: none !important;
+	border-top-right-radius: 0px !important;
+	border-top-left-radius: 0px !important;
 }

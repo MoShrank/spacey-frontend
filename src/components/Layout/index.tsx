@@ -1,4 +1,5 @@
 import Navbar from "components/Navbar";
+import Search from "components/Search";
 import React from "react";
 import { combineStyles } from "util/css";
 
@@ -54,6 +55,7 @@ const Layout = ({
 	return (
 		<div className={combineStyles(style.container, className)}>
 			{navbar && <Navbar />}
+			<Search />
 			<ContentArea className={widthClass}>{Con}</ContentArea>
 		</div>
 	);
