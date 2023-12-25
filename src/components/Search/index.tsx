@@ -168,7 +168,7 @@ const Search = () => {
 		const results = await search(query);
 		setNewMessageLoading(false);
 
-		const queryResults = buildQueryResults(results.queryResults || []);
+		const queryResults = buildQueryResults(results.search_results || []);
 
 		const answerMessage: MessageI = {
 			id: messages.length.toString(),

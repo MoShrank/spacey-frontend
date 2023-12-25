@@ -6,7 +6,7 @@ export interface QueryResultI {
 }
 
 interface SearchResponseI {
-	queryResults: QueryResultI[];
+	search_results: QueryResultI[];
 	answer: string;
 }
 
