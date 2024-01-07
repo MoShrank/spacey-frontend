@@ -30,21 +30,16 @@ const useCreateNote = (deckID: string | null) => {
 
 	const [notes] = useStore(state => [state.notes, state.setNotes]);
 
-	let defaultNote = empyNote;
+	let note = empyNote;
 
 	if (deckID) {
 		const exiNote = notes[deckID];
-		if (exiNote) defaultNote = exiNote;
+		console.log(exiNote);
+		if (exiNote) note = exiNote;
+		console.log(note);
 	}
 
-	const [note, setNote] = useState(defaultNote);
-
-	const setNoteText = (text: string) => {
-		setNote({
-			...note,
-			text,
-		});
-	};
+	const [noteInput, setNoteInput] = useState(note.text || "");
 
 	const handleGenerateCards = async () => {
 		setError("");
@@ -55,8 +50,8 @@ const useCreateNote = (deckID: string | null) => {
 		}
 
 		try {
-			const notes = await generateCardsCall(deckID, note.text);
-			setNote(notes[deckID]);
+			const notes = await generateCardsCall(deckID, noteInput);
+			setNoteInput(notes[deckID].text);
 		} catch {
 			return;
 		}
@@ -84,7 +79,8 @@ const useCreateNote = (deckID: string | null) => {
 
 	return {
 		note,
-		setNoteText,
+		noteInput,
+		setNoteText: setNoteInput,
 		handleGenerateCards,
 		handleAddCards,
 		addLoading,

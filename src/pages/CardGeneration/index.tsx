@@ -55,6 +55,7 @@ const CardGeneration = () => {
 
 	const {
 		note,
+		noteInput,
 		setNoteText,
 		handleGenerateCards,
 		handleAddCards,
@@ -151,7 +152,7 @@ const CardGeneration = () => {
 					onClose={onClose}
 					onSubmit={onGenerateCards}
 					setNote={setNoteText}
-					note={note.text}
+					note={noteInput}
 					error={noteError}
 				/>
 			);
@@ -164,7 +165,7 @@ const CardGeneration = () => {
 				<CardReview
 					cardColor={deck.color}
 					cards={note.cards}
-					text={note.text}
+					text={noteInput}
 					onClose={onClose}
 					onClickCard={onSelectCard}
 					onClickAddCards={onClickAddCards}
