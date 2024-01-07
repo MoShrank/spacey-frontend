@@ -62,7 +62,7 @@ const AppRoutes = () => {
 				}
 			/>
 			<Route
-				path="/decks/:deckID/card/generate"
+				path="/cards/generate"
 				element={
 					<RequireAuth>
 						<RequireBeta>

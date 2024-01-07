@@ -1,8 +1,3 @@
-import {
-	addGeneratedCardsAction,
-	generateCardsAction,
-	updateGeneratedCardsAction,
-} from "actions/deck";
 import Button from "components/Button";
 import ContentWidthConstraint from "components/ContentWidthConstraint";
 import DeleteDialog from "components/DeleteDialog";
@@ -17,18 +12,20 @@ import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Swiper from "components/Swiper";
 import Text from "components/Text";
-import useActionZ from "hooks/useAction";
 import useMediaQuery from "hooks/useMediaQuery";
 import useStore from "hooks/useStore";
 import React, { useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { next, prev } from "util/array";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { DeckI } from "types/deck";
 
 import CardGenerationInput from "./CardGenerationInput";
 import { CardReview } from "./CardReview";
 import ProgressIndicator from "./ProgressIndicator";
+import useCreateNote from "./useCreateNote";
+import useGeneratedCards from "./useGeneratedCards";
 
 enum pageStates {
+	CHOOSE_DECK = "choose_deck",
 	GENERATE = "generate",
 	LOADING = "loading",
 	REVIEW = "review",
@@ -36,111 +33,81 @@ enum pageStates {
 }
 
 const pageStateOrder = {
+	[pageStates.CHOOSE_DECK]: 0,
 	[pageStates.GENERATE]: 1,
 	[pageStates.LOADING]: 2,
 	[pageStates.REVIEW]: 3,
 	[pageStates.EDIT]: 3,
 };
 
-const emptyCard = {
-	card: {
-		question: "",
-		answer: "",
-		source_start_index: 0,
-		source_end_index: 0,
-	},
-	idx: -1,
+const getInitialPageState = (deck?: DeckI, noteText?: string) => {
+	if (!deck) return pageStates.CHOOSE_DECK;
+	else if (noteText) return pageStates.REVIEW;
+	else return pageStates.GENERATE;
 };
 
 const CardGeneration = () => {
-	const { deckID } = useParams();
-	const deck = useStore(state => state.decks.find(d => d.id === deckID));
+	const [searchParams] = useSearchParams();
 
-	if (!deckID || !deck) return <Navigate to="404" />;
+	const deckID = searchParams.get("deckID");
+	const decks = useStore(state => state.decks);
+	const deck = decks.find(deck => deck.id === deckID);
 
-	const [note, setNote] = useState("");
+	const {
+		note,
+		setNoteText,
+		handleGenerateCards,
+		handleAddCards,
+		addError,
+		addLoading,
+		error: noteError,
+	} = useCreateNote(deckID);
 
-	const [notes, setNotes] = useStore(state => [state.notes, state.setNotes]);
-	const exiNote = notes[deckID];
-	const [card, setCard] = useState(emptyCard);
-
-	let cardDifferent;
-	if (exiNote && card.idx !== -1) {
-		const originalCard = exiNote.cards[card.idx];
-		cardDifferent =
-			originalCard.question !== card.card.question ||
-			originalCard.answer !== card.card.answer;
-	}
+	const {
+		selectedCard,
+		setQuestion,
+		setAnswer,
+		selectedCardIdx,
+		isCardDifferent,
+		loading: generatedCardsLoading,
+		error: generatedCardsError,
+		handleSelectCard,
+		handleEditCards,
+		handleDeleteCard,
+		handleNextCard,
+		handlePrevCard,
+	} = useGeneratedCards(note, deckID);
 
 	const navigate = useNavigate();
 
-	const [generatedLoading, generateError, generateCardsCall] = useActionZ(
-		state => state.notes,
-		generateCardsAction,
-	);
-	const [addLoading, addError, addGeneratedCardsCall] = useActionZ(
-		state => state.decks,
-		addGeneratedCardsAction,
-	);
-	const [updateLoading, updateError, updateCards] = useActionZ(
-		state => state.notes,
-		updateGeneratedCardsAction,
-	);
-
-	let initialPageState;
-	if (generatedLoading) initialPageState = pageStates.LOADING;
-	else if (exiNote) initialPageState = pageStates.REVIEW;
-	else initialPageState = pageStates.GENERATE;
-
+	const initialPageState = getInitialPageState(deck, note.text);
 	const [pageState, setPageState] = useState<pageStates>(initialPageState);
 
-	const onSubmit = async (e: React.MouseEvent<HTMLElement>) => {
+	const onGenerateCards = async (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
-
 		try {
 			setPageState(pageStates.LOADING);
-			await generateCardsCall(deckID, note);
+			await handleGenerateCards();
 			setPageState(pageStates.REVIEW);
 		} catch (e) {
 			setPageState(pageStates.GENERATE);
 		}
 	};
 
-	const onClickCard = (id: number) => {
-		setCard({ card: { ...exiNote.cards[id] }, idx: id });
+	const onSelectCard = (id: number) => {
+		handleSelectCard(id);
 		setPageState(pageStates.EDIT);
 	};
 
-	const onSubmitEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const onEditCard = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
-		const newCards = exiNote.cards.map((c, idx) => {
-			if (idx === card.idx) c = card.card;
-			return c;
-		});
-
-		try {
-			await updateCards(exiNote.id, deckID, exiNote.cards, card.card, card.idx);
-			setNotes({
-				...notes,
-				[deckID]: { ...exiNote, cards: newCards },
-			});
-			setPageState(pageStates.REVIEW);
-			setCard(emptyCard);
-		} catch (e) {
-			// TODO error handling
-			/* tslint:disable:no-empty */
-		}
+		handleEditCards();
+		setPageState(pageStates.REVIEW);
 	};
 
 	const onClickAddCards = () => {
-		addGeneratedCardsCall(exiNote.id, deckID).then(() => {
-			setPageState(pageStates.LOADING);
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			const { [deckID]: _selectNote, ...restNotes } = notes;
-			setNotes(restNotes);
-			navigate(`/decks/${deckID}`);
-		});
+		setPageState(pageStates.LOADING);
+		handleAddCards().then(() => navigate(`/decks/${deckID}`));
 	};
 
 	const onClose = (e?: React.MouseEvent<HTMLElement>) => {
@@ -153,28 +120,9 @@ const CardGeneration = () => {
 		setPageState(pageStates.REVIEW);
 	};
 
-	const handleNext = () => {
-		const nextIdx = next(exiNote.cards, card.idx);
-		setCard({ card: { ...exiNote.cards[nextIdx] }, idx: nextIdx });
-	};
-
-	const handlePrev = () => {
-		const prevIdx = prev(exiNote.cards, card.idx);
-		setCard({ card: { ...exiNote.cards[prevIdx] }, idx: prevIdx });
-	};
-
-	const handleDelete = () => {
-		const newCards = exiNote.cards.filter((c, idx) => {
-			if (idx !== card.idx) return c;
-		});
-
-		updateCards(exiNote.id, deckID, newCards);
-		setNotes({
-			...notes,
-			[deckID]: { ...exiNote, cards: newCards },
-		});
+	const onDeleteCard = () => {
+		handleDeleteCard();
 		setPageState(pageStates.REVIEW);
-		setCard(emptyCard);
 	};
 
 	const isMobile = useMediaQuery("(max-width: 500px)");
@@ -182,6 +130,10 @@ const CardGeneration = () => {
 	let Component = <Navigate to="/404" />;
 
 	switch (pageState) {
+		case pageStates.CHOOSE_DECK:
+			<Text>hello</Text>;
+			break;
+
 		case pageStates.LOADING:
 			Component = (
 				<>
@@ -197,56 +149,57 @@ const CardGeneration = () => {
 			Component = (
 				<CardGenerationInput
 					onClose={onClose}
-					onSubmit={onSubmit}
-					setNote={setNote}
-					note={note}
-					error={generateError}
+					onSubmit={onGenerateCards}
+					setNote={setNoteText}
+					note={note.text}
+					error={noteError}
 				/>
 			);
 			break;
 
 		case pageStates.REVIEW:
+			if (!deck || !deckID) return <Navigate to="/404" />;
+
 			Component = (
 				<CardReview
 					cardColor={deck.color}
-					cards={exiNote.cards}
-					text={exiNote.text}
+					cards={note.cards}
+					text={note.text}
 					onClose={onClose}
-					onClickCard={onClickCard}
+					onClickCard={onSelectCard}
 					onClickAddCards={onClickAddCards}
 					loading={addLoading}
 					error={addError}
 					isMobile={isMobile}
-					noteID={exiNote.id}
+					noteID={note.id}
 					deckID={deckID}
 				/>
 			);
 			break;
 
 		case pageStates.EDIT:
+			if (!deck) return <Navigate to="/404" />;
+
 			Component = (
 				<ContentWidthConstraint>
 					<EditableCard
-						onSubmit={onSubmitEdit}
-						card={{ id: `${card.idx}`, ...card.card }}
+						onSubmit={onEditCard}
+						card={{ ...selectedCard, id: `${selectedCardIdx}` }}
 						deck={deck}
-						onAnswerInput={e =>
-							setCard({ ...card, card: { ...card.card, answer: e } })
-						}
-						onQuestionInput={e =>
-							setCard({ ...card, card: { ...card.card, question: e } })
-						}
+						onAnswerInput={e => setAnswer(e)}
+						onQuestionInput={e => setQuestion(e)}
 					>
-						{updateError && <Error>{updateError}</Error>}
+						{generatedCardsError && <Error>{generatedCardsError}</Error>}
 						<Spacer spacing={3} />
-						<DeleteDialog onDelete={handleDelete}>Delete Card</DeleteDialog>
+						<DeleteDialog onDelete={onDeleteCard}>Delete Card</DeleteDialog>
 						<Spacer spacing={3} />
-						<Swiper handleNext={handleNext} handlePrev={handlePrev}>
-							card {card.idx + 1} of {exiNote.cards.length}
+						<Swiper handleNext={handleNextCard} handlePrev={handlePrevCard}>
+							card {selectedCardIdx != null ? selectedCardIdx + 1 : 0} of{" "}
+							{note.cards.length}
 						</Swiper>
 						<Spacer spacing={3} />
 						<BottomContainer>
-							<Button loading={updateLoading} disabled={!cardDifferent}>
+							<Button loading={generatedCardsLoading} disabled={!isCardDifferent}>
 								Save Card
 							</Button>
 							<SimpleButton as="button" onClick={onCloseEdit}>

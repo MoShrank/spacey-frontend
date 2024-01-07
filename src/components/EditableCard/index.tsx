@@ -8,7 +8,7 @@ interface EditableCardI {
 	card: {
 		question: string;
 		answer: string;
-		id?: string;
+		id: string;
 	};
 	deck: DeckI;
 	onQuestionInput: (question: string) => void;

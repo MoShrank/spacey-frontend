@@ -187,12 +187,12 @@ export const updateGeneratedCardsAction = async (
 	noteID: string,
 	deckID: string,
 	cards: GeneratedCard[],
+	cardIdx: number,
 	newCard?: GeneratedCard,
-	cardIdx?: number,
 ) => {
 	let newCards: GeneratedCard[] = [];
 
-	if (newCard !== undefined && cardIdx !== undefined) {
+	if (newCard !== undefined) {
 		const { question, answer } = newCard;
 		if (!question || !answer) throw Error("please fill in all required fields");
 
@@ -201,7 +201,7 @@ export const updateGeneratedCardsAction = async (
 			return c;
 		});
 	} else {
-		newCards = cards;
+		newCards = cards.filter((_, idx) => idx !== cardIdx);
 	}
 
 	await updateGeneratedCards(noteID, newCards);
@@ -220,13 +220,20 @@ export const addGeneratedCardsAction = async (
 ) => {
 	const cards = (await addGeneratedCards(noteID, deckID)).cards;
 
-	return (curState: Array<DeckI>) => {
-		const deck = curState.find(deck => deck.id === deckID);
+	return (curState: { decks: Array<DeckI>; notes: Record<string, NoteI> }) => {
+		const decks = curState.decks;
+
+		const deck = decks.find(deck => deck.id === deckID);
 		if (!deck) throw Error("deck not found");
 
 		deck.cards = [...deck.cards, ...cards];
 
-		return { decks: [...curState] };
+		const newDecks = [...decks];
+
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { [deckID]: _, ...newNotes } = curState.notes;
+
+		return { decks: newDecks, notes: newNotes };
 	};
 };
 
