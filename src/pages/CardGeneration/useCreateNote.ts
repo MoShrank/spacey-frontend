@@ -34,9 +34,7 @@ const useCreateNote = (deckID: string | null) => {
 
 	if (deckID) {
 		const exiNote = notes[deckID];
-		console.log(exiNote);
 		if (exiNote) note = exiNote;
-		console.log(note);
 	}
 
 	const [noteInput, setNoteInput] = useState(note.text || "");

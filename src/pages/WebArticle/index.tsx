@@ -1,5 +1,6 @@
 import { deleteWebContentAction } from "actions/webContent";
 import { getAnswerFromArticle } from "api/webContent";
+import Button from "components/Button";
 import DeleteDialog from "components/DeleteDialog";
 import Header from "components/Header";
 import TextInput from "components/Input/TextInput";
@@ -194,12 +195,19 @@ const WebArticle = () => {
 		navigate("/");
 	};
 
+	const onGenerateCards = async (e: React.MouseEvent<HTMLElement>) => {
+		e.preventDefault();
+		navigate("/cards/generate", { state: { text: article.summary } });
+	};
+
 	return (
 		<Layout width="normal">
 			<PagePadding>
 				<Header align="center" kind="h3">
 					{article.name}
 				</Header>
+				<Spacer spacing={2} />
+				<Button onClick={onGenerateCards}>Generate Cards</Button>
 				<Spacer spacing={2} />
 				<QA articleID={article.id} />
 				<Spacer spacing={2} />

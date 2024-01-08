@@ -14,8 +14,13 @@ import Swiper from "components/Swiper";
 import Text from "components/Text";
 import useMediaQuery from "hooks/useMediaQuery";
 import useStore from "hooks/useStore";
-import React, { useState } from "react";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+	Navigate,
+	useLocation,
+	useNavigate,
+	useSearchParams,
+} from "react-router-dom";
 import { DeckI } from "types/deck";
 
 import CardGenerationInput from "./CardGenerationInput";
@@ -47,7 +52,7 @@ const getInitialPageState = (deck?: DeckI, noteText?: string) => {
 };
 
 const CardGeneration = () => {
-	const [searchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const deckID = searchParams.get("deckID");
 	const decks = useStore(state => state.decks);
@@ -78,6 +83,14 @@ const CardGeneration = () => {
 		handleNextCard,
 		handlePrevCard,
 	} = useGeneratedCards(note, deckID);
+
+	const location = useLocation();
+
+	useEffect(() => {
+		const locationState = (location.state as { text: string }) || undefined;
+
+		if (locationState?.text) setNoteText(locationState.text);
+	}, [location]);
 
 	const navigate = useNavigate();
 
@@ -113,7 +126,10 @@ const CardGeneration = () => {
 
 	const onClose = (e?: React.MouseEvent<HTMLElement>) => {
 		if (e) e.preventDefault();
-		navigate(`/decks/${deckID}`);
+		const to = deckID ? `/decks/${deckID}` : -1;
+		// eslint-disable-next-line
+		// @ts-ignore
+		navigate(to);
 	};
 
 	const onCloseEdit = (e?: React.MouseEvent<HTMLElement>) => {
@@ -126,13 +142,37 @@ const CardGeneration = () => {
 		setPageState(pageStates.REVIEW);
 	};
 
+	const onSelectDeckID = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSearchParams({ deckID: e.target.value });
+	};
+
+	// TODO handle case when note already exists
+	const onSubmitDeck = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setPageState(pageStates.GENERATE);
+	};
+
 	const isMobile = useMediaQuery("(max-width: 500px)");
 
 	let Component = <Navigate to="/404" />;
 
 	switch (pageState) {
 		case pageStates.CHOOSE_DECK:
-			<Text>hello</Text>;
+			Component = (
+				<ContentWidthConstraint>
+					<form onSubmit={onSubmitDeck}>
+						<select onChange={onSelectDeckID}>
+							{decks.map(deck => (
+								<option key={deck.id} value={deck.id}>
+									{deck.name}
+								</option>
+							))}
+						</select>
+						<Spacer spacing={3} />
+						<Button>Next</Button>
+					</form>
+				</ContentWidthConstraint>
+			);
 			break;
 
 		case pageStates.LOADING:
