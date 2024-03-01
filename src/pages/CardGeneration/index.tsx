@@ -4,6 +4,7 @@ import DeleteDialog from "components/DeleteDialog";
 import EditableCard from "components/EditableCard";
 import Error from "components/Error";
 import BottomContainer from "components/FormBottom";
+import Select from "components/Input/Select";
 import Loader from "components/Loader";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
@@ -143,7 +144,10 @@ const CardGeneration = () => {
 	};
 
 	const onSelectDeckID = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSearchParams({ deckID: e.target.value });
+		// find deckID by idx
+		const idx = e.target.value as unknown as number;
+		const deckID = decks[idx].id;
+		setSearchParams({ deckID });
 	};
 
 	// TODO handle case when note already exists
@@ -160,14 +164,18 @@ const CardGeneration = () => {
 		case pageStates.CHOOSE_DECK:
 			Component = (
 				<ContentWidthConstraint>
-					<form onSubmit={onSubmitDeck}>
-						<select onChange={onSelectDeckID}>
-							{decks.map(deck => (
-								<option key={deck.id} value={deck.id}>
-									{deck.name}
-								</option>
-							))}
-						</select>
+					<form
+						onSubmit={onSubmitDeck}
+						style={{
+							display: "flex",
+							flexDirection: "column",
+							alignItems: "center",
+						}}
+					>
+						<Select
+							options={decks.map(deck => deck.name)}
+							onChange={onSelectDeckID}
+						/>
 						<Spacer spacing={3} />
 						<Button>Next</Button>
 					</form>

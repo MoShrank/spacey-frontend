@@ -1,0 +1,35 @@
+@use "../../../styles/colors.scss";
+
+.select_container {
+	position: relative;
+	display: inline-block;
+}
+
+.select {
+	width: 200px;
+	height: 42px;
+
+	border-radius: 20px;
+	text-indent: 10px;
+	font-size: 15px;
+	padding: 8px;
+	color: black;
+	border: 1px solid colors.$lightgray;
+	cursor: pointer;
+
+	appearance: none;
+}
+
+.arrow {
+	position: absolute;
+	right: 20px;
+
+	pointer-events: none;
+	top: 45%;
+	transform: translateY(-50%) rotate(45deg);
+
+	border: solid black;
+	border-width: 0 2px 2px 0;
+	display: inline-block;
+	padding: 5px;
+}
