@@ -1,12 +1,12 @@
 import { deleteWebContentAction } from "actions/webContent";
 import { getAnswerFromArticle } from "api/webContent";
+import { ReactComponent as Arrow } from "assets/icons/arrow.svg";
 import { ReactComponent as CardsIcon } from "assets/icons/cards.svg";
 import Header from "components/Header";
 import IconButton from "components/IconButton";
 import TextInput from "components/Input/TextInput";
 import Layout from "components/Layout";
 import Loader from "components/Loader";
-import PagePadding from "components/PagePadding";
 import SmallDeleteDialog from "components/SmallDeleteDialog";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
@@ -210,25 +210,27 @@ const WebArticle = () => {
 
 	return (
 		<Layout width="normal">
-			<PagePadding>
-				<Spacer spacing={2} />
-				<div className={style.icon_container}>
-					<IconButton
-						icon={<CardsIcon fill={colors.darkblue} />}
-						onClick={onGenerateCards}
-					/>
-					<SmallDeleteDialog onDelete={handleDelete} />
-				</div>
-				<Spacer spacing={2} />
-				<Header align="center" kind="h3">
-					<a href={article.url} target="_blank" rel="noopener noreferrer">
-						{article.name}
-					</a>
-				</Header>
-				<Spacer spacing={2} />
-				<Markdown components={mdComponents}>{article.summary}</Markdown>
-				<Spacer spacing={2} />
-			</PagePadding>
+			<Spacer spacing={2} />
+			<div className={style.icon_container}>
+				<IconButton
+					icon={<Arrow fill={colors.darkblue} />}
+					onClick={onGenerateCards}
+				/>
+				<IconButton
+					icon={<CardsIcon fill={colors.darkblue} />}
+					onClick={onGenerateCards}
+				/>
+				<SmallDeleteDialog onDelete={handleDelete} />
+			</div>
+			<Spacer spacing={2} />
+			<Header align="center" kind="h3">
+				<a href={article.url} target="_blank" rel="noopener noreferrer">
+					{article.name}
+				</a>
+			</Header>
+			<Spacer spacing={2} />
+			<Markdown components={mdComponents}>{article.summary}</Markdown>
+			<Spacer spacing={2} />
 		</Layout>
 	);
 };

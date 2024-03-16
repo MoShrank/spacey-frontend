@@ -3,7 +3,11 @@
 	justify-content: flex-end;
 	align-items: center;
 
-	& > *:not(:last-child) {
+	:first-child {
+		margin-right: auto;
+	}
+
+	& > *:not(:last-child):not(:first-child) {
 		margin-right: 8px;
 	}
 }

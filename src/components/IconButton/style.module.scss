@@ -6,6 +6,7 @@
 
 	height: 32px;
 	width: 32px;
+	padding: 5px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -20,8 +21,8 @@
 	-webkit-transition: 0.2s ease-out;
 
 	svg {
-		height: 22px;
-		width: 22px;
+		height: 100%;
+		width: 100%;
 	}
 
 	&:hover {
