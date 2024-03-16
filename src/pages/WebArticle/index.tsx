@@ -214,7 +214,7 @@ const WebArticle = () => {
 			<div className={style.icon_container}>
 				<IconButton
 					icon={<Arrow fill={colors.darkblue} />}
-					onClick={onGenerateCards}
+					onClick={() => navigate(-1)}
 				/>
 				<IconButton
 					icon={<CardsIcon fill={colors.darkblue} />}
