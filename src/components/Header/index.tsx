@@ -25,7 +25,7 @@ const Header = ({
 
 	color = color || "primary";
 
-	const headerStyle = { color: colorMapping[color], alignSelf: align };
+	const headerStyle = { color: colorMapping[color], textAlign: align };
 
 	if (kind === "h1") {
 		header = (

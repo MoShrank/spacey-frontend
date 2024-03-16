@@ -1,0 +1,13 @@
+.icon_container {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+
+	& > *:not(:last-child) {
+		margin-right: 8px;
+	}
+}
+
+.header_container {
+	display: flex;
+}

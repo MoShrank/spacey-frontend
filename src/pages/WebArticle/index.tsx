@@ -1,19 +1,23 @@
 import { deleteWebContentAction } from "actions/webContent";
 import { getAnswerFromArticle } from "api/webContent";
-import Button from "components/Button";
-import DeleteDialog from "components/DeleteDialog";
+import { ReactComponent as CardsIcon } from "assets/icons/cards.svg";
 import Header from "components/Header";
+import IconButton from "components/IconButton";
 import TextInput from "components/Input/TextInput";
 import Layout from "components/Layout";
 import Loader from "components/Loader";
 import PagePadding from "components/PagePadding";
+import SmallDeleteDialog from "components/SmallDeleteDialog";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
 import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
+import Markdown from "react-markdown";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import colors from "styles/colors";
+
+import style from "./style.module.scss";
 
 interface QAI {
 	articleID: string;
@@ -71,7 +75,7 @@ const Conversation = ({ conversation, loading }: ConversationI) => {
 	);
 };
 
-const QA = ({ articleID }: QAI): JSX.Element => {
+export const QA = ({ articleID }: QAI): JSX.Element => {
 	const [conversation, setConversation] = useState<QAConverstationI>({
 		chat: [],
 	});
@@ -200,23 +204,30 @@ const WebArticle = () => {
 		navigate("/cards/generate", { state: { text: article.summary } });
 	};
 
+	const mdComponents = {
+		p: ({ children }: { children?: React.ReactNode }) => <Text>{children}</Text>,
+	};
+
 	return (
 		<Layout width="normal">
 			<PagePadding>
+				<Spacer spacing={2} />
+				<div className={style.icon_container}>
+					<IconButton
+						icon={<CardsIcon fill={colors.darkblue} />}
+						onClick={onGenerateCards}
+					/>
+					<SmallDeleteDialog onDelete={handleDelete} />
+				</div>
+				<Spacer spacing={2} />
 				<Header align="center" kind="h3">
-					{article.name}
+					<a href={article.url} target="_blank" rel="noopener noreferrer">
+						{article.name}
+					</a>
 				</Header>
 				<Spacer spacing={2} />
-				<Button onClick={onGenerateCards}>Generate Cards</Button>
+				<Markdown components={mdComponents}>{article.summary}</Markdown>
 				<Spacer spacing={2} />
-				<QA articleID={article.id} />
-				<Spacer spacing={2} />
-				<a href={article.url} target="_blank" rel="noopener noreferrer">
-					source
-				</a>
-				<Text>{article.summary}</Text>
-				<Spacer spacing={2} />
-				<DeleteDialog onDelete={handleDelete}>Delete Article</DeleteDialog>
 			</PagePadding>
 		</Layout>
 	);

@@ -1,12 +1,13 @@
-import CardsIcon from "assets/icons/cards.svg";
+import { ReactComponent as CardsIcon } from "assets/icons/cards.svg";
 import Text from "components/Text";
+import colors from "styles/colors";
 
 import style from "./style.module.scss";
 
 const CardCount = ({ count }: { count: number }) => {
 	return (
 		<div className={style.cards}>
-			<img src={CardsIcon} alt="flascards icon" />
+			<CardsIcon fill={colors.lightgray} />
 			<Text color="lightgrey">{count} cards</Text>
 		</div>
 	);
