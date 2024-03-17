@@ -107,14 +107,7 @@ const Messages = ({ messages, isLoading, onClose }: MessageProps) => {
 	);
 };
 
-const initialMessages: Array<MessageI> = [
-	{
-		id: "0",
-		origin: "gpt",
-		value: "Hello, how can I help you?",
-		queryResults: [],
-	},
-];
+const initialMessages: Array<MessageI> = [];
 
 const Search = () => {
 	const [isOpen, setIsOpen] = useState(false);
