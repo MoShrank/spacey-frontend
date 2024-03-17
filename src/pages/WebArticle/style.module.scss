@@ -1,3 +1,5 @@
+@use "../../styles/colors.scss";
+
 .icon_container {
 	display: flex;
 	justify-content: flex-end;
@@ -14,4 +16,8 @@
 
 .header_container {
 	display: flex;
+}
+
+.md {
+	color: colors.$darkblue;
 }

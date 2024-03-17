@@ -229,7 +229,9 @@ const WebArticle = () => {
 				</a>
 			</Header>
 			<Spacer spacing={2} />
-			<Markdown components={mdComponents}>{article.summary}</Markdown>
+			<Markdown className={style.md} components={mdComponents}>
+				{article.summary}
+			</Markdown>
 			<Spacer spacing={2} />
 		</Layout>
 	);
