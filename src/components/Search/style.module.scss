@@ -1,12 +1,17 @@
 @use "../../styles/colors.scss";
 @use "../../styles/animations.scss";
+@use "../../styles/breakpoints.scss";
 
 .search_container {
 	z-index: 100000;
 	width: auto;
-	max-width: auto;
-	position: absolute;
+	position: fixed;
 	right: 16px;
+
+	@include breakpoints.m {
+		right: calc((100vw - breakpoints.$screen-m) / 2 + 16px);
+	}
+
 	bottom: 8px;
 }
 

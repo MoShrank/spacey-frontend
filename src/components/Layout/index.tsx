@@ -55,10 +55,8 @@ const Layout = ({
 	return (
 		<div className={combineStyles(style.container, className)}>
 			{navbar && <Navbar />}
-			<ContentArea className={widthClass}>
-				{Con}
-				<Search />
-			</ContentArea>
+			<ContentArea className={widthClass}>{Con}</ContentArea>
+			<Search />
 		</div>
 	);
 };
