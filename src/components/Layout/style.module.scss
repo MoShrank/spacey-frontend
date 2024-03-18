@@ -40,7 +40,8 @@
 }
 
 .content_area {
-	padding-top: vars.$navbar-height + 8px;
+	margin-top: vars.$navbar-height;
+	padding-top: 8px;
 	padding-bottom: 8px;
 	background-color: white;
 	flex: 1;
