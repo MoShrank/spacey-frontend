@@ -1,23 +1,18 @@
 import { deleteWebContentAction } from "actions/webContent";
 import { getAnswerFromArticle } from "api/webContent";
-import { ReactComponent as Arrow } from "assets/icons/arrow.svg";
-import { ReactComponent as CardsIcon } from "assets/icons/cards.svg";
+import ContentToolbar from "components/ContentToolbar";
 import Header from "components/Header";
-import IconButton from "components/IconButton";
 import TextInput from "components/Input/TextInput";
 import Layout from "components/Layout";
 import Loader from "components/Loader";
-import SmallDeleteDialog from "components/SmallDeleteDialog";
+import Markdown from "components/Markdown";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
 import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
-import Markdown from "react-markdown";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import colors from "styles/colors";
-
-import style from "./style.module.scss";
 
 interface QAI {
 	articleID: string;
@@ -204,24 +199,13 @@ const WebArticle = () => {
 		navigate("/cards/generate", { state: { text: article.summary } });
 	};
 
-	const mdComponents = {
-		p: ({ children }: { children?: React.ReactNode }) => <Text>{children}</Text>,
-	};
-
 	return (
 		<Layout width="normal">
 			<Spacer spacing={2} />
-			<div className={style.icon_container}>
-				<IconButton
-					icon={<Arrow fill={colors.darkblue} />}
-					onClick={() => navigate(-1)}
-				/>
-				<IconButton
-					icon={<CardsIcon fill={colors.darkblue} />}
-					onClick={onGenerateCards}
-				/>
-				<SmallDeleteDialog onDelete={handleDelete} />
-			</div>
+			<ContentToolbar
+				onGenerateCards={onGenerateCards}
+				handleDelete={handleDelete}
+			/>
 			<Spacer spacing={2} />
 			<Header align="center" kind="h3">
 				<a href={article.url} target="_blank" rel="noopener noreferrer">
@@ -229,9 +213,7 @@ const WebArticle = () => {
 				</a>
 			</Header>
 			<Spacer spacing={2} />
-			<Markdown className={style.md} components={mdComponents}>
-				{article.summary}
-			</Markdown>
+			<Markdown>{article.summary}</Markdown>
 			<Spacer spacing={2} />
 		</Layout>
 	);
