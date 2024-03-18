@@ -214,7 +214,6 @@ const WebArticle = () => {
 			</Header>
 			<Spacer spacing={2} />
 			<Markdown>{article.summary}</Markdown>
-			<Spacer spacing={2} />
 		</Layout>
 	);
 };

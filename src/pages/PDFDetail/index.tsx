@@ -1,9 +1,7 @@
 import { deletePDFAction } from "actions/pdf";
-import DeleteDialog from "components/DeleteDialog";
-import Header from "components/Header";
+import ContentToolbar from "components/ContentToolbar";
 import Layout from "components/Layout";
 import Markdown from "components/Markdown";
-import PagePadding from "components/PagePadding";
 import Spacer from "components/Spacer";
 import useAction from "hooks/useAction";
 import useStore from "hooks/useStore";
@@ -31,18 +29,20 @@ const PDFDetail = () => {
 		deletePDF(pdfID).then(() => navigate("/"));
 	};
 
+	const onGenerateCards = async (e: React.MouseEvent<HTMLElement>) => {
+		e.preventDefault();
+		navigate("/cards/generate", { state: { text: pdf.extracted_markdown } });
+	};
+
 	return (
 		<Layout>
-			<PagePadding>
-				<Header align="center" kind="h3">
-					PDF
-				</Header>
-				<Spacer spacing={2} />
-
-				<Markdown>{pdf.extracted_markdown}</Markdown>
-				<Spacer spacing={2} />
-				<DeleteDialog onDelete={handleDelete}>Delete Article</DeleteDialog>
-			</PagePadding>
+			<Spacer spacing={2} />
+			<ContentToolbar
+				onGenerateCards={onGenerateCards}
+				handleDelete={handleDelete}
+			/>
+			<Spacer spacing={2} />
+			<Markdown>{pdf.extracted_markdown}</Markdown>
 		</Layout>
 	);
 };
