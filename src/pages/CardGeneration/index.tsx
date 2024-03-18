@@ -57,6 +57,9 @@ const CardGeneration = () => {
 
 	const deckID = searchParams.get("deckID");
 	const decks = useStore(state => state.decks);
+
+	if (!deckID) setSearchParams({ deckID: decks[0].id });
+
 	const deck = decks.find(deck => deck.id === deckID);
 
 	const {
@@ -144,7 +147,6 @@ const CardGeneration = () => {
 	};
 
 	const onSelectDeckID = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		// find deckID by idx
 		const idx = e.target.value as unknown as number;
 		const deckID = decks[idx].id;
 		setSearchParams({ deckID });
