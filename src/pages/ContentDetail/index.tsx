@@ -26,6 +26,8 @@ const ContentDetail = () => {
 		return <Navigate to="/404" />;
 	}
 
+	const isFile = content.source_type === "pdf" || content.source_type === "doi";
+
 	useEffect(() => {
 		const asyncFetchFile = async () => {
 			setFileLoading(true);
@@ -35,7 +37,7 @@ const ContentDetail = () => {
 			setFileLoading(false);
 			setFile(fileURL);
 		};
-		if (!file && !fileLoading && content?.source_type === "pdf") {
+		if (!file && !fileLoading && isFile) {
 			asyncFetchFile();
 		}
 	}, []);
@@ -62,9 +64,8 @@ const ContentDetail = () => {
 	};
 
 	let ContentComp = null;
-
 	if (showSummary) ContentComp = <Markdown>{content.summary}</Markdown>;
-	else if (content.source_type === "pdf" && file)
+	else if (isFile && file) {
 		ContentComp = (
 			<iframe
 				src={file}
@@ -72,7 +73,7 @@ const ContentDetail = () => {
 				title="PDF Viewer"
 			></iframe>
 		);
-	else
+	} else
 		ContentComp = (
 			<div dangerouslySetInnerHTML={{ __html: content.view_text || "" }}></div>
 		);
