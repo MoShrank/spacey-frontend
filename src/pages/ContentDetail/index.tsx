@@ -13,8 +13,8 @@ import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
-const WebArticle = () => {
-	const { articleID: contentID } = useParams();
+const ContentDetail = () => {
+	const { contentID } = useParams();
 	const contents = useStore(state => state.content);
 	const content = contents.find(content => content.id === contentID);
 	const [showSummary, setShowSummary] = useState(true);
@@ -111,4 +111,4 @@ const WebArticle = () => {
 	);
 };
 
-export default WebArticle;
+export default ContentDetail;

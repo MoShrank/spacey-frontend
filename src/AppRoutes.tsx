@@ -5,6 +5,7 @@ import RequireBeta from "components/RequireBeta";
 import Error404 from "pages/404";
 import CardDetail from "pages/CardDetail";
 import CardGeneration from "pages/CardGeneration";
+import ContentDetail from "pages/ContentDetail";
 import DeckDetail from "pages/DeckDetail/DeckDetail";
 import EditDeck from "pages/EditDeck";
 import GPT3Explanation from "pages/GP3Explanation";
@@ -21,7 +22,6 @@ import SignUp from "pages/SignUp";
 import TOS from "pages/TOS";
 import VerifyEmail from "pages/VerifyEmail";
 import VerifyingEmail from "pages/VerifyingEmail";
-import WebArticle from "pages/WebArticle";
 import { Outlet, Route, Routes } from "react-router-dom";
 
 const Layout = () => {
@@ -111,10 +111,10 @@ const AppRoutes = () => {
 				}
 			/>
 			<Route
-				path="/article/:articleID"
+				path="/content/:contentID"
 				element={
 					<RequireAuth>
-						<WebArticle />
+						<ContentDetail />
 					</RequireAuth>
 				}
 			></Route>

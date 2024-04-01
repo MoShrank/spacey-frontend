@@ -8,7 +8,7 @@ import TextInput from "components/Input/TextInput";
 import SimpleButton from "components/SimpleButton";
 import Spacer from "components/Spacer";
 import Text from "components/Text";
-import useActionZ from "hooks/useAction";
+import useAction from "hooks/useAction";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -32,14 +32,20 @@ const EditableWebContent = () => {
 		fileInputRef.current?.click();
 	};
 
-	const [loading, error, action] = useActionZ(
+	const [loading, error, action] = useAction(
 		state => state.content,
 		createContentAction,
 	);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		action(data.url || selectedFile).then(() => navigate("/"));
+		action(data.url || selectedFile).then(content => {
+			// TODO: this is a small hack but assuming that the newly
+			// created content will be the first one in the list is kinda
+			// bad. Makes sense to rework this somehow to return a desired value
+			// from the action
+			navigate(`/content/${content[content.length - 1].id}`);
+		});
 	};
 
 	const disableSubmitButton = loading || !(data.url || selectedFile);

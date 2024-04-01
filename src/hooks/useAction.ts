@@ -21,7 +21,6 @@ const useAction = <TParams extends unknown[], TState, TResult>(
 			const data = res(selector(state));
 
 			dispatch(data);
-
 			return selector(data as unknown as ZustandStateI);
 		} catch (e) {
 			setError((e as Error).message);

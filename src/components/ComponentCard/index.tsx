@@ -4,18 +4,18 @@ import { ContentI } from "types/content";
 
 import style from "./style.module.scss";
 
-interface ArticleCardI {
+interface ContentCardI {
 	content: ContentI;
 }
 
-const ArticleCard = ({ content: content }: ArticleCardI) => {
+const ContentCard = ({ content: content }: ContentCardI) => {
 	return (
-		<Link to={`/article/${content.id}`} className={style.article_container}>
-			<Header className={style.article_name} kind="h3">
+		<Link to={`/content/${content.id}`} className={style.content_container}>
+			<Header className={style.content_name} kind="h3">
 				{content.title}
 			</Header>
 		</Link>
 	);
 };
 
-export default ArticleCard;
+export default ContentCard;

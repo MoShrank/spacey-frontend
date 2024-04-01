@@ -1,7 +1,7 @@
 import { ReactComponent as ArrowIcon } from "assets/icons/arrow.svg";
-import { ReactComponent as ArticleIcon } from "assets/icons/article.svg";
+import { ReactComponent as Content } from "assets/icons/article.svg";
 import { ReactComponent as CardDeckIcon } from "assets/icons/card_deck.svg";
-import ArticleCard from "components/ArticleCard";
+import ContentCard from "components/ComponentCard";
 import ContentTitle from "components/ContentTitle";
 import Deck from "components/Deck";
 import FloatingButton from "components/FloatingButton";
@@ -84,11 +84,11 @@ const Home = () => {
 		.sort(sortListItems)
 		.map((deck, idx) => <Deck deck={deck} key={idx} />);
 
-	const WebEntryListComponents = webEntries
+	const ContentListComponents = webEntries
 		.sort(sortListItems)
-		.map((webEntry, idx) => <ArticleCard content={webEntry} key={idx} />);
+		.map((webEntry, idx) => <ContentCard content={webEntry} key={idx} />);
 
-	const showHint = !DeckListComponents.length && !WebEntryListComponents.length;
+	const showHint = !DeckListComponents.length && !ContentListComponents.length;
 
 	return (
 		<Layout width="full">
@@ -102,18 +102,14 @@ const Home = () => {
 					{createPopupOpen && (
 						<Popup ref={popupRef} className={style.create_card_popup_container}>
 							<PopupItem title="Deck" url="/deck/new" Icon={<CardDeckIcon />} />
-							<PopupItem
-								title="Article"
-								url="/deck/new?type=url"
-								Icon={<ArticleIcon />}
-							/>
+							<PopupItem title="Content" url="/deck/new?type=url" Icon={<Content />} />
 						</Popup>
 					)}
 				</ContentTitle>
 			</PagePadding>
 			<Spacer spacing={2} />
 			<Extender title="Decks">{DeckListComponents}</Extender>
-			<Extender title="Articles">{WebEntryListComponents}</Extender>
+			<Extender title="Content">{ContentListComponents}</Extender>
 			{showHint && <Hint>No decks yet. Click the plus button to add a deck.</Hint>}
 		</Layout>
 	);
