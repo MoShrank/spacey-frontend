@@ -1,13 +1,27 @@
+import { combineStyles } from "util/css";
+
 import style from "./style.module.scss";
 
-interface IconButtonI {
+interface IconButtonI extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	icon: JSX.Element;
-	onClick: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-const IconButton = ({ icon, onClick }: IconButtonI): JSX.Element => {
+const IconButton = ({
+	icon,
+	className,
+	disabled,
+	...props
+}: IconButtonI): JSX.Element => {
 	return (
-		<button onClick={onClick} className={style.icon_button_container}>
+		<button
+			className={combineStyles(
+				style.icon_button_container,
+				className,
+				disabled ? style.disabled : "",
+			)}
+			disabled={disabled}
+			{...props}
+		>
 			{icon}
 		</button>
 	);

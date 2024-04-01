@@ -9,7 +9,6 @@ import Header from "components/Header";
 import Hint from "components/Hint";
 import Layout from "components/Layout";
 import ListContainer from "components/ListContainer";
-import PDFCard from "components/PDFCard";
 import PagePadding from "components/PagePadding";
 import Popup from "components/Popup";
 import Spacer from "components/Spacer";
@@ -74,10 +73,7 @@ const sortListItems = (a: ListI, b: ListI) => {
 
 const Home = () => {
 	const decks = useStore(state => state.decks);
-	const webEntries = useStore(state => state.webContent);
-	const pdfs = useStore(state => state.pdfs);
-
-	const searchResults = useStore(state => state.searchResults);
+	const webEntries = useStore(state => state.content);
 
 	const [createPopupOpen, setCreatePopupOpen] = useState(false);
 	const popupRef = useRef<HTMLDivElement>(null);
@@ -88,18 +84,11 @@ const Home = () => {
 		.sort(sortListItems)
 		.map((deck, idx) => <Deck deck={deck} key={idx} />);
 
-	const WebEntryListComponents = (
-		searchResults.length ? searchResults : webEntries
-	)
+	const WebEntryListComponents = webEntries
 		.sort(sortListItems)
-		.map((webEntry, idx) => <ArticleCard webEntry={webEntry} key={idx} />);
+		.map((webEntry, idx) => <ArticleCard content={webEntry} key={idx} />);
 
-	const PDFComponents = pdfs
-		.sort(sortListItems)
-		.map((pdf, idx) => <PDFCard pdf={pdf} key={idx} />);
-
-	const showHint =
-		!DeckListComponents.length && !WebEntryListComponents.length && !pdfs.length;
+	const showHint = !DeckListComponents.length && !WebEntryListComponents.length;
 
 	return (
 		<Layout width="full">
@@ -125,7 +114,6 @@ const Home = () => {
 			<Spacer spacing={2} />
 			<Extender title="Decks">{DeckListComponents}</Extender>
 			<Extender title="Articles">{WebEntryListComponents}</Extender>
-			<Extender title="PDFs">{PDFComponents}</Extender>
 			{showHint && <Hint>No decks yet. Click the plus button to add a deck.</Hint>}
 		</Layout>
 	);

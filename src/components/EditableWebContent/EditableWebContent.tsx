@@ -1,4 +1,4 @@
-import { createWebContentAction } from "actions/webContent";
+import { createContentAction } from "actions/content";
 import { ReactComponent as CloseIcon } from "assets/icons/exit.svg";
 import Button from "components/Button";
 import Form from "components/Form";
@@ -18,15 +18,8 @@ import { useUploadFile } from "./useFIleUpload";
 const EditableWebContent = () => {
 	const navigate = useNavigate();
 
-	const [
-		fileInputRef,
-		fileLoading,
-		fileError,
-		handleFileChange,
-		handleFileSubmit,
-		handleDeselect,
-		selectedFile,
-	] = useUploadFile();
+	const [fileInputRef, handleFileChange, handleDeselect, selectedFile] =
+		useUploadFile();
 
 	const [data, setData] = useState({
 		url: "",
@@ -40,17 +33,19 @@ const EditableWebContent = () => {
 	};
 
 	const [loading, error, action] = useActionZ(
-		state => state.webContent,
-		createWebContentAction,
+		state => state.content,
+		createContentAction,
 	);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		action(data.url).then(() => navigate("/"));
+		action(data.url || selectedFile).then(() => navigate("/"));
 	};
 
+	const disableSubmitButton = loading || !(data.url || selectedFile);
+
 	return (
-		<Form onSubmit={selectedFile ? handleFileSubmit : handleSubmit}>
+		<Form onSubmit={handleSubmit}>
 			<Header kind="h2" color="primary">
 				New Content
 			</Header>
@@ -88,8 +83,8 @@ const EditableWebContent = () => {
 			</div>
 			<Spacer spacing={3} />
 			<BottomContainer>
-				{(error || fileError) && <p className="error">{error || fileError}</p>}
-				<Button loading={loading || fileLoading} disabled={loading || fileLoading}>
+				{error && <p className="error">{error}</p>}
+				<Button loading={loading} disabled={disableSubmitButton}>
 					Add
 				</Button>
 				<SimpleButton as={Link} to={"/"}>

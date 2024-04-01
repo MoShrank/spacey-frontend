@@ -3,11 +3,15 @@ import IconButton from "components/IconButton";
 import { useState } from "react";
 import colors from "styles/colors";
 
-interface DeleteDialogProps {
+interface DeleteDialogI extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	onDelete: () => void;
 }
 
-const SmallDeleteDialog = ({ onDelete }: DeleteDialogProps) => {
+const SmallDeleteDialog = ({
+	onDelete,
+	onClick: _, // eslint-disable-line
+	...props
+}: DeleteDialogI) => {
 	const [shouldConfirm, setShouldConfirm] = useState(false);
 
 	const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
@@ -22,7 +26,13 @@ const SmallDeleteDialog = ({ onDelete }: DeleteDialogProps) => {
 
 	const color = shouldConfirm ? colors.rederror : colors.darkblue;
 
-	return <IconButton icon={<TrashIcon fill={color} />} onClick={handleDelete} />;
+	return (
+		<IconButton
+			icon={<TrashIcon fill={color} />}
+			onClick={handleDelete}
+			{...props}
+		/>
+	);
 };
 
 export default SmallDeleteDialog;

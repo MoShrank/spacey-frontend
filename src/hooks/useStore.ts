@@ -1,8 +1,7 @@
+import { ContentI, WebEntryI } from "types/content";
 import { DeckI, LearningSessionI } from "types/deck";
 import { NoteI } from "types/note";
-import { PDFI, PDFSearchResult } from "types/pdf";
 import { UserI } from "types/user";
-import { WebEntryI } from "types/web_entry";
 import { getHasSeenCookie, getLoggedInState } from "util/user";
 import create from "zustand";
 import { persist } from "zustand/middleware";
@@ -12,12 +11,9 @@ interface StateData {
 	hasSeenCookie: boolean;
 	user: UserI;
 	decks: DeckI[];
-	webContent: WebEntryI[];
+	content: ContentI[];
 	searchResults: WebEntryI[];
 	notes: Record<string, NoteI>;
-
-	pdfs: PDFI[];
-	pdfSearchResults: PDFSearchResult[];
 
 	config: {
 		colors: string[];
@@ -36,7 +32,6 @@ export interface ZustandStateI extends StateData {
 	setUser: (user: UserI) => void;
 	setNotes: (notes: Record<string, NoteI>) => void;
 	resetSearchResults: () => void;
-	resetPDFSearchResults: () => void;
 }
 
 export const initialState: StateData = {
@@ -47,10 +42,8 @@ export const initialState: StateData = {
 	},
 	notes: {},
 	decks: [],
-	webContent: [],
+	content: [],
 	searchResults: [],
-	pdfs: [],
-	pdfSearchResults: [],
 	config: {
 		colors: [],
 	},
@@ -70,8 +63,6 @@ export const useStore = create<ZustandStateI>()(
 			dispatch: args => set(args as ZustandStateI),
 			setUser: user => set(state => ({ ...state, user })),
 			resetSearchResults: () => set(state => ({ ...state, searchResults: [] })),
-			resetPDFSearchResults: () =>
-				set(state => ({ ...state, pdfSearchResults: [] })),
 			...initialState,
 		}),
 		{

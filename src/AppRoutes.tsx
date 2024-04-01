@@ -15,7 +15,6 @@ import Login from "pages/Login";
 import Logout from "pages/Logout";
 import NewCard from "pages/NewCard";
 import NewDeck from "pages/NewDeck";
-import PDFDetail from "pages/PDFDetail";
 import Privacy from "pages/Privacy";
 import Settings from "pages/Settings";
 import SignUp from "pages/SignUp";
@@ -119,14 +118,6 @@ const AppRoutes = () => {
 					</RequireAuth>
 				}
 			></Route>
-			<Route
-				path="/pdf/:pdfID"
-				element={
-					<RequireAuth>
-						<PDFDetail />
-					</RequireAuth>
-				}
-			/>
 			<Route
 				path="verify-email"
 				element={

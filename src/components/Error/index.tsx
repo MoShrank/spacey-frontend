@@ -8,7 +8,7 @@ interface ErrorI {
 
 const Error = ({ children }: ErrorI) => {
 	return (
-		<Text color="red" className={style.error}>
+		<Text color="red" align="center" className={style.error}>
 			{children}
 		</Text>
 	);

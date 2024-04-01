@@ -64,6 +64,20 @@ class API {
 
 		let resBody;
 
+		const contentType = res.headers.get("Content-Type");
+
+		if (
+			contentType?.includes("application/pdf") ||
+			contentType?.includes("octet-stream")
+		) {
+			if (!res.ok) {
+				Notificator.push(PopupError.UNKNOWN_ERROR);
+				throw new Error("unknown error");
+			}
+
+			return res.blob();
+		}
+
 		try {
 			resBody = await res.json();
 		} catch (e) {

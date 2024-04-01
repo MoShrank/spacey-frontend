@@ -32,3 +32,15 @@
 			-2px -2px 4px rgba(207, 207, 207, 0.25);
 	}
 }
+
+.disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+	// no transform:;
+	&:hover {
+		transform: none;
+		-webkit-transform: none;
+		box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25),
+			-4px -4px 8px rgba(207, 207, 207, 0.25);
+	}
+}
