@@ -37,10 +37,15 @@ const ContentDetail = () => {
 			setFileLoading(false);
 			setFile(fileURL);
 		};
-		if (!file && !fileLoading && isFile) {
+		if (
+			!file &&
+			!fileLoading &&
+			isFile &&
+			content.processing_status === "processed"
+		) {
 			asyncFetchFile();
 		}
-	}, []);
+	}, [file, fileLoading, content.processing_status]);
 
 	const navigate = useNavigate();
 
@@ -64,15 +69,20 @@ const ContentDetail = () => {
 	};
 
 	let ContentComp = null;
+
 	if (showSummary) ContentComp = <Markdown>{content.summary}</Markdown>;
-	else if (isFile && file) {
-		ContentComp = (
-			<iframe
-				src={file}
-				style={{ width: "100%", height: "100%", border: "none" }}
-				title="PDF Viewer"
-			></iframe>
-		);
+	else if (isFile) {
+		if (!file) {
+			ContentComp = <Loader size="large" />;
+		} else {
+			ContentComp = (
+				<iframe
+					src={file}
+					style={{ width: "100%", height: "100%", border: "none" }}
+					title="PDF Viewer"
+				></iframe>
+			);
+		}
 	} else
 		ContentComp = (
 			<div dangerouslySetInnerHTML={{ __html: content.view_text || "" }}></div>
