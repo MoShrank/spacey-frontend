@@ -1,0 +1,32 @@
+@use "../../styles/colors.scss";
+
+.readability_content {
+	picture {
+		max-width: 100%;
+		height: auto;
+	}
+	figcaption {
+		color: colors.$darkblue;
+	}
+}
+
+.img {
+	max-width: 100%;
+	height: auto;
+}
+
+.h1 {
+	font-size: 1.6em;
+	line-height: 1.5em;
+	font-weight: bold;
+}
+
+.h2 {
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+.h3 {
+	font-size: 1.2em;
+	font-weight: bold;
+}

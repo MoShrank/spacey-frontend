@@ -1,5 +1,6 @@
 import { deleteContentAction } from "actions/content";
 import { downloadFile } from "api/content";
+import MathJax from "better-react-mathjax/MathJax";
 import ContentToolbar from "components/ContentToolbar";
 import Error from "components/Error";
 import Header from "components/Header";
@@ -8,10 +9,57 @@ import Layout from "components/Layout";
 import Loader from "components/Loader";
 import Markdown from "components/Markdown";
 import Spacer from "components/Spacer";
+import Text from "components/Text";
+import DOMPurify from "dompurify";
 import useActionZ from "hooks/useAction";
 import useStore from "hooks/useStore";
+import parse, {
+	DOMNode,
+	HTMLReactParserOptions,
+	domToReact,
+} from "html-react-parser";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+
+import style from "./style.module.scss";
+
+const options: HTMLReactParserOptions = {
+	replace(domNode: DOMNode) {
+		if (domNode.type !== "tag") return;
+
+		if (domNode.name === "p") {
+			return (
+				<Text style={{ marginTop: "12px", marginBottom: "12px" }}>
+					{domToReact(domNode.children as DOMNode[], options)}
+				</Text>
+			);
+		} else if (domNode.name === "img") {
+			const newAttributes = {
+				...domNode.attribs,
+				className: style.img,
+			};
+			return <img {...newAttributes} />;
+		} else if (domNode.name.match(/h[1-3]/)) {
+			const headerLevel = domNode.name[1] as "1" | "2" | "3";
+			return (
+				<Header className={style[`h${headerLevel}`]} kind={`h${headerLevel}`}>
+					{domToReact(domNode.children as DOMNode[], options)}
+				</Header>
+			);
+		}
+	},
+};
+
+const HTMLReader = ({ children = "" }: { children?: string }) => {
+	const cleanedText = DOMPurify.sanitize(children);
+	const parsedText = parse(cleanedText, options);
+
+	return (
+		<MathJax>
+			<div className={style.readability_content}>{parsedText}</div>
+		</MathJax>
+	);
+};
 
 const ContentDetail = () => {
 	const { contentID } = useParams();
@@ -83,10 +131,9 @@ const ContentDetail = () => {
 				></iframe>
 			);
 		}
-	} else
-		ContentComp = (
-			<div dangerouslySetInnerHTML={{ __html: content.view_text || "" }}></div>
-		);
+	} else {
+		ContentComp = <HTMLReader>{content.view_text}</HTMLReader>;
+	}
 
 	return (
 		<Layout width="normal">

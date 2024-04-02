@@ -65,7 +65,6 @@ body {
 
 a {
 	text-decoration: none;
-	display: inline-block;
 	color: inherit;
 	outline: none;
 }
@@ -83,4 +82,10 @@ a {
 		flex-direction: row;
 		flex-wrap: wrap;
 	}
+}
+
+// set all list color markers to blue
+li::marker,
+ol::marker {
+	color: colors.$darkblue;
 }
