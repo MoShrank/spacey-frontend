@@ -1,5 +1,6 @@
 import { ReactComponent as Arrow } from "assets/icons/arrow.svg";
 import { ReactComponent as CardsIcon } from "assets/icons/cards.svg";
+import { ReactComponent as ZoomIcon } from "assets/icons/zoom.svg";
 import IconButton from "components/IconButton";
 import SmallDeleteDialog from "components/SmallDeleteDialog";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +12,14 @@ import style from "./style.module.scss";
 interface ContentToolbarPropsI {
 	onGenerateCards: (e: React.MouseEvent<HTMLElement>) => void;
 	handleDelete: () => void;
+	handleOpenFocusModus: () => void;
 	processingStatus: ProcessingStatus;
 }
 
 const ContentToolbar = ({
 	onGenerateCards,
 	handleDelete,
+	handleOpenFocusModus,
 	processingStatus,
 }: ContentToolbarPropsI) => {
 	const navigate = useNavigate();
@@ -26,6 +29,11 @@ const ContentToolbar = ({
 			<IconButton
 				icon={<Arrow fill={colors.darkblue} />}
 				onClick={() => navigate("/")}
+			/>
+			<IconButton
+				icon={<ZoomIcon />}
+				onClick={handleOpenFocusModus}
+				disabled={processingStatus != "processed"}
 			/>
 			<IconButton
 				icon={<CardsIcon fill={colors.darkblue} />}
