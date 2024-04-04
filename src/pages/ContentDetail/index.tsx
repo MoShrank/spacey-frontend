@@ -26,12 +26,12 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import style from "./style.module.scss";
 
-interface ImgModalI {
+interface IMGModalI {
 	src: string | null;
 	onClose: () => void;
 }
 
-const IMGModal = ({ src, onClose }: ImgModalI) => {
+const IMGModal = ({ src, onClose }: IMGModalI) => {
 	const ref = useRef(null);
 
 	useOnClickOutside(ref, onClose);
