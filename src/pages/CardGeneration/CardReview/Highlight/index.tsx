@@ -6,8 +6,7 @@ import {
 	useContextMenu,
 } from "components/ContextMenu";
 import Text from "components/Text";
-import useOnClickOutside from "hooks/useClickOutside";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import style from "./style.module.scss";
 
@@ -48,7 +47,12 @@ const HighlightedText = ({
 	onGenerateCard,
 }: HighlightI) => {
 	const [selection, setSelection] = useState<SelectionI | undefined>(undefined);
-	const { state: contextMenuState, show, hide } = useContextMenu();
+	const {
+		state: contextMenuState,
+		show,
+		hide,
+		contextMenuRef,
+	} = useContextMenu();
 
 	// Sort sections by starting index and color priority
 	highlightSections.sort((a, b) => {
@@ -131,10 +135,6 @@ const HighlightedText = ({
 		// code to create card
 		handleCloseContextMenu();
 	};
-
-	const contextMenuRef = useRef(null);
-
-	useOnClickOutside(contextMenuRef, handleCloseContextMenu);
 
 	return (
 		<>
