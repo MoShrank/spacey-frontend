@@ -1,0 +1,13 @@
+.context_menu_container {
+	position: fixed;
+	background-color: white;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 8px;
+	overflow: hidden;
+	border-collapse: collapse;
+	border: 1px solid #ccc;
+}

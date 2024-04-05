@@ -1,31 +1,15 @@
 import { ReactComponent as CreateIcon } from "assets/icons/create.svg";
 import { ReactComponent as GenerateIcon } from "assets/icons/generate.svg";
+import {
+	ContextMenuContainer,
+	ContextMenuItem,
+	useContextMenu,
+} from "components/ContextMenu";
 import Text from "components/Text";
 import useOnClickOutside from "hooks/useClickOutside";
 import { useRef, useState } from "react";
 
 import style from "./style.module.scss";
-
-interface IVerticalLineProps {
-	color?: string;
-	thickness?: number;
-	style?: React.CSSProperties;
-}
-
-const VerticalLine: React.FC<IVerticalLineProps> = ({
-	color = "#ccc",
-	thickness = 1,
-	style,
-}) => {
-	const defaultStyle: React.CSSProperties = {
-		borderLeft: `${thickness}px solid ${color}`,
-		alignSelf: "stretch",
-	};
-
-	const mergedStyle = { ...defaultStyle, ...style };
-
-	return <div style={mergedStyle}></div>;
-};
 
 type HighlightTypes = "default" | "cardSelected" | "textSelected";
 
@@ -64,6 +48,7 @@ const HighlightedText = ({
 	onGenerateCard,
 }: HighlightI) => {
 	const [selection, setSelection] = useState<SelectionI | undefined>(undefined);
+	const { state: contextMenuState, show, hide } = useContextMenu();
 
 	// Sort sections by starting index and color priority
 	highlightSections.sort((a, b) => {
@@ -115,12 +100,6 @@ const HighlightedText = ({
 		);
 	}
 
-	const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
-	const [contextMenuPosition, setContextMenuPosition] = useState({
-		x: 0,
-		y: 0,
-	});
-
 	const onContextMenu = (e: React.MouseEvent) => {
 		const selection = window.getSelection();
 		if (selection) {
@@ -133,17 +112,15 @@ const HighlightedText = ({
 
 			setSelection({ start, end });
 
-			setContextMenuPosition({ x: e.clientX, y: e.clientY });
-			setIsContextMenuOpen(true);
+			show(e);
 		}
 	};
 
 	const handleCloseContextMenu = () => {
-		setIsContextMenuOpen(false);
+		hide();
 	};
 
 	const handleGenerateCard = () => {
-		// find start and end index of selected text
 		if (!selection) return;
 
 		onGenerateCard(selection.start, selection.end);
@@ -161,23 +138,19 @@ const HighlightedText = ({
 
 	return (
 		<>
-			{isContextMenuOpen && (
-				<div
+			{contextMenuState.visible && (
+				<ContextMenuContainer
 					ref={contextMenuRef}
-					className={style.context_menu_container}
-					style={{
-						top: contextMenuPosition.y,
-						left: contextMenuPosition.x,
-					}}
+					x={contextMenuState.x}
+					y={contextMenuState.y}
 				>
-					<div className={style.context_menu_item}>
-						<GenerateIcon onClick={handleGenerateCard} />
-					</div>
-					<VerticalLine />
-					<div className={style.context_menu_item}>
-						<CreateIcon onClick={handleCreateCard} />
-					</div>
-				</div>
+					<ContextMenuItem onClick={handleGenerateCard}>
+						<GenerateIcon />
+					</ContextMenuItem>
+					<ContextMenuItem onClick={handleCreateCard}>
+						<CreateIcon />
+					</ContextMenuItem>
+				</ContextMenuContainer>
 			)}
 			<Text onContextMenu={onContextMenu}>{highlightedText}</Text>
 		</>
