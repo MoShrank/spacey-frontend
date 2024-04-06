@@ -9,7 +9,6 @@ const useContextMenu = () => {
 	const show = (e: React.MouseEvent | React.TouchEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-
 		let x = 0;
 		let y = 0;
 

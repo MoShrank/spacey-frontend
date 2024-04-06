@@ -140,7 +140,14 @@ const HTMLReader = ({
 	};
 
 	const onContextMenu = (e: React.MouseEvent | React.TouchEvent) => {
-		if (e.nativeEvent instanceof TouchEvent && select()) show(e);
+		if (
+			"pointerType" in e.nativeEvent &&
+			// eslint-disable-next-line
+			// @ts-ignore
+			e.nativeEvent.pointerType === "touch" &&
+			select()
+		)
+			show(e);
 	};
 
 	const onMouseUp = (e: React.MouseEvent) => {
