@@ -140,6 +140,8 @@ const HTMLReader = ({
 	};
 
 	const onContextMenu = (e: React.MouseEvent | React.TouchEvent) => {
+		console.log(e.nativeEvent);
+		console.log(e);
 		if (
 			"pointerType" in e.nativeEvent &&
 			// eslint-disable-next-line
