@@ -1,4 +1,4 @@
-import { ContentI, WebEntryI } from "types/content";
+import { ContentI } from "types/content";
 import { DeckI, LearningSessionI } from "types/deck";
 import { NoteI } from "types/note";
 import { UserI } from "types/user";
@@ -12,7 +12,6 @@ interface StateData {
 	user: UserI;
 	decks: DeckI[];
 	content: ContentI[];
-	searchResults: WebEntryI[];
 	notes: Record<string, NoteI>;
 
 	config: {
@@ -43,7 +42,6 @@ export const initialState: StateData = {
 	notes: {},
 	decks: [],
 	content: [],
-	searchResults: [],
 	config: {
 		colors: [],
 	},

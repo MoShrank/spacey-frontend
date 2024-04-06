@@ -41,3 +41,7 @@
 .highlight {
 	background-color: colors.$lightgray;
 }
+
+::highlight(text-highlight) {
+	background-color: rgba(190, 189, 255, 0.5);
+}

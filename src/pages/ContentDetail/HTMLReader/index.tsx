@@ -13,15 +13,25 @@ import parse, {
 	HTMLReactParserOptions,
 	domToReact,
 } from "html-react-parser";
+import { useEffect } from "react";
+import { AnnotationI } from "types/content";
+import { deserialiseRange, serialiseRange } from "util/dom";
 
 import style from "./style.module.scss";
 
 interface HTMLReaderI {
 	children?: string;
 	onClickIMG: (src: string) => void;
+	annotations: AnnotationI[];
+	onAddAnnotation: (annotation: AnnotationI) => void;
 }
 
-const HTMLReader = ({ children = "", onClickIMG }: HTMLReaderI) => {
+const HTMLReader = ({
+	annotations,
+	onAddAnnotation,
+	children = "",
+	onClickIMG,
+}: HTMLReaderI) => {
 	const {
 		state: contextMenuState,
 		show,
@@ -29,7 +39,33 @@ const HTMLReader = ({ children = "", onClickIMG }: HTMLReaderI) => {
 		contextMenuRef,
 	} = useContextMenu();
 
-	const { root: readerRootRef, highlight, select } = useHighlight();
+	const {
+		selectedText,
+		root: readerRootRef,
+		highlight,
+		select,
+	} = useHighlight();
+
+	useEffect(() => {
+		if (!readerRootRef.current) return;
+		for (const annotation of annotations) {
+			const {
+				start_path: startPath,
+				end_path: endPath,
+				start_offset: startOffset,
+				end_offset: endOffset,
+			} = annotation;
+
+			const range = deserialiseRange(readerRootRef.current, {
+				startPath,
+				endPath,
+				startOffset,
+				endOffset,
+			});
+
+			highlight(range);
+		}
+	}, [annotations, readerRootRef.current]);
 
 	const options: HTMLReactParserOptions = {
 		replace(domNode: DOMNode) {
@@ -81,9 +117,30 @@ const HTMLReader = ({ children = "", onClickIMG }: HTMLReaderI) => {
 
 	const parsedText = parse(children, options);
 
-	const handleSelectText = () => {
-		highlight(style.highlight);
+	const handleAddSelection = () => {
+		const newAnnotationRange = highlight();
+
+		if (!newAnnotationRange || !selectedText || !readerRootRef.current) return;
+
+		const { startPath, endPath, startOffset, endOffset } = serialiseRange(
+			readerRootRef.current as Node,
+			newAnnotationRange,
+		);
+		const newAnnotation = {
+			start_path: startPath,
+			end_path: endPath,
+			start_offset: startOffset,
+			end_offset: endOffset,
+			text: selectedText,
+			color: "default",
+		};
+
+		onAddAnnotation(newAnnotation);
 		hide();
+	};
+
+	const onContextMenu = (e: React.MouseEvent | React.TouchEvent) => {
+		if (e.nativeEvent instanceof TouchEvent && select()) show(e);
 	};
 
 	const onMouseUp = (e: React.MouseEvent) => {
@@ -95,6 +152,7 @@ const HTMLReader = ({ children = "", onClickIMG }: HTMLReaderI) => {
 			<div
 				ref={readerRootRef}
 				onMouseUp={onMouseUp}
+				onContextMenu={onContextMenu}
 				className={style.readability_content}
 			>
 				{parsedText}
@@ -105,7 +163,7 @@ const HTMLReader = ({ children = "", onClickIMG }: HTMLReaderI) => {
 					y={contextMenuState.y}
 					ref={contextMenuRef}
 				>
-					<ContextMenuItem onClick={handleSelectText}>
+					<ContextMenuItem onClick={handleAddSelection}>
 						<HighlightIcon />
 					</ContextMenuItem>
 				</ContextMenuContainer>

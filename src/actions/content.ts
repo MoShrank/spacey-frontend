@@ -1,5 +1,10 @@
-import { createContent, deleteContent, getContent } from "api/content";
-import { ContentI } from "types/content";
+import {
+	createContent,
+	deleteContent,
+	getContent,
+	updateAnnotations,
+} from "api/content";
+import { AnnotationI, ContentI } from "types/content";
 
 export const createContentAction = async (source: string | File | null) => {
 	if (!source) {
@@ -42,5 +47,28 @@ export const deleteContentAction = async (id: string) => {
 		};
 	} catch (e) {
 		throw Error("Error deleting content.");
+	}
+};
+
+export const addAnnotationAction = async (
+	contentID: string,
+	annotations: AnnotationI[],
+	newAnnotation: AnnotationI,
+) => {
+	try {
+		const newAnnotations = [...annotations, newAnnotation];
+		await updateAnnotations(contentID, newAnnotations);
+		return (curState: Array<ContentI>) => {
+			const updateContent = curState.map(oldContentInst => {
+				if (oldContentInst.id === contentID) {
+					return { ...oldContentInst, annotations: newAnnotations };
+				}
+				return oldContentInst;
+			});
+
+			return { content: updateContent };
+		};
+	} catch (e) {
+		throw Error("Error adding annotation.");
 	}
 };

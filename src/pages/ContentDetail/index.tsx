@@ -1,4 +1,4 @@
-import { deleteContentAction } from "actions/content";
+import { addAnnotationAction, deleteContentAction } from "actions/content";
 import { downloadFile } from "api/content";
 import ContentToolbar from "components/ContentToolbar";
 import Error from "components/Error";
@@ -10,11 +10,12 @@ import Markdown from "components/Markdown";
 import Modal from "components/Modal";
 import ModalLayout from "components/ModalLayout";
 import Spacer from "components/Spacer";
-import useActionZ from "hooks/useAction";
+import { default as useAction, default as useActionZ } from "hooks/useAction";
 import useOnClickOutside from "hooks/useClickOutside";
 import useStore from "hooks/useStore";
 import { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { AnnotationI } from "types/content";
 
 import HTMLReader from "./HTMLReader";
 import style from "./style.module.scss";
@@ -47,6 +48,11 @@ const ContentDetail = () => {
 	const [zoomPictureSrc, setZoomPictureSrc] = useState<null | string>(null);
 	const [file, setFile] = useState<string | null>(null);
 	const [fileLoading, setFileLoading] = useState(false);
+
+	const [, , addAnnotation] = useAction(
+		state => state.content,
+		addAnnotationAction,
+	);
 
 	if (!content) {
 		return <Navigate to="/404" />;
@@ -98,6 +104,10 @@ const ContentDetail = () => {
 		setZoomPictureSrc(imgSource);
 	};
 
+	const onAddAnnotation = (annotation: AnnotationI) => {
+		addAnnotation(content.id, content.annotations, annotation);
+	};
+
 	let ContentComp = null;
 
 	if (showSummary) ContentComp = <Markdown>{content.summary}</Markdown>;
@@ -115,7 +125,13 @@ const ContentDetail = () => {
 		}
 	} else {
 		ContentComp = (
-			<HTMLReader onClickIMG={onClickImg}>{content.view_text}</HTMLReader>
+			<HTMLReader
+				onClickIMG={onClickImg}
+				annotations={content.annotations}
+				onAddAnnotation={onAddAnnotation}
+			>
+				{content.view_text}
+			</HTMLReader>
 		);
 	}
 

@@ -1,3 +1,13 @@
+export interface AnnotationI {
+	start_path: string;
+	start_offset: number;
+	end_path: string;
+	end_offset: number;
+	color: string;
+	comment?: string;
+	text: string;
+}
+
 export interface ContentI {
 	id: string;
 	source: string;
@@ -9,19 +19,8 @@ export interface ContentI {
 	view_text?: string;
 	storage_ref?: string;
 	source_type?: string;
+
+	annotations: AnnotationI[];
 }
 
 export type ProcessingStatus = "processing" | "processed" | "failed";
-
-export interface WebEntryI {
-	id: string;
-	name: string;
-	url: string;
-	summary: string;
-	created_at: Date;
-}
-
-export interface WebEntryAnswerI {
-	answer: string;
-	documents: string[];
-}

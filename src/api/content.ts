@@ -1,5 +1,5 @@
 import API from "api/api";
-import { ContentI } from "types/content";
+import { AnnotationI, ContentI } from "types/content";
 
 interface CreateContentI {
 	source: string;
@@ -21,4 +21,11 @@ export const deleteContent = async (id: string): Promise<void> => {
 
 export const downloadFile = async (id: string): Promise<Blob> => {
 	return (await API.GET(`content/file/${id}`)) as Blob;
+};
+
+export const updateAnnotations = async (
+	id: string,
+	annotations: AnnotationI[],
+) => {
+	await API.PUT(`content/${id}/annotation`, { annotations });
 };
