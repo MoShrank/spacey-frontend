@@ -8,6 +8,8 @@ import {
 } from "components/ContextMenu";
 import Header from "components/Header";
 import Text from "components/Text";
+import useMediaQuery from "hooks/useMediaQuery";
+import useSelectionChange from "hooks/useSelectionChange";
 import parse, {
 	DOMNode,
 	HTMLReactParserOptions,
@@ -139,33 +141,44 @@ const HTMLReader = ({
 		hide();
 	};
 
-	const onContextMenu = (e: React.MouseEvent | React.TouchEvent) => {
-		console.log(e.nativeEvent);
-		console.log(e);
-		if (
-			"pointerType" in e.nativeEvent &&
-			// eslint-disable-next-line
-			// @ts-ignore
-			e.nativeEvent.pointerType === "touch" &&
-			select()
-		)
-			show(e);
+	const isMobile = useMediaQuery("(max-width: 500px)");
+
+	const showContextMenu = () => {
+		const range = select();
+		if (range && readerRootRef.current) {
+			const rect = range.getBoundingClientRect();
+
+			// show context menu above and in the
+			// middle of the selected text
+			const contextMenuHeight = 40;
+			const noContextMenuItems = 1;
+			const contextMenuWidth =
+				40 * noContextMenuItems + 1 * (noContextMenuItems - 1); // 40px per item + 1px border between items
+
+			const x = rect.x + rect.width / 2 - contextMenuWidth / 2;
+			let y = rect.y - contextMenuHeight / 2;
+
+			if (isMobile) {
+				y = rect.y + rect.height + 5;
+			} else {
+				y = rect.y - contextMenuHeight - 5;
+			}
+
+			show(undefined, x, y);
+		}
 	};
 
-	const onMouseUp = (e: React.MouseEvent) => {
-		if (select()) show(e);
-	};
+	useSelectionChange(() => {
+		showContextMenu();
+	}, readerRootRef);
 
 	return (
-		<MathJax>
-			<div
-				ref={readerRootRef}
-				onMouseUp={onMouseUp}
-				onContextMenu={onContextMenu}
-				className={style.readability_content}
-			>
-				{parsedText}
-			</div>
+		<>
+			<MathJax>
+				<div ref={readerRootRef} className={style.readability_content}>
+					{parsedText}
+				</div>
+			</MathJax>
 			{contextMenuState.visible && (
 				<ContextMenuContainer
 					x={contextMenuState.x}
@@ -177,7 +190,7 @@ const HTMLReader = ({
 					</ContextMenuItem>
 				</ContextMenuContainer>
 			)}
-		</MathJax>
+		</>
 	);
 };
 

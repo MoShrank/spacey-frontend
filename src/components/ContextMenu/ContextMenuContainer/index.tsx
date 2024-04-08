@@ -7,7 +7,6 @@ interface CustomContextMenuContainerI {
 	x: number;
 	y: number;
 }
-// create custom contenxt menu component with forwardedRef
 
 interface VerticalLineI {
 	color?: string;

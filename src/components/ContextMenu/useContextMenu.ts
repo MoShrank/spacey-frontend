@@ -1,24 +1,22 @@
 import useOnClickOutside from "hooks/useClickOutside";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
+// eslint-disable-next-line
 const useContextMenu = () => {
 	const [state, setState] = useState({ visible: false, x: 0, y: 0 });
 
 	const contextMenuRef = useRef(null);
 
-	const show = (e: React.MouseEvent | React.TouchEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
+	const show = (
+		e?: React.MouseEvent | React.TouchEvent,
+		x_pos?: number,
+		y_pos?: number,
+	) => {
 		let x = 0;
 		let y = 0;
 
-		if ("touches" in e) {
-			x = e.touches[0].clientX;
-			y = e.touches[0].clientY;
-		} else if ("clientX" in e) {
-			x = e.clientX;
-			y = e.clientY;
-		}
+		if (x_pos) x = x_pos;
+		if (y_pos) y = y_pos;
 
 		setState({ visible: true, x, y });
 	};
