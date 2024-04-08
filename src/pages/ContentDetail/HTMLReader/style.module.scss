@@ -1,6 +1,8 @@
 @use "../../../styles/colors.scss";
 
 .readability_content {
+	position: relative;
+
 	picture {
 		max-width: 100%;
 		height: auto;

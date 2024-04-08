@@ -158,6 +158,7 @@ const HTMLReader = ({
 		const range = select();
 		if (range && readerRootRef.current) {
 			const rect = range.getBoundingClientRect();
+			const readerRootRect = readerRootRef.current.getBoundingClientRect();
 
 			// show context menu above and in the
 			// middle of the selected text
@@ -166,13 +167,13 @@ const HTMLReader = ({
 			const contextMenuWidth =
 				40 * noContextMenuItems + 1 * (noContextMenuItems - 1); // 40px per item + 1px border between items
 
-			const x = rect.x + rect.width / 2 - contextMenuWidth / 2;
-			let y = rect.y - contextMenuHeight / 2;
+			const x = rect.x + rect.width / 2 - contextMenuWidth / 2 - readerRootRect.x;
+			let y = rect.y - readerRootRect.y;
 
 			if (isMobile) {
-				y = rect.y + rect.height + 5;
+				y += rect.height + 5;
 			} else {
-				y = rect.y - contextMenuHeight - 5;
+				y -= contextMenuHeight + 5;
 			}
 
 			show(undefined, x, y);
@@ -188,22 +189,22 @@ const HTMLReader = ({
 			<MathJax>
 				<div ref={readerRootRef} className={style.readability_content}>
 					{parsedText}
+					{contextMenuState.visible && (
+						<ContextMenuContainer
+							x={contextMenuState.x}
+							y={contextMenuState.y}
+							ref={contextMenuRef}
+						>
+							<ContextMenuItem
+								className={`${isHighlighted() && style.inverted_svg}`}
+								onClick={handleAddSelection}
+							>
+								<HighlightIcon />
+							</ContextMenuItem>
+						</ContextMenuContainer>
+					)}
 				</div>
 			</MathJax>
-			{contextMenuState.visible && (
-				<ContextMenuContainer
-					x={contextMenuState.x}
-					y={contextMenuState.y}
-					ref={contextMenuRef}
-				>
-					<ContextMenuItem
-						className={`${isHighlighted() && style.inverted_svg}`}
-						onClick={handleAddSelection}
-					>
-						<HighlightIcon />
-					</ContextMenuItem>
-				</ContextMenuContainer>
-			)}
 		</>
 	);
 };
