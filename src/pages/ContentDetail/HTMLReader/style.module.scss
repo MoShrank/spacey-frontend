@@ -45,3 +45,15 @@
 ::highlight(text-highlight) {
 	background-color: rgba(190, 189, 255, 0.5);
 }
+
+.inverted_svg {
+	background-color: colors.$darkblue !important;
+
+	svg {
+		color: white;
+		path {
+			//fill: white;
+			fill: currentColor;
+		}
+	}
+}

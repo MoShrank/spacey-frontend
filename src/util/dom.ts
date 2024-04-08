@@ -27,7 +27,7 @@ export const generatePathForNode = (root: Node, targetNode: Node) => {
 	return path;
 };
 
-interface RangeDetailsI {
+export interface RangeDetailsI {
 	startPath: string;
 	endPath: string;
 	startOffset: number;

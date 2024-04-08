@@ -1,29 +1,42 @@
-import { useRef, useState } from "react";
-
-declare class Highlight {
-	constructor(...range: Range[]);
-
-	add(range: Range): void;
-}
+import { useEffect, useRef, useState } from "react";
+import Highlighter from "util/highlighter";
 
 const useHighlight = () => {
 	const root = useRef<HTMLDivElement>(null);
 	const [selectedRange, setSelectedRange] = useState<Range | null>(null);
 	const [selectedText, setSelectedText] = useState<string | null>(null);
+	const highlightRef = useRef<Highlighter>();
 
-	const [highlights] = useState<Highlight>(new Highlight());
-	// eslint-disable-next-line
-	// @ts-ignore
-	CSS.highlights.set("text-highlight", highlights);
+	useEffect(() => {
+		if (root.current && !highlightRef.current) {
+			highlightRef.current = new Highlighter(root.current);
+		}
+	}, [root.current]);
+
+	const isHighlighted = (range?: Range) => {
+		const rangeToCheck = range || selectedRange;
+		if (!rangeToCheck || !highlightRef.current) return false;
+		return highlightRef.current.has(rangeToCheck) || false;
+	};
 
 	const highlight = (range?: Range) => {
 		const rangeToHighlight = range || selectedRange;
 
-		if (!root.current || !rangeToHighlight) return;
+		if (!root.current || !rangeToHighlight || !highlightRef.current) return;
 
-		highlights.add(rangeToHighlight);
+		highlightRef.current.add(rangeToHighlight);
 
 		return rangeToHighlight;
+	};
+
+	const unhighlight = (range?: Range) => {
+		const rangeToUnhighlight = range || selectedRange;
+
+		if (!root.current || !rangeToUnhighlight || !highlightRef.current) return;
+
+		const deletedRange = highlightRef.current.delete(rangeToUnhighlight);
+
+		return deletedRange;
 	};
 
 	const select = () => {
@@ -43,7 +56,9 @@ const useHighlight = () => {
 		root,
 		selectedText,
 		highlight,
+		unhighlight,
 		select,
+		isHighlighted,
 	};
 };
 

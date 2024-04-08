@@ -5,6 +5,7 @@ import {
 	updateAnnotations,
 } from "api/content";
 import { AnnotationI, ContentI } from "types/content";
+import { RangeDetailsI } from "util/dom";
 
 export const createContentAction = async (source: string | File | null) => {
 	if (!source) {
@@ -70,5 +71,35 @@ export const addAnnotationAction = async (
 		};
 	} catch (e) {
 		throw Error("Error adding annotation.");
+	}
+};
+
+export const deleteAnnotationAction = async (
+	contentID: string,
+	annotations: AnnotationI[],
+	annotationToDelete: RangeDetailsI,
+) => {
+	try {
+		const newAnnotations = annotations.filter(
+			annotation =>
+				annotation.start_path !== annotationToDelete.startPath ||
+				annotation.end_path !== annotationToDelete.endPath ||
+				annotation.start_offset !== annotationToDelete.startOffset ||
+				annotation.end_offset !== annotationToDelete.endOffset,
+		);
+
+		await updateAnnotations(contentID, newAnnotations);
+		return (curState: Array<ContentI>) => {
+			const updateContent = curState.map(oldContentInst => {
+				if (oldContentInst.id === contentID) {
+					return { ...oldContentInst, annotations: newAnnotations };
+				}
+				return oldContentInst;
+			});
+
+			return { content: updateContent };
+		};
+	} catch (e) {
+		throw Error("Error deleting annotation.");
 	}
 };

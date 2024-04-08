@@ -1,4 +1,8 @@
-import { addAnnotationAction, deleteContentAction } from "actions/content";
+import {
+	addAnnotationAction,
+	deleteAnnotationAction,
+	deleteContentAction,
+} from "actions/content";
 import { downloadFile } from "api/content";
 import ContentToolbar from "components/ContentToolbar";
 import Error from "components/Error";
@@ -16,6 +20,7 @@ import useStore from "hooks/useStore";
 import { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { AnnotationI } from "types/content";
+import { RangeDetailsI } from "util/dom";
 
 import HTMLReader from "./HTMLReader";
 import style from "./style.module.scss";
@@ -52,6 +57,11 @@ const ContentDetail = () => {
 	const [, , addAnnotation] = useAction(
 		state => state.content,
 		addAnnotationAction,
+	);
+
+	const [, , deleteAnnotation] = useAction(
+		state => state.content,
+		deleteAnnotationAction,
 	);
 
 	if (!content) {
@@ -108,6 +118,10 @@ const ContentDetail = () => {
 		addAnnotation(content.id, content.annotations, annotation);
 	};
 
+	const onDeleteAnnotation = (annotation: RangeDetailsI) => {
+		deleteAnnotation(content.id, content.annotations, annotation);
+	};
+
 	let ContentComp = null;
 
 	if (showSummary) ContentComp = <Markdown>{content.summary}</Markdown>;
@@ -129,6 +143,7 @@ const ContentDetail = () => {
 				onClickIMG={onClickImg}
 				annotations={content.annotations}
 				onAddAnnotation={onAddAnnotation}
+				onDeleteAnnotation={onDeleteAnnotation}
 			>
 				{content.view_text}
 			</HTMLReader>

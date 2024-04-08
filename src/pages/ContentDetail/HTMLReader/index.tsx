@@ -17,7 +17,7 @@ import parse, {
 } from "html-react-parser";
 import { useEffect } from "react";
 import { AnnotationI } from "types/content";
-import { deserialiseRange, serialiseRange } from "util/dom";
+import { RangeDetailsI, deserialiseRange, serialiseRange } from "util/dom";
 
 import style from "./style.module.scss";
 
@@ -26,11 +26,13 @@ interface HTMLReaderI {
 	onClickIMG: (src: string) => void;
 	annotations: AnnotationI[];
 	onAddAnnotation: (annotation: AnnotationI) => void;
+	onDeleteAnnotation: (annotation: RangeDetailsI) => void;
 }
 
 const HTMLReader = ({
 	annotations,
 	onAddAnnotation,
+	onDeleteAnnotation,
 	children = "",
 	onClickIMG,
 }: HTMLReaderI) => {
@@ -46,6 +48,8 @@ const HTMLReader = ({
 		root: readerRootRef,
 		highlight,
 		select,
+		isHighlighted,
+		unhighlight,
 	} = useHighlight();
 
 	useEffect(() => {
@@ -67,7 +71,7 @@ const HTMLReader = ({
 
 			highlight(range);
 		}
-	}, [annotations, readerRootRef.current]);
+	}, [readerRootRef.current]);
 
 	const options: HTMLReactParserOptions = {
 		replace(domNode: DOMNode) {
@@ -120,24 +124,31 @@ const HTMLReader = ({
 	const parsedText = parse(children, options);
 
 	const handleAddSelection = () => {
-		const newAnnotationRange = highlight();
+		if (isHighlighted()) {
+			const rangeToDelete = unhighlight();
+			if (!rangeToDelete) return;
+			onDeleteAnnotation(rangeToDelete);
+		} else {
+			const newAnnotationRange = highlight();
 
-		if (!newAnnotationRange || !selectedText || !readerRootRef.current) return;
+			if (!newAnnotationRange || !selectedText || !readerRootRef.current) return;
 
-		const { startPath, endPath, startOffset, endOffset } = serialiseRange(
-			readerRootRef.current as Node,
-			newAnnotationRange,
-		);
-		const newAnnotation = {
-			start_path: startPath,
-			end_path: endPath,
-			start_offset: startOffset,
-			end_offset: endOffset,
-			text: selectedText,
-			color: "default",
-		};
+			const { startPath, endPath, startOffset, endOffset } = serialiseRange(
+				readerRootRef.current as Node,
+				newAnnotationRange,
+			);
+			const newAnnotation = {
+				start_path: startPath,
+				end_path: endPath,
+				start_offset: startOffset,
+				end_offset: endOffset,
+				text: selectedText,
+				color: "default",
+			};
 
-		onAddAnnotation(newAnnotation);
+			onAddAnnotation(newAnnotation);
+		}
+
 		hide();
 	};
 
@@ -185,7 +196,10 @@ const HTMLReader = ({
 					y={contextMenuState.y}
 					ref={contextMenuRef}
 				>
-					<ContextMenuItem onClick={handleAddSelection}>
+					<ContextMenuItem
+						className={`${isHighlighted() && style.inverted_svg}`}
+						onClick={handleAddSelection}
+					>
 						<HighlightIcon />
 					</ContextMenuItem>
 				</ContextMenuContainer>
