@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import { ComponentProps, forwardRef } from "react";
 import { combineStyles } from "util/css";
 
 import style from "./style.module.scss";
@@ -19,26 +19,24 @@ const colors = {
 	red: "#c81c23",
 };
 
-const Text = ({
-	children,
-	color,
-	align,
-	style: textStyle,
-	className,
-	...rest
-}: TextProps) => {
-	const colorStyle = color ? colors[color] : colors.darkblue;
-	const alignStyle = align ? align : "left";
+const Text = forwardRef<HTMLDivElement, TextProps>(
+	({ children, color, align, style: textStyle, className, ...rest }, ref) => {
+		const colorStyle = color ? colors[color] : colors.darkblue;
+		const alignStyle = align ? align : "left";
 
-	return (
-		<p
-			style={{ color: colorStyle, textAlign: alignStyle, ...textStyle }}
-			className={combineStyles(style.text, className)}
-			{...rest}
-		>
-			{children}
-		</p>
-	);
-};
+		return (
+			<p
+				ref={ref}
+				style={{ color: colorStyle, textAlign: alignStyle, ...textStyle }}
+				className={combineStyles(style.text, className)}
+				{...rest}
+			>
+				{children}
+			</p>
+		);
+	},
+);
+
+Text.displayName = "Text";
 
 export default Text;

@@ -74,18 +74,21 @@ export const CardReview = ({
 	noteID,
 	deckID,
 }: CardReviewI) => {
-	const [indices, setIndices] = useState({ start: 0, end: 0 });
+	const [cardSelectedIndices, setSelectedCardIndices] = useState<
+		{ start: number; end: number } | undefined
+	>(undefined);
+
 	const [, , generateCardCall] = useActionZ(
 		state => state.notes,
 		generateCardAction,
 	);
 
 	const onHoverIn = (start: number, end: number) => {
-		setIndices({ start, end });
+		setSelectedCardIndices({ start, end });
 	};
 
 	const onHoverOut = () => {
-		setIndices({ start: 0, end: 0 });
+		setSelectedCardIndices(undefined);
 	};
 
 	const onGenerateCard = (start: number, end: number) => {
@@ -99,20 +102,10 @@ export const CardReview = ({
 		});
 	};
 
-	const sectionIndices = cards.map(card => ({
+	const highlightedSection = cards.map(card => ({
 		start: card.source_start_index,
 		end: card.source_end_index,
-		type: "default" as const,
 	}));
-
-	const highlightedSection = [
-		...sectionIndices,
-		{
-			start: indices.start,
-			end: indices.end,
-			type: "cardSelected" as const,
-		},
-	].filter(({ start, end }) => !(start === 0 && end === 0));
 
 	const CL = (
 		<CardList
@@ -130,14 +123,13 @@ export const CardReview = ({
 				CL
 			) : (
 				<div className={style.divider}>
-					<div className={style.text_container}>
-						<Highlight
-							highlightSections={highlightedSection}
-							onGenerateCard={onGenerateCard}
-						>
-							{text}
-						</Highlight>
-					</div>
+					<Highlight
+						highlightSections={highlightedSection}
+						selectedCard={cardSelectedIndices}
+						onGenerateCard={onGenerateCard}
+					>
+						{text}
+					</Highlight>
 					{CL}
 				</div>
 			)}

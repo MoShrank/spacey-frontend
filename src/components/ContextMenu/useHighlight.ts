@@ -19,22 +19,35 @@ const useHighlight = () => {
 		return highlightRef.current.has(rangeToCheck) || false;
 	};
 
-	const highlight = (range?: Range) => {
+	const highlight = (
+		range?: Range,
+		cssSelector?: string | undefined,
+		priority?: number,
+	) => {
 		const rangeToHighlight = range || selectedRange;
 
 		if (!root.current || !rangeToHighlight || !highlightRef.current) return;
 
-		highlightRef.current.add(rangeToHighlight);
-
+		highlightRef.current.add(rangeToHighlight, cssSelector, priority);
 		return rangeToHighlight;
 	};
 
-	const unhighlight = (range?: Range) => {
-		const rangeToUnhighlight = range || selectedRange;
+	const unhighlight = (
+		range?: Range,
+		cssSelector?: string | undefined,
+		deleteAll?: boolean,
+	) => {
+		let rangeToUnhighlight;
+		if (deleteAll) rangeToUnhighlight = undefined;
+		else rangeToUnhighlight = range || selectedRange;
 
-		if (!root.current || !rangeToUnhighlight || !highlightRef.current) return;
+		if (!root.current || !highlightRef.current || rangeToUnhighlight === null)
+			return;
 
-		const deletedRange = highlightRef.current.delete(rangeToUnhighlight);
+		const deletedRange = highlightRef.current.delete(
+			rangeToUnhighlight,
+			cssSelector,
+		);
 
 		return deletedRange;
 	};

@@ -44,6 +44,10 @@
 	background-color: colors.$lightgray;
 }
 
+::highlight(card-selected-highlight) {
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
 ::highlight(text-highlight) {
 	background-color: rgba(190, 189, 255, 0.5);
 }

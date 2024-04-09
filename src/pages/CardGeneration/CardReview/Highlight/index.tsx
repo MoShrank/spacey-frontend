@@ -4,36 +4,19 @@ import {
 	ContextMenuContainer,
 	ContextMenuItem,
 	useContextMenu,
+	useHighlight,
 } from "components/ContextMenu";
 import Text from "components/Text";
-import { useState } from "react";
+import useSelectionChange from "hooks/useSelectionChange";
+import { useEffect, useRef, useState } from "react";
 
 import style from "./style.module.scss";
 
-type HighlightTypes = "default" | "cardSelected" | "textSelected";
-
-const styleHighlighMapping = {
-	default: style.default,
-	cardSelected: style.card_selected,
-	textSelected: style.text_selected,
-};
-
-interface Section {
-	start: number;
-	end: number;
-	type: HighlightTypes;
-}
-
-interface HighlightI {
-	highlightSections: Section[];
-	children: string;
-	onGenerateCard: (start: number, end: number) => void;
-}
-
-const colorPriority = {
-	default: 3,
-	cardSelected: 2,
-	textSelected: 1,
+const createRange = (start: number, end: number, node: Node) => {
+	const range = new Range();
+	range.setStart(node, start);
+	range.setEnd(node, end);
+	return range;
 };
 
 interface SelectionI {
@@ -41,10 +24,18 @@ interface SelectionI {
 	end: number;
 }
 
+interface HighlightI {
+	highlightSections: SelectionI[];
+	selectedCard: SelectionI | undefined;
+	children: string;
+	onGenerateCard: (start: number, end: number) => void;
+}
+
 const HighlightedText = ({
 	children,
 	highlightSections,
 	onGenerateCard,
+	selectedCard,
 }: HighlightI) => {
 	const [selection, setSelection] = useState<SelectionI | undefined>(undefined);
 	const {
@@ -52,92 +43,83 @@ const HighlightedText = ({
 		show,
 		hide,
 		contextMenuRef,
+		calcContextMenuPosition,
 	} = useContextMenu();
 
-	// Sort sections by starting index and color priority
-	highlightSections.sort((a, b) => {
-		if (a.start === b.start) {
-			return colorPriority[a.type] - colorPriority[b.type];
+	const contextMenuContainerRef = useRef<HTMLDivElement>(null);
+
+	const { root: editorRootRef, highlight, unhighlight } = useHighlight();
+
+	useEffect(() => {
+		if (!editorRootRef.current) return;
+		unhighlight(undefined, undefined, true);
+		for (const section of highlightSections) {
+			const { start, end } = section;
+
+			const range = createRange(start, end, editorRootRef.current.childNodes[0]);
+
+			highlight(range);
 		}
-		return a.start - b.start;
-	});
+	}, [editorRootRef.current, highlightSections]);
 
-	// Merge overlapping sections based on priority
-	const mergedSections = highlightSections.reduce(
-		(sections: Section[], section) => {
-			const lastSection = sections[sections.length - 1];
-			if (lastSection && lastSection.end >= section.start) {
-				if (colorPriority[lastSection.type] <= colorPriority[section.type]) {
-					lastSection.end = Math.max(lastSection.end, section.end);
-				}
-			} else {
-				sections.push(section);
-			}
-			return sections;
-		},
-		[],
-	);
+	useEffect(() => {
+		if (!editorRootRef.current) return;
 
-	// Generate highlighted text
-	const highlightedText = [];
-	let currentIndex = 0;
+		if (selectedCard) {
+			const { start, end } = selectedCard;
+			const range = createRange(start, end, editorRootRef.current.childNodes[0]);
 
-	mergedSections.forEach(section => {
-		if (currentIndex < section.start) {
-			highlightedText.push(
-				<span key={currentIndex}>
-					{children.slice(currentIndex, section.start)}
-				</span>,
-			);
+			highlight(range, "card-selected-highlight", 5);
+		} else {
+			unhighlight(undefined, "card-selected-highlight", true);
 		}
-		highlightedText.push(
-			<span key={section.start} className={styleHighlighMapping[section.type]}>
-				{children.slice(section.start, section.end)}
-			</span>,
-		);
-		currentIndex = section.end;
-	});
+	}, [editorRootRef.current, selectedCard]);
 
-	if (currentIndex < children.length) {
-		highlightedText.push(
-			<span key={currentIndex}>{children.slice(currentIndex)}</span>,
-		);
-	}
-
-	const onContextMenu = (e: React.MouseEvent) => {
+	const onContextMenu = () => {
 		const selection = window.getSelection();
-		if (selection) {
-			e.preventDefault();
-			e.stopPropagation();
-
+		if (selection && !selection.isCollapsed && contextMenuContainerRef.current) {
 			const range = selection.getRangeAt(0);
 			const start = range.startOffset;
 			const end = range.endOffset;
 
 			setSelection({ start, end });
 
-			show(e);
+			const pos = calcContextMenuPosition(
+				range,
+				contextMenuContainerRef.current,
+				2,
+			);
+			show(pos);
 		}
-	};
-
-	const handleCloseContextMenu = () => {
-		hide();
 	};
 
 	const handleGenerateCard = () => {
 		if (!selection) return;
 
 		onGenerateCard(selection.start, selection.end);
-		handleCloseContextMenu();
+		hide();
 	};
 
 	const handleCreateCard = () => {
-		// code to create card
-		handleCloseContextMenu();
+		// TODO: code to create card
+		hide();
 	};
 
+	useSelectionChange(() => {
+		onContextMenu();
+	});
+
 	return (
-		<>
+		<div
+			ref={contextMenuContainerRef}
+			style={{
+				position: "relative",
+				display: "flex",
+			}}
+		>
+			<div className={style.text_container}>
+				<Text ref={editorRootRef}>{children}</Text>
+			</div>
 			{contextMenuState.visible && (
 				<ContextMenuContainer
 					ref={contextMenuRef}
@@ -152,8 +134,7 @@ const HighlightedText = ({
 					</ContextMenuItem>
 				</ContextMenuContainer>
 			)}
-			<Text onContextMenu={onContextMenu}>{highlightedText}</Text>
-		</>
+		</div>
 	);
 };
 

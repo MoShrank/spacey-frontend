@@ -8,7 +8,6 @@ import {
 } from "components/ContextMenu";
 import Header from "components/Header";
 import Text from "components/Text";
-import useMediaQuery from "hooks/useMediaQuery";
 import useSelectionChange from "hooks/useSelectionChange";
 import parse, {
 	DOMNode,
@@ -40,6 +39,7 @@ const HTMLReader = ({
 		state: contextMenuState,
 		show,
 		hide,
+		calcContextMenuPosition,
 		contextMenuRef,
 	} = useContextMenu();
 
@@ -152,31 +152,11 @@ const HTMLReader = ({
 		hide();
 	};
 
-	const isMobile = useMediaQuery("(max-width: 500px)");
-
 	const showContextMenu = () => {
 		const range = select();
 		if (range && readerRootRef.current) {
-			const rect = range.getBoundingClientRect();
-			const readerRootRect = readerRootRef.current.getBoundingClientRect();
-
-			// show context menu above and in the
-			// middle of the selected text
-			const contextMenuHeight = 40;
-			const noContextMenuItems = 1;
-			const contextMenuWidth =
-				40 * noContextMenuItems + 1 * (noContextMenuItems - 1); // 40px per item + 1px border between items
-
-			const x = rect.x + rect.width / 2 - contextMenuWidth / 2 - readerRootRect.x;
-			let y = rect.y - readerRootRect.y;
-
-			if (isMobile) {
-				y += rect.height + 5;
-			} else {
-				y -= contextMenuHeight + 5;
-			}
-
-			show(undefined, x, y);
+			const pos = calcContextMenuPosition(range, readerRootRef.current);
+			show(pos);
 		}
 	};
 

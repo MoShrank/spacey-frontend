@@ -1,17 +1,21 @@
 @use "../../../../styles/colors.scss";
 
-.default {
-	background-color: rgba(255, 255, 0, 0.197);
-	text-decoration: underline;
-	text-decoration-color: rgb(255, 255, 0);
+::highlight(text-highlight) {
+	background-color: rgba(190, 189, 255, 0.5);
 }
 
-.card_selected {
-	background-color: #d37600;
-	text-decoration: underline;
-}
+.text_container {
+	resize: horizontal;
+	padding: 8px;
+	margin: {
+		top: 8px;
+		bottom: 8px;
+		left: 16px;
+		right: 16px;
+	}
+	overflow: auto;
+	border-radius: 20px;
 
-.text_selected {
-	background-color: #00ff00;
-	text-decoration: underline;
+	border: 1px solid colors.$lightgray;
+	background: colors.$lightblue;
 }

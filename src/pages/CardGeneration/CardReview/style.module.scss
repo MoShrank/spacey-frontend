@@ -12,7 +12,6 @@
 .divider {
 	display: flex;
 	flex: 1;
-	overflow: hidden;
 }
 
 .divider > :first-child {
@@ -21,20 +20,4 @@
 
 .divider > :last-child {
 	min-width: 25%;
-}
-
-.text_container {
-	resize: horizontal;
-	padding: 8px;
-	margin: {
-		top: 8px;
-		bottom: 8px;
-		left: 16px;
-		right: 16px;
-	}
-	overflow: auto;
-	border-radius: 20px;
-
-	border: 1px solid colors.$lightgray;
-	background: colors.$lightblue;
 }
