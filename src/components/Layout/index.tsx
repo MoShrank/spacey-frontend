@@ -5,7 +5,7 @@ import { combineStyles } from "util/css";
 
 import style from "./style.module.scss";
 
-export type widthOptions = "extendedFull" | "full" | "normal";
+export type widthOptions = "extendedFull" | "full" | "normal" | "reader";
 
 interface LayoutPropsI {
 	width?: widthOptions;
@@ -18,6 +18,7 @@ const widthOptionClassMap = {
 	extendedFull: style.extended_full,
 	full: style.full,
 	normal: style.normal,
+	reader: style.reader,
 };
 
 const Content = ({
@@ -48,8 +49,12 @@ const Layout = ({
 
 	let Con = children;
 
-	if (width === "normal") {
-		Con = <Content className={style.normal}>{Con}</Content>;
+	if (width === "normal" || width === "reader") {
+		Con = (
+			<Content className={width === "normal" ? style.normal : style.reader}>
+				{Con}
+			</Content>
+		);
 	}
 
 	return (

@@ -153,14 +153,13 @@ const ContentDetail = () => {
 	if (showFocus) {
 		return (
 			<Modal>
-				<ModalLayout onClose={() => setShowFocus(false)}>
+				<ModalLayout width="reader" onClose={() => setShowFocus(false)}>
 					<Header align="center" kind="h3">
 						{content.title}
 					</Header>
 					<Spacer spacing={1} />
 					{ContentComp}
 				</ModalLayout>
-
 				{zoomPictureSrc && (
 					<Modal nodeID="second-modal">
 						<IMGModal src={zoomPictureSrc} onClose={() => setZoomPictureSrc(null)} />
@@ -171,7 +170,7 @@ const ContentDetail = () => {
 	}
 
 	return (
-		<Layout width="normal">
+		<Layout width="reader">
 			<Spacer spacing={2} />
 			<ContentToolbar
 				onGenerateCards={onGenerateCards}

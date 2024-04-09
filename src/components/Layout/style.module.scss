@@ -38,6 +38,10 @@
 	max-width: vars.$content-width;
 }
 
+.reader {
+	max-width: vars.$reader-width;
+}
+
 .content_area {
 	padding-top: calc(vars.$navbar-height + 8px);
 	padding-bottom: 8px;

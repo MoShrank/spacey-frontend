@@ -2,6 +2,8 @@
 
 .readability_content {
 	position: relative;
+	font-family: sans-serif;
+	line-height: 1.6em;
 
 	picture {
 		max-width: 100%;
@@ -28,16 +30,19 @@
 	font-size: 1.6em;
 	line-height: 1.5em;
 	font-weight: bold;
+	margin: 12px;
 }
 
 .h2 {
 	font-size: 1.3em;
 	font-weight: bold;
+	margin: 10px;
 }
 
 .h3 {
 	font-size: 1.2em;
 	font-weight: bold;
+	margin: 8px;
 }
 
 .highlight {
