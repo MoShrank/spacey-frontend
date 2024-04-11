@@ -43,7 +43,6 @@
 }
 
 .content_area {
-	padding-top: calc(vars.$navbar-height + 8px);
 	padding-bottom: 8px;
 	background-color: white;
 	flex: 1;
@@ -55,4 +54,13 @@
 	width: 100%;
 	position: relative;
 	overflow: inherit;
+}
+
+.with_navbar {
+	margin-top: calc(vars.$navbar-height);
+	padding-top: 8px;
+}
+
+.without_navbar {
+	padding-top: calc(vars.$navbar-height + 8px);
 }

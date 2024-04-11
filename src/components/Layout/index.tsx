@@ -46,6 +46,7 @@ const Layout = ({
 	navbar = true,
 }: LayoutPropsI) => {
 	const widthClass = widthOptionClassMap[width];
+	const headerGapClass = navbar ? style.with_navbar : style.without_navbar;
 
 	let Con = children;
 
@@ -60,7 +61,9 @@ const Layout = ({
 	return (
 		<div className={combineStyles(style.container, className)}>
 			{navbar && <Navbar />}
-			<ContentArea className={widthClass}>{Con}</ContentArea>
+			<ContentArea className={combineStyles(widthClass, headerGapClass)}>
+				{Con}
+			</ContentArea>
 			<Search />
 		</div>
 	);
