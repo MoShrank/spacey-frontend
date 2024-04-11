@@ -11,6 +11,14 @@ interface ContentCardI {
 const ContentCard = ({ content: content }: ContentCardI) => {
 	return (
 		<Link to={`/content/${content.id}`} className={style.content_container}>
+			{content.image && (
+				<div className={style.image_container}>
+					<img
+						src={`data:image/jpeg;base64,${content.image}`}
+						alt="Dynamic from DB"
+					/>
+				</div>
+			)}
 			<Header className={style.content_name} kind="h3">
 				{content.title}
 			</Header>

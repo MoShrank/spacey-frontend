@@ -19,6 +19,7 @@ export interface ContentI {
 	view_text?: string;
 	storage_ref?: string;
 	source_type?: string;
+	image?: string;
 
 	annotations: AnnotationI[];
 }

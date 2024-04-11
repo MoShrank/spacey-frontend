@@ -5,27 +5,58 @@
 .content_container {
 	cursor: pointer;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row-reverse;
+	justify-content: flex-start;
+
 	border-radius: 20px;
 	border: 1px solid colors.$lightgray;
 	width: 100%;
 	position: relative;
 	height: 132px;
 	min-height: 132px;
-	border-radius: 20px;
-	position: flex;
-	justify-content: flex-start;
-	align-items: flex-start;
-	padding: 20px;
+
+	overflow: hidden;
 
 	@include animations.scale_hover;
 
 	@include breakpoints.s {
 		width: 224px;
 		height: 262px;
+		flex-direction: column;
 	}
 
 	.content_name {
-		word-break: break-all;
+		margin: 16px;
+		display: flex;
+		flex: 1;
+
+		display: -webkit-box;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+
+		@include breakpoints.s {
+			-webkit-line-clamp: 5;
+			height: 60%;
+			width: auto;
+		}
+	}
+
+	.image_container {
+		height: 100%;
+		min-width: 35%;
+		width: 35%;
+		overflow: hidden;
+
+		@include breakpoints.s {
+			width: 100%;
+			height: 40%;
+		}
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
 	}
 }
