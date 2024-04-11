@@ -13,9 +13,10 @@ import "./style.scss";
 
 const Login = () => {
 	const location = useLocation();
-	const { from } = (location.state as { from: { pathname: string } }) || {
+	let { from } = (location.state as { from: { pathname: string } }) || {
 		from: { pathname: "/" },
 	};
+	if (from.pathname === "/logout") from = { pathname: "/" };
 
 	const setIsLoggedIn = useStore(state => state.setIsLoggedIn);
 
