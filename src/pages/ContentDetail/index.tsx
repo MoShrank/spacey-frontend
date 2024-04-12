@@ -150,10 +150,35 @@ const ContentDetail = () => {
 		);
 	}
 
+	const [scrollProgress, setScrollProgress] = useState(0);
+
+	useEffect(() => {
+		const contentArea = document.getElementById("content_area");
+
+		if (!contentArea) return;
+
+		const onScroll = () => {
+			const scrollTop = contentArea.scrollTop;
+			const scrollHeight = contentArea.scrollHeight - contentArea.clientHeight;
+			const progress = (scrollTop / scrollHeight) * 100;
+			setScrollProgress(Math.round(progress * 100) / 100);
+		};
+
+		contentArea.addEventListener("scroll", onScroll);
+
+		return () => {
+			contentArea.removeEventListener("scroll", onScroll);
+		};
+	}, []);
+
 	if (showFocus) {
 		return (
 			<Modal>
 				<ModalLayout width="reader" onClose={() => setShowFocus(false)}>
+					<div
+						style={{ width: `${scrollProgress}vw` }}
+						className={style.scroll_progress_bar}
+					></div>
 					<Header align="center" kind="h3">
 						{content.title}
 					</Header>

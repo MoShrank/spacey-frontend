@@ -36,7 +36,12 @@ const ContentArea = ({
 	children: React.ReactNode;
 	className?: string;
 }) => (
-	<div className={combineStyles(style.content_area, className)}>{children}</div>
+	<div
+		id="content_area"
+		className={combineStyles(style.content_area, className)}
+	>
+		{children}
+	</div>
 );
 
 const Layout = ({

@@ -1,3 +1,5 @@
+@use "../../styles/colors.scss";
+
 .zoomed_img_container {
 	position: fixed;
 	top: 0;
@@ -19,4 +21,12 @@
 		border: 1px solid black;
 		border-radius: 4px;
 	}
+}
+
+.scroll_progress_bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 5px;
+	background-color: colors.$darkblue;
 }
