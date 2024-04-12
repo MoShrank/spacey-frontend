@@ -169,7 +169,7 @@ const ContentDetail = () => {
 		return () => {
 			contentArea.removeEventListener("scroll", onScroll);
 		};
-	}, []);
+	}, [showFocus]);
 
 	if (showFocus) {
 		return (
