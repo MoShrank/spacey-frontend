@@ -23,6 +23,7 @@ import { AnnotationI } from "types/content";
 import { RangeDetailsI } from "util/dom";
 
 import HTMLReader from "./HTMLReader";
+import PDFViewer from "./PDFViewer";
 import style from "./style.module.scss";
 
 interface IMGModalI {
@@ -124,18 +125,32 @@ const ContentDetail = () => {
 
 	let ContentComp = null;
 
+	const [pdfScale, setPdfScale] = useState<undefined | number>(undefined);
+
+	const zoomIn = () => {
+		if (pdfScale === undefined) {
+			setPdfScale(1);
+			return;
+		}
+		if (pdfScale >= 2) return;
+		setPdfScale(pdfScale + 0.1);
+	};
+
+	const zoomOut = () => {
+		if (pdfScale === undefined) {
+			setPdfScale(1);
+			return;
+		}
+		if (pdfScale <= 0.5) return;
+		setPdfScale(pdfScale - 0.1);
+	};
+
 	if (showSummary) ContentComp = <Markdown>{content.summary}</Markdown>;
 	else if (isFile) {
 		if (!file) {
 			ContentComp = <Loader size="large" />;
 		} else {
-			ContentComp = (
-				<iframe
-					src={file}
-					style={{ width: "100%", height: "100%", border: "none" }}
-					title="PDF Viewer"
-				></iframe>
-			);
+			ContentComp = <PDFViewer pdfScale={pdfScale} src={file} />;
 		}
 	} else {
 		ContentComp = (
@@ -143,8 +158,7 @@ const ContentDetail = () => {
 				onClickIMG={onClickImg}
 				annotations={content.annotations}
 				onAddAnnotation={onAddAnnotation}
-				onDeleteAnnotation={onDeleteAnnotation}
-			>
+				onDeleteAnnotation={onDeleteAnnotation}>
 				{content.view_text}
 			</HTMLReader>
 		);
@@ -169,7 +183,7 @@ const ContentDetail = () => {
 		return () => {
 			contentArea.removeEventListener("scroll", onScroll);
 		};
-	}, []);
+	}, [showFocus]);
 
 	if (showFocus) {
 		return (
@@ -177,8 +191,7 @@ const ContentDetail = () => {
 				<ModalLayout width="reader" onClose={() => setShowFocus(false)}>
 					<div
 						style={{ width: `${scrollProgress}vw` }}
-						className={style.scroll_progress_bar}
-					></div>
+						className={style.scroll_progress_bar}></div>
 					<Header align="center" kind="h3">
 						{content.title}
 					</Header>
@@ -200,6 +213,9 @@ const ContentDetail = () => {
 			<ContentToolbar
 				onGenerateCards={onGenerateCards}
 				handleDelete={handleDelete}
+				isPDF={isFile}
+				zoomIn={zoomIn}
+				zoomOut={zoomOut}
 				handleOpenFocusModus={() => setShowFocus(true)}
 				processingStatus={content.processing_status}
 			/>

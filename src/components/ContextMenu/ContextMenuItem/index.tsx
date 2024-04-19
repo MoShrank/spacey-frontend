@@ -4,7 +4,7 @@ import style from "./style.module.scss";
 
 interface ContextMenuItemI {
 	children: React.ReactNode;
-	onClick: () => void;
+	onClick?: () => void;
 	className?: string;
 }
 
@@ -16,8 +16,7 @@ const ContextMenuItem = ({
 	return (
 		<div
 			className={combineStyles(style.context_menu_item, className)}
-			onClick={onClick}
-		>
+			onClick={onClick}>
 			{children}
 		</div>
 	);

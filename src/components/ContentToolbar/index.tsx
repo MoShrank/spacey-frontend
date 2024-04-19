@@ -1,6 +1,8 @@
 import { ReactComponent as Arrow } from "assets/icons/arrow.svg";
 import { ReactComponent as CardsIcon } from "assets/icons/cards.svg";
 import { ReactComponent as ZoomIcon } from "assets/icons/zoom.svg";
+import { ReactComponent as ZoomPDFInIcon } from "assets/icons/zoom_in.svg";
+import { ReactComponent as ZoomPDFOutIcon } from "assets/icons/zoom_out.svg";
 import IconButton from "components/IconButton";
 import SmallDeleteDialog from "components/SmallDeleteDialog";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +15,9 @@ interface ContentToolbarPropsI {
 	onGenerateCards: (e: React.MouseEvent<HTMLElement>) => void;
 	handleDelete: () => void;
 	handleOpenFocusModus: () => void;
+	zoomIn: () => void;
+	zoomOut: () => void;
+	isPDF: boolean;
 	processingStatus: ProcessingStatus;
 }
 
@@ -20,6 +25,9 @@ const ContentToolbar = ({
 	onGenerateCards,
 	handleDelete,
 	handleOpenFocusModus,
+	zoomIn,
+	zoomOut,
+	isPDF,
 	processingStatus,
 }: ContentToolbarPropsI) => {
 	const navigate = useNavigate();
@@ -30,6 +38,22 @@ const ContentToolbar = ({
 				icon={<Arrow fill={colors.darkblue} />}
 				onClick={() => navigate("/")}
 			/>
+
+			{isPDF && (
+				<>
+					<IconButton
+						icon={<ZoomPDFInIcon />}
+						onClick={zoomIn}
+						disabled={processingStatus != "processed"}
+					/>
+					<IconButton
+						icon={<ZoomPDFOutIcon />}
+						onClick={zoomOut}
+						disabled={processingStatus != "processed"}
+					/>
+				</>
+			)}
+
 			<IconButton
 				icon={<ZoomIcon />}
 				onClick={handleOpenFocusModus}

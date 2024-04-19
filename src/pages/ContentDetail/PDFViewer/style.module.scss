@@ -1,0 +1,12 @@
+.pdf_container {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	flex-grow: 1;
+}
+
+.context_menu_item {
+	background-color: white;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+}
