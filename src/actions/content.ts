@@ -3,6 +3,7 @@ import {
 	deleteContent,
 	getContent,
 	updateAnnotations,
+	updateContent,
 } from "api/content";
 import { AnnotationI, ContentI } from "types/content";
 import { RangeDetailsI } from "util/dom";
@@ -101,5 +102,26 @@ export const deleteAnnotationAction = async (
 		};
 	} catch (e) {
 		throw Error("Error deleting annotation.");
+	}
+};
+
+export const updateContentAction = async (
+	id: string,
+	update: { readStatus: boolean },
+) => {
+	try {
+		await updateContent(id, update);
+		return (curState: Array<ContentI>) => {
+			const updateContent = curState.map(oldContentInst => {
+				if (oldContentInst.id === id) {
+					return { ...oldContentInst, read_status: update.readStatus };
+				}
+				return oldContentInst;
+			});
+
+			return { content: updateContent };
+		};
+	} catch (e) {
+		throw Error("Error updating content.");
 	}
 };

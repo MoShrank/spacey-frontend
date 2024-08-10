@@ -18,6 +18,7 @@ interface StateData {
 		colors: string[];
 	};
 	globalError: boolean;
+	showSearch: boolean;
 
 	// local state
 	deck: DeckI | undefined;
@@ -31,6 +32,7 @@ export interface ZustandStateI extends StateData {
 	setUser: (user: UserI) => void;
 	setNotes: (notes: Record<string, NoteI>) => void;
 	resetSearchResults: () => void;
+	setShowSearch: (show: boolean) => void;
 }
 
 export const initialState: StateData = {
@@ -48,6 +50,7 @@ export const initialState: StateData = {
 	globalError: false,
 	deck: undefined,
 	learningSession: undefined,
+	showSearch: true,
 };
 
 export const useStore = create<ZustandStateI>()(
@@ -60,6 +63,8 @@ export const useStore = create<ZustandStateI>()(
 			setNotes: notes => set(state => ({ ...state, notes: notes })),
 			dispatch: args => set(args as ZustandStateI),
 			setUser: user => set(state => ({ ...state, user })),
+			setShowSearch: (show: boolean) =>
+				set(state => ({ ...state, showSearch: show })),
 			resetSearchResults: () => set(state => ({ ...state, searchResults: [] })),
 			...initialState,
 		}),
@@ -70,7 +75,10 @@ export const useStore = create<ZustandStateI>()(
 			partialize: state =>
 				Object.fromEntries(
 					Object.entries(state).filter(
-						([key]) => !["isLoggedIn", "globalError", "searchResults"].includes(key),
+						([key]) =>
+							!["isLoggedIn", "globalError", "searchResults", "showSearch"].includes(
+								key,
+							),
 					),
 				),
 		},

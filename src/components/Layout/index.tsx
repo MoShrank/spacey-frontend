@@ -1,5 +1,6 @@
 import Navbar from "components/Navbar";
 import Search from "components/Search";
+import useStore from "hooks/useStore";
 import React from "react";
 import { combineStyles } from "util/css";
 
@@ -50,6 +51,7 @@ const Layout = ({
 	width = "normal",
 	navbar = true,
 }: LayoutPropsI) => {
+	const showSearch = useStore(state => state.showSearch);
 	const widthClass = widthOptionClassMap[width];
 	const headerGapClass = navbar ? style.with_navbar : style.without_navbar;
 
@@ -69,7 +71,7 @@ const Layout = ({
 			<ContentArea className={combineStyles(widthClass, headerGapClass)}>
 				{Con}
 			</ContentArea>
-			<Search />
+			{showSearch && <Search />}
 		</div>
 	);
 };

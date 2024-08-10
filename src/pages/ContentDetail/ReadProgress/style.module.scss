@@ -1,0 +1,9 @@
+@use "../../../styles/colors.scss";
+
+.scroll_progress_bar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 5px;
+	background-color: colors.$darkblue;
+}

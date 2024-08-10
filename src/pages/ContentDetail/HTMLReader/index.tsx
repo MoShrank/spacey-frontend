@@ -9,6 +9,7 @@ import {
 import Header from "components/Header";
 import Text from "components/Text";
 import useSelectionChange from "hooks/useSelectionChange";
+import useStore from "hooks/useStore";
 import parse, {
 	DOMNode,
 	HTMLReactParserOptions,
@@ -35,6 +36,8 @@ const HTMLReader = ({
 	children = "",
 	onClickIMG,
 }: HTMLReaderI) => {
+	const setShowSearch = useStore(state => state.setShowSearch);
+
 	const {
 		state: contextMenuState,
 		show,
@@ -51,6 +54,11 @@ const HTMLReader = ({
 		isHighlighted,
 		unhighlight,
 	} = useHighlight();
+
+	useEffect(() => {
+		setShowSearch(false);
+		return () => setShowSearch(true);
+	}, []);
 
 	useEffect(() => {
 		if (!readerRootRef.current) return;

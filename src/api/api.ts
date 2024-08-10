@@ -127,6 +127,10 @@ class API {
 	static async DELETE(url: string): Promise<unknown> {
 		return API.Request(url, "DELETE");
 	}
+
+	static async PATCH(url: string, body: unknown): Promise<unknown> {
+		return API.Request(url, "PATCH", { body });
+	}
 }
 
 export default API;

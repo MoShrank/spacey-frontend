@@ -1,5 +1,6 @@
 import { ReactComponent as Arrow } from "assets/icons/arrow.svg";
 import { ReactComponent as CardsIcon } from "assets/icons/cards.svg";
+import { ReactComponent as CheckMark } from "assets/icons/checkRead.svg";
 import { ReactComponent as ZoomIcon } from "assets/icons/zoom.svg";
 import IconButton from "components/IconButton";
 import SmallDeleteDialog from "components/SmallDeleteDialog";
@@ -10,16 +11,18 @@ import { ProcessingStatus } from "types/content";
 import style from "./style.module.scss";
 
 interface ContentToolbarPropsI {
-	onGenerateCards: (e: React.MouseEvent<HTMLElement>) => void;
+	handleGenerateCards: (e: React.MouseEvent<HTMLElement>) => void;
 	handleDelete: () => void;
 	handleOpenFocusModus: () => void;
+	handleCheckRead?: () => unknown;
 	processingStatus: ProcessingStatus;
 }
 
 const ContentToolbar = ({
-	onGenerateCards,
+	handleGenerateCards,
 	handleDelete,
 	handleOpenFocusModus,
+	handleCheckRead,
 	processingStatus,
 }: ContentToolbarPropsI) => {
 	const navigate = useNavigate();
@@ -30,6 +33,12 @@ const ContentToolbar = ({
 				icon={<Arrow fill={colors.darkblue} />}
 				onClick={() => navigate("/")}
 			/>
+			{handleCheckRead && (
+				<IconButton
+					icon={<CheckMark fill={colors.darkblue} />}
+					onClick={handleCheckRead}
+				/>
+			)}
 			<IconButton
 				icon={<ZoomIcon />}
 				onClick={handleOpenFocusModus}
@@ -37,7 +46,7 @@ const ContentToolbar = ({
 			/>
 			<IconButton
 				icon={<CardsIcon fill={colors.darkblue} />}
-				onClick={onGenerateCards}
+				onClick={handleGenerateCards}
 				disabled={processingStatus != "processed"}
 			/>
 			<SmallDeleteDialog

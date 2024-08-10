@@ -2,6 +2,7 @@ import {
 	addAnnotationAction,
 	deleteAnnotationAction,
 	deleteContentAction,
+	updateContentAction,
 } from "actions/content";
 import { downloadFile } from "api/content";
 import ContentToolbar from "components/ContentToolbar";
@@ -12,9 +13,8 @@ import Layout from "components/Layout";
 import Loader from "components/Loader";
 import Markdown from "components/Markdown";
 import Modal from "components/Modal";
-import ModalLayout from "components/ModalLayout";
 import Spacer from "components/Spacer";
-import { default as useAction, default as useActionZ } from "hooks/useAction";
+import useAction from "hooks/useActionObj";
 import useOnClickOutside from "hooks/useClickOutside";
 import useStore from "hooks/useStore";
 import { useEffect, useRef, useState } from "react";
@@ -22,6 +22,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { AnnotationI } from "types/content";
 import { RangeDetailsI } from "util/dom";
 
+import FocusedReader from "./FocusedReader";
 import HTMLReader from "./HTMLReader";
 import style from "./style.module.scss";
 
@@ -54,14 +55,19 @@ const ContentDetail = () => {
 	const [file, setFile] = useState<string | null>(null);
 	const [fileLoading, setFileLoading] = useState(false);
 
-	const [, , addAnnotation] = useAction(
+	const { action: addAnnotation } = useAction(
 		state => state.content,
 		addAnnotationAction,
 	);
 
-	const [, , deleteAnnotation] = useAction(
+	const { action: deleteAnnotation } = useAction(
 		state => state.content,
 		deleteAnnotationAction,
+	);
+
+	const { action: updateReadStatus } = useAction(
+		state => state.content,
+		updateContentAction,
 	);
 
 	if (!content) {
@@ -91,7 +97,7 @@ const ContentDetail = () => {
 
 	const navigate = useNavigate();
 
-	const [, , deleteWebContent] = useActionZ(
+	const { action: deleteWebContent } = useAction(
 		state => state.content,
 		deleteContentAction,
 	);
@@ -150,57 +156,45 @@ const ContentDetail = () => {
 		);
 	}
 
-	const [scrollProgress, setScrollProgress] = useState(0);
+	const onFinishedReading = () => {
+		const WAIT_TIME_MS = 5000;
 
-	useEffect(() => {
-		const contentArea = document.getElementById("content_area");
+		if (content.read_status) return;
 
-		if (!contentArea) return;
-
-		const onScroll = () => {
-			const scrollTop = contentArea.scrollTop;
-			const scrollHeight = contentArea.scrollHeight - contentArea.clientHeight;
-			const progress = (scrollTop / scrollHeight) * 100;
-			setScrollProgress(Math.round(progress * 100) / 100);
-		};
-
-		contentArea.addEventListener("scroll", onScroll);
-
-		return () => {
-			contentArea.removeEventListener("scroll", onScroll);
-		};
-	}, [showFocus]);
+		setTimeout(() => {
+			updateReadStatus(content.id, { readStatus: true });
+		}, WAIT_TIME_MS);
+	};
 
 	if (showFocus) {
 		return (
-			<Modal>
-				<ModalLayout width="reader" onClose={() => setShowFocus(false)}>
-					<div
-						style={{ width: `${scrollProgress}vw` }}
-						className={style.scroll_progress_bar}
-					></div>
-					<Header align="center" kind="h3">
-						{content.title}
-					</Header>
-					<Spacer spacing={1} />
-					{ContentComp}
-				</ModalLayout>
+			<FocusedReader
+				title={content.title}
+				onClose={() => setShowFocus(false)}
+				onFinishedReading={onFinishedReading}
+			>
+				{ContentComp}
 				{zoomPictureSrc && (
 					<Modal nodeID="second-modal">
 						<IMGModal src={zoomPictureSrc} onClose={() => setZoomPictureSrc(null)} />
 					</Modal>
 				)}
-			</Modal>
+			</FocusedReader>
 		);
 	}
+
+	const handleCheckRead = !content.read_status
+		? () => updateReadStatus(content.id, { readStatus: true })
+		: undefined;
 
 	return (
 		<Layout width="reader">
 			<Spacer spacing={2} />
 			<ContentToolbar
-				onGenerateCards={onGenerateCards}
+				handleGenerateCards={onGenerateCards}
 				handleDelete={handleDelete}
 				handleOpenFocusModus={() => setShowFocus(true)}
+				handleCheckRead={handleCheckRead}
 				processingStatus={content.processing_status}
 			/>
 			<Spacer spacing={2} />

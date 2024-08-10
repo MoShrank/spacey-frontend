@@ -20,7 +20,7 @@ export interface ContentI {
 	storage_ref?: string;
 	source_type?: string;
 	image?: string;
-
+	read_status?: boolean;
 	annotations: AnnotationI[];
 }
 

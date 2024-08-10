@@ -5,6 +5,7 @@
 .content_container {
 	cursor: pointer;
 	display: flex;
+	position: relative;
 	flex-direction: row-reverse;
 	justify-content: flex-start;
 
@@ -31,6 +32,7 @@
 		flex: 1;
 
 		display: -webkit-box;
+		line-clamp: 4;
 		-webkit-line-clamp: 4;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
@@ -59,4 +61,11 @@
 			object-fit: cover;
 		}
 	}
+}
+
+.tag {
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	fill: colors.$pastelRed;
 }
