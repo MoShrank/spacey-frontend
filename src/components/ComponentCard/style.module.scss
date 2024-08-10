@@ -5,14 +5,12 @@
 .content_container {
 	cursor: pointer;
 	display: flex;
-	position: relative;
 	flex-direction: row-reverse;
 	justify-content: flex-start;
 
 	border-radius: 20px;
 	border: 1px solid colors.$lightgray;
 	width: 100%;
-	position: relative;
 	height: 132px;
 	min-height: 132px;
 
@@ -30,6 +28,7 @@
 		margin: 16px;
 		display: flex;
 		flex: 1;
+		position: relative;
 
 		display: -webkit-box;
 		line-clamp: 4;
@@ -65,7 +64,7 @@
 
 .tag {
 	position: absolute;
-	bottom: 16px;
-	right: 16px;
+	bottom: 0px;
+	right: 0px;
 	fill: colors.$pastelRed;
 }

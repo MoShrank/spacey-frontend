@@ -31,9 +31,8 @@ const ContentCard = ({ content: content }: ContentCardI) => {
 				)}
 				<Header className={style.content_name} kind="h3">
 					{content.title}
+					{!hasBeenRead && <BookIcon className={style.tag} />}
 				</Header>
-
-				{!hasBeenRead && <BookIcon className={style.tag} />}
 			</>
 		);
 	}
