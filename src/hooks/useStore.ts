@@ -4,7 +4,6 @@ import { NoteI } from "types/note";
 import { UserI } from "types/user";
 import { getHasSeenCookie, getLoggedInState } from "util/user";
 import create from "zustand";
-import { persist } from "zustand/middleware";
 
 interface StateData {
 	isLoggedIn: boolean;
@@ -53,36 +52,18 @@ export const initialState: StateData = {
 	showSearch: true,
 };
 
-export const useStore = create<ZustandStateI>()(
-	persist(
-		set => ({
-			setIsLoggedIn: () =>
-				set(state => ({ ...state, isLoggedIn: getLoggedInState() })),
-			setHasSeenCookie: () =>
-				set(state => ({ ...state, hasSeenCookie: getHasSeenCookie() })),
-			setNotes: notes => set(state => ({ ...state, notes: notes })),
-			dispatch: args => set(args as ZustandStateI),
-			setUser: user => set(state => ({ ...state, user })),
-			setShowSearch: (show: boolean) =>
-				set(state => ({ ...state, showSearch: show })),
-			resetSearchResults: () => set(state => ({ ...state, searchResults: [] })),
-			...initialState,
-		}),
-		{
-			name: "spacey",
-			version: 1,
-			getStorage: () => localStorage,
-			partialize: state =>
-				Object.fromEntries(
-					Object.entries(state).filter(
-						([key]) =>
-							!["isLoggedIn", "globalError", "searchResults", "showSearch"].includes(
-								key,
-							),
-					),
-				),
-		},
-	),
-);
+export const useStore = create<ZustandStateI>()(set => ({
+	setIsLoggedIn: () =>
+		set(state => ({ ...state, isLoggedIn: getLoggedInState() })),
+	setHasSeenCookie: () =>
+		set(state => ({ ...state, hasSeenCookie: getHasSeenCookie() })),
+	setNotes: notes => set(state => ({ ...state, notes: notes })),
+	dispatch: args => set(args as ZustandStateI),
+	setUser: user => set(state => ({ ...state, user })),
+	setShowSearch: (show: boolean) =>
+		set(state => ({ ...state, showSearch: show })),
+	resetSearchResults: () => set(state => ({ ...state, searchResults: [] })),
+	...initialState,
+}));
 
 export default useStore;
